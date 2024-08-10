@@ -24,6 +24,18 @@ const Home = () => {
            this is the home page change for the code debugging for the testing
 
            THis is the testing the pull request
+
+           
+           <div>
+
+             <div className='p-3  bg-primary' style={styles.homePage}>
+               this is the home page change for the code debugging for the testing
+            
+               THis is the testing the pull request
+             
+             </div>
+
+           </div>
            
          </div>
         
