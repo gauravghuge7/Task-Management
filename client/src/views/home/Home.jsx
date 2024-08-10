@@ -20,7 +20,8 @@ const Home = () => {
 
 
          <div className='p-3  bg-primary'>
-           this is the home page
+           this is the home page change for the code debugging
+           
          </div>
         
 
