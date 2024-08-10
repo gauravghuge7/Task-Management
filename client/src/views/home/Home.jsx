@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const LandingPage = () => {
+const Home = () => {
   return (
     <div style={styles.container}>
       <h1>Welcome to Our Portal</h1>
@@ -45,4 +45,4 @@ const styles = {
   },
 };
 
-export default LandingPage;
+export default Home;
