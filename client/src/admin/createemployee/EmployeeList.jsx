@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import  {  useEffect, useState } from 'react';
+import {useDispatch} from 'react-redux';
+import { addEmployee } from '../../redux/reducers';
 
 const EmployeeList = ({setValue}) => {
 
@@ -10,8 +12,7 @@ const EmployeeList = ({setValue}) => {
             lastName: 'Doe',
             email: 'johndoe@gmail.com',
             designation: 'Software Engineer',
-            createdAt: new Date(),
-            updatedAt: new Date()
+          
         },
         {
             id: 2,
@@ -19,8 +20,7 @@ const EmployeeList = ({setValue}) => {
             lastName: 'Doe',
             email: 'janedoe@gmail.com',
             designation: 'Software Engineer',
-            createdAt: new Date(),
-            updatedAt: new Date()
+           
         },
         {
             id: 3,
@@ -28,8 +28,7 @@ const EmployeeList = ({setValue}) => {
             lastName: 'Doe',
             email: 'johndoe@gmail.com',
             designation: 'Software Engineer',
-            createdAt: new Date(),
-            updatedAt: new Date()
+          
         },
         {
             id: 4,
@@ -37,10 +36,22 @@ const EmployeeList = ({setValue}) => {
             lastName: 'Doe',
             email: 'janedoe@gmail.com',
             designation: 'Software Engineer',
-            createdAt: new Date(),
-            updatedAt: new Date()
+           
         },
     ]);
+
+
+    const dispatch = useDispatch();
+
+    
+
+    useEffect(() => {       
+    
+        dispatch(addEmployee(employees));   
+
+
+    },[]);
+
 
 
 

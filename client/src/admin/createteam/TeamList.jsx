@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Container, Row, Col, Table } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 const TeamList =({setValue}) => {
     const [teams, setTeams] = useState([
@@ -8,10 +9,39 @@ const TeamList =({setValue}) => {
         {name: 'Team 2', lead: 'Jane', members: ['John', 'Jane']},
         {name: 'Team 3', lead: 'John', members: ['John', 'Jane']},  
     ]);
+
+
+    const employee = useSelector(state => state.employeeReducer.employee);
+
+    
+    console.log(" data =>  ", employee);
+
+    if(employee) {
+
+        return (
+            <div>
+                {
+                    employee.map((data, index) => (
+                     
+                        <div className='flex flex-col justify-between border' key={data.id}>
+                                <p>{data.firstName}</p>
+                                <p>{data.lastName}</p>
+                                <p>{data.email}</p>
+                                <p>{data.designation}</p>
+                        </div>
+                    ))
+        
+                }
+
+            </div>
+                
+        )
+    }
+
     return (
         <Container>
 
-<div className='flex justify-between'>
+            <div className='flex justify-between'>
               
                 <button className=''
                     onClick={() => setValue("creteteam")}
