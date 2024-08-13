@@ -1,15 +1,17 @@
 
+import Admindashboard from './admin/dashboard/Admindashboard.jsx'
+// import Login from './admin/login/login.jsx'
 import './App.css'
-import Common from './router/common/Common.jsx'
+
 
 function App() {
 
 
   return (
     <div>
-      <Common />
-      
-      
+    
+      {/* <Login/> */}
+      <Admindashboard/>
     </div>
 
 
