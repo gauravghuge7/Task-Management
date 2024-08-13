@@ -39,28 +39,48 @@ function Sidebar({ setValue }) {
           </button>
         </li>
         <li>
-          <Link to="/team" className="nav-link">
-            <i className="bi bi-people-fill me-2"></i>
-            Team
-          </Link>
+        <button 
+          
+          className="nav-link"
+          onClick={() => setValue("team")}  
+        >
+          <i className="bi bi-person-lines-fill me-2"></i>
+        Team
+                
+        </button>
         </li>
         <li>
-          <Link to="/company" className="nav-link">
-            <i className="bi bi-building me-2"></i>
-            Company
-          </Link>
+        <button 
+          
+          className="nav-link"
+          onClick={() => setValue("compony")}  
+        >
+          <i className="bi bi-person-lines-fill me-2"></i>
+        Compony
+                
+        </button>
         </li>
         <li>
-          <Link to="/project" className="nav-link">
-            <i className="bi bi-kanban me-2"></i>
-            Project
-          </Link>
+        {/* <button 
+          
+          className="nav-link"
+          onClick={() => setValue("project")}  
+        >
+          <i className="bi bi-person-lines-fill me-2"></i>
+        Project
+                
+        </button> */}
         </li>
         <li>
-          <Link to="/assign-team" className="nav-link">
-            <i className="bi bi-person-plus-fill me-2"></i>
-            Assign Team
-          </Link>
+        <button 
+          
+          className="nav-link"
+          onClick={() => setValue("task")}  
+        >
+          <i className="bi bi-person-lines-fill me-2"></i>
+        Assign task
+                
+        </button>
         </li>
       </ul>
       <hr />

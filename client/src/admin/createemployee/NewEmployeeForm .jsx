@@ -105,18 +105,9 @@ const NewEmployeeForm = () => {
                     />
                 </div>
               
-                     <br />
+               
 
-                <div className="form-group">
-                    <label htmlFor="photo">Photo</label>
-                    <input
-                        type="file"
-                        className="form-control-file"
-                        id="photo"
-                        name="photo"
-                        onChange={handleChange}
-                    />
-                </div>
+               
                 <button type="submit" className="btn btn-primary mt-3">Submit</button>
             </form>
         </div>
