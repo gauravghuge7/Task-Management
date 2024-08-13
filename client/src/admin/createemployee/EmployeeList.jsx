@@ -1,9 +1,61 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const EmployeeList = ({ employees }) => {
+const EmployeeList = ({setValue}) => {
+
+
+    const [employees, setEmployees] = useState([
+        {
+            id: 1,
+            firstName: 'John',
+            lastName: 'Doe',
+            email: 'johndoe@gmail.com',
+            designation: 'Software Engineer',
+            createdAt: new Date(),
+            updatedAt: new Date()
+        },
+        {
+            id: 2,
+            firstName: 'Jane',
+            lastName: 'Doe',
+            email: 'janedoe@gmail.com',
+            designation: 'Software Engineer',
+            createdAt: new Date(),
+            updatedAt: new Date()
+        },
+        {
+            id: 3,
+            firstName: 'John',
+            lastName: 'Doe',
+            email: 'johndoe@gmail.com',
+            designation: 'Software Engineer',
+            createdAt: new Date(),
+            updatedAt: new Date()
+        },
+        {
+            id: 4,
+            firstName: 'Jane',
+            lastName: 'Doe',
+            email: 'janedoe@gmail.com',
+            designation: 'Software Engineer',
+            createdAt: new Date(),
+            updatedAt: new Date()
+        },
+    ]);
+
+
+
     return (
         <div>
-            <h2 className="mb-4">Employee List</h2>
+            <div className='flex justify-between'>
+                <h2 className="mb-4">Employee List</h2>
+                <button className=''
+                    onClick={() => setValue("createEmployee")}
+                >Add Employee</button>
+            </div>    
+
+           
+
+
             {employees.length > 0 ? (
                 <table className="table table-bordered">
                     <thead>
