@@ -1,25 +1,42 @@
-import React from 'react';
+
 import { Link } from 'react-router-dom';
 import './Sidebar.css'; // You can customize styles here
 import 'bootstrap/dist/css/bootstrap.min.css';
-function Sidebar() {
+function Sidebar({ setValue }) {
+
+
+  
+
+
+
+
   return (
     <div className="d-flex flex-column flex-shrink-0 p-3 bg-light" style={{ width: '250px', height: '100vh' }}>
       <h4 className="text-center">Admin Panel</h4>
       <hr />
       <ul className="nav nav-pills flex-column mb-auto">
         <li className="nav-item">
-          <Link to="/dashboard" className="nav-link " aria-current="page">
+
+          <button 
+            className="nav-link " 
+            aria-current="page"
+            onClick={() => setValue("dashboard")}
+          >
             <i className="bi bi-speedometer2 me-2"></i>
             Dashboard
-          </Link>
+          </button>
+
         </li>
         <li>
-          <Link to="../createemployee/EmployeeList.jsx" className="nav-link">
+          <button 
+          
+            className="nav-link"
+            onClick={() => setValue("employee")}  
+          >
             <i className="bi bi-person-lines-fill me-2"></i>
           Employee
                   
-          </Link>
+          </button>
         </li>
         <li>
           <Link to="/team" className="nav-link">
