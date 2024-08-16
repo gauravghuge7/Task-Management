@@ -16,7 +16,7 @@ const Login = () => {
     <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
       <Row>
         <Col>
-          <h2 className="text-center mb-4"> Admin Login</h2>
+          <h2 className="text-center mb-4"> Employee Login</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail" className="mb-3">
               <Form.Label>Email address</Form.Label>

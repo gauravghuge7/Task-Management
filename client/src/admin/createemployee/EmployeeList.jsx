@@ -17,7 +17,7 @@ const EmployeeList = ({setValue}) => {
         {
             id: 2,
             firstName: 'Jane',
-            lastName: 'Doe',
+            lastName: 'Doe', 
             email: 'janedoe@gmail.com',
             designation: 'Software Engineer',
            
