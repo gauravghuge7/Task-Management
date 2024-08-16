@@ -13,7 +13,7 @@ const TaskList = ({ setValue }) => {
               <div className='flex justify-between'>
              
              <button className=''
-                 onClick={() => setValue("assigntask")}
+                 onClick={() => setValue("assig")}
              >Assign Task</button></div>
             <Row className="justify-content-md-center mt-5">
                 <Col md={8}>
