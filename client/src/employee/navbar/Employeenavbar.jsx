@@ -2,6 +2,14 @@ import React from 'react';
 import { Navbar, Nav, Button, Container } from 'react-bootstrap';
 
 const Employeenavbar = () => {
+
+  
+  const adminName = " Admin"
+
+  const onLogout = () => {
+    console.log("logout");
+  };
+
   return (
     <Navbar bg="light" variant="dark" expand="lg">
       <Container>

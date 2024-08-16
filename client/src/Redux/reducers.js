@@ -23,6 +23,7 @@ const employeeSlice = createSlice({
             addEmployee: (state, action ) => {
                   state.employee = action.payload;
             }
+            
       }
       
 })
