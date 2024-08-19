@@ -1,7 +1,7 @@
 // src/TaskList.js
 import React from 'react';
 
-const Tasklist = ({  }) => {
+const Tasklist = ({ setTasks }) => {
     return (
         <div className="container mt-4">
             <h2>Task List</h2>
