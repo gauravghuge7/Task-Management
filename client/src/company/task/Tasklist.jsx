@@ -1,10 +1,42 @@
 // src/TaskList.js
-import React from 'react';
+import  { useEffect, useState } from 'react';
+import { Button } from 'react-bootstrap';
 
-const Tasklist = ({ setTasks }) => {
+const Tasklist = ({ setConditionalComponent }) => {
+
+    const [tasks, setTasks] = useState([
+        {
+            companyName: "ABC Company",
+            priority: "High",
+            taskDetail: "Task Detail",
+            ticketCreateDate: "2022-01-01",
+            dueDate: "2022-01-01",
+            assignName: "John Doe"
+        },
+        {
+            companyName: "XYZ Company",
+            priority: "Medium",
+            taskDetail: "Task Detail",
+            ticketCreateDate: "2022-01-01",
+            dueDate: "2022-01-01",
+            assignName: "John Doe"
+        },
+    ]);
+
+
+    useEffect(() => {
+        console.log('Task List Data Fetched:', tasks);
+    }, [tasks]);
+    
+
     return (
         <div className="container mt-4">
-            <h2>Task List</h2>
+            <h2>Task List</h2>  
+            <span 
+                onClick={() => setConditionalComponent('addTask')} 
+                className="btn btn-primary"
+            >Add New Task</span>
+
             <table className="table table-bordered">
                 <thead>
                     <tr>
@@ -14,6 +46,7 @@ const Tasklist = ({ setTasks }) => {
                         <th>Ticket Creation Date</th>
                         <th>Due Date</th>
                         <th>Assign Name</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,6 +58,8 @@ const Tasklist = ({ setTasks }) => {
                             <td>{task.ticketCreateDate}</td>
                             <td>{task.dueDate}</td>
                             <td>{task.assignName}</td>
+                            <td><button className="btn ">Modify</button></td>
+
                         </tr>
                     ))}
                 </tbody>

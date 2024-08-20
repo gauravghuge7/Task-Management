@@ -1,9 +1,12 @@
 // src/Dashboard.js
 import React from 'react';
+import Componynavabar from '../navbar/Componynavabar';
 
 const Dashboard = () => {
     return (
         <div className="container mt-4">
+
+            
             <div className="row">
                 <div className="col-md-4">
                     <div className="card text-white bg-success mb-3">

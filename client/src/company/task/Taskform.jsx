@@ -8,7 +8,9 @@ const TaskForm = () => {
         taskDetail: '',
         ticketCreateDate: '',
         dueDate: '',
-        assignName: '',
+        assignName: [{
+            
+        }],
     });
 
     const handleChange = (e) => {
