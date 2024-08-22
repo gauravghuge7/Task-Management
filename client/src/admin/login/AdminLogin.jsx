@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-const Login = () => {
+const AdminLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -50,4 +50,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;
