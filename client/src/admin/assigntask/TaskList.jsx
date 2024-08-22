@@ -13,7 +13,7 @@ const TaskList = ({ setValue }) => {
         <Container>
             <div className='flex justify-between'>
                 <button className=''
-                    onClick={() => setValue("assign")}
+                    onClick={() => setValue("assigntask")}
                 >
                     Assign Task
                 </button>
