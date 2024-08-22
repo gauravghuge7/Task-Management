@@ -3,8 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const NewEmployeeForm = () => {
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
+        fullName: '',
         email: '',
         photo: null,
         password: '',
@@ -32,25 +31,13 @@ const NewEmployeeForm = () => {
             <h2 className="mb-4">Add New Employee</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="firstName">First Name</label>
+                    <label htmlFor="fullName">Full Name</label>
                     <input
                         type="text"
                         className="form-control"
-                        id="firstName"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="lastName">Last Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="lastName"
-                        name="lastName"
-                        value={formData.lastName}
+                        id="fullName"
+                        name="fullName"
+                        value={formData.fullName}
                         onChange={handleChange}
                         required
                     />
@@ -79,7 +66,6 @@ const NewEmployeeForm = () => {
                         required
                     />
                 </div>
-              
                 <div className="form-group">
                     <label htmlFor="password">Password</label>
                     <input
@@ -104,10 +90,6 @@ const NewEmployeeForm = () => {
                         required
                     />
                 </div>
-              
-               
-
-               
                 <button type="submit" className="btn btn-primary mt-3">Submit</button>
             </form>
         </div>
