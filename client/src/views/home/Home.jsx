@@ -1,4 +1,4 @@
-
+import React from 'react' 
 
 import { Link } from 'react-router-dom';
 
@@ -7,38 +7,20 @@ const Home = () => {
   return (
 
     <div style={styles.container}>
-      <h1>Welcome to Our Portal</h1>
+      <h1>Welcome to GBIS Taskmangment Portal</h1>
       <div style={styles.linksContainer}>
-        <Link to="/client-login" style={styles.link}>
+        <Link to="../../company/login/Login.jsx" style={styles.link}>
           Client Login
         </Link>
-        <Link to="/employee-login" style={styles.link}>
+        <Link to="../../employee/login/Login.jsx" style={styles.link}>
           Employee Login
         </Link>
-        <Link to="/admin-login" style={styles.link}>
+        <Link to="../../admin/login/Login.jsx" style={styles.link}>
           Admin Login
         </Link>
 
 
-         <div className='p-3  bg-primary' style={styles.homePage}>
-           this is the home page change for the code debugging for the testing
-
-           THis is the testing the pull request
-
-           
-           <div>
-
-             <div className='p-3  bg-primary' style={styles.homePage}>
-               this is the home page change for the code debugging for the testing
-            
-               THis is the testing the pull request
-             
-             </div>
-
-           </div>
-           
-         </div>
-        
+       
 
       </div>
     </div>

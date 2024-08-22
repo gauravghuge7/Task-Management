@@ -9,7 +9,7 @@ const Createcompanyform = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Add form validation and submission logic here
+        
         if (companyPassword !== confirmPassword) {
             alert('Passwords do not match!');
             return;

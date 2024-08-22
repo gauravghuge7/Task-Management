@@ -1,59 +1,45 @@
-import  {  useEffect, useState } from 'react';
-import {useDispatch} from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { addEmployee } from '../../redux/reducers';
 
-const EmployeeList = ({setValue}) => {
-
+const EmployeeList = ({ setValue }) => {
 
     const [employees, setEmployees] = useState([
         {
             id: 1,
-            firstName: 'John',
-            lastName: 'Doe',
+            fullName: 'John Doe',
             email: 'johndoe@gmail.com',
             designation: 'Software Engineer',
-          
+            password: 'password123',
         },
         {
             id: 2,
-            firstName: 'Jane',
-            lastName: 'Doe', 
+            fullName: 'Jane Doe',
             email: 'janedoe@gmail.com',
             designation: 'Software Engineer',
-           
+            password: 'password456',
         },
         {
             id: 3,
-            firstName: 'John',
-            lastName: 'Doe',
-            email: 'johndoe@gmail.com',
+            fullName: 'John Smith',
+            email: 'johnsmith@gmail.com',
             designation: 'Software Engineer',
-          
+            password: 'password789',
         },
         {
             id: 4,
-            firstName: 'Jane',
-            lastName: 'Doe',
-            email: 'janedoe@gmail.com',
+            fullName: 'Jane Smith',
+            email: 'janesmith@gmail.com',
             designation: 'Software Engineer',
-           
+            password: 'password101',
         },
     ]);
 
-
     const dispatch = useDispatch();
 
-    
-
     useEffect(() => {       
-    
         dispatch(addEmployee(employees));   
-
-
-    },[]);
-
-
-
+    }, [dispatch, employees]);
 
     return (
         <div>
@@ -64,28 +50,25 @@ const EmployeeList = ({setValue}) => {
                 >Add Employee</button>
             </div>    
 
-           
-
-
             {employees.length > 0 ? (
                 <table className="table table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
+                            <th scope="col">Full Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Designation</th>
+                            <th scope="col">Password</th>
                         </tr>
                     </thead>
                     <tbody>
                         {employees.map((employee, index) => (
                             <tr key={index}>
                                 <th scope="row">{index + 1}</th>
-                                <td>{employee.firstName}</td>
-                                <td>{employee.lastName}</td>
+                                <td>{employee.fullName}</td>
                                 <td>{employee.email}</td>
                                 <td>{employee.designation}</td>
+                                <td>{employee.password}</td>
                             </tr>
                         ))}
                     </tbody>
