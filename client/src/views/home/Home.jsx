@@ -1,4 +1,4 @@
-import React from 'react' 
+
 
 import { Link } from 'react-router-dom';
 
@@ -9,13 +9,14 @@ const Home = () => {
     <div style={styles.container}>
       <h1>Welcome to GBIS Taskmangment Portal</h1>
       <div style={styles.linksContainer}>
-        <Link to="../../company/login/Login.jsx" style={styles.link}>
+
+        <Link to="/client/login" style={styles.link}>
           Client Login
         </Link>
-        <Link to="../../employee/login/Login.jsx" style={styles.link}>
+        <Link to="/employee/login" style={styles.link}>
           Employee Login
         </Link>
-        <Link to="../../admin/login/Login.jsx" style={styles.link}>
+        <Link to="/admin/login" style={styles.link}>
           Admin Login
         </Link>
 
