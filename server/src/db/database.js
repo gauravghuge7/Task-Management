@@ -7,7 +7,7 @@ const connectDB = async () => {
 
    try {
 
-      const connect = await mongoose.connect(MONGODB_URI, {
+      const connect = await mongoose.connect(process.env.MONGODB_URI, {
      
       });
 
