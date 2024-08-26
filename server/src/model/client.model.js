@@ -37,7 +37,7 @@ clientSchema.methods = {
             _id: this._id,
              clientEmail: this.clientEmail,
          },
-         process.env.EMPLOYEE_ACCESS_SECRET_KEY,      //need to be changed the very time 
+         process.env.CLIENT_ACCESS_SECRET_KEY,      //need to be changed the very time 
 
          {
             expiresIn: '24h'
@@ -56,7 +56,7 @@ clientSchema.methods = {
             clientName: this.clientName,
             adminEmail: this.adminEmail,
          },
-         process.env.EMPLOYEE_REFRESH_SECRET_KEY,            //   nedd to be changed the every time 
+         process.env.CLIENT_REFRESH_SECRET_KEY,            //   nedd to be changed the every time 
                                                           
       
          {
