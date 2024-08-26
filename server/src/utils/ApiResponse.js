@@ -1,4 +1,6 @@
 
+
+// This is the response object
 class ApiResponse {
 
    constructor(status, message, data, anythingElse) {

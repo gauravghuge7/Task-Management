@@ -24,14 +24,14 @@ function Admindashboard() {
     <div className="d-flex">
     <Sidebar setValue={setValue} />
       <div className="flex-grow-1 p-3">
-       {/* <Admincontain/>  */}
+       
 
 
        { value === "employee" && <EmployeeList setValue={setValue} /> }
        { value === "dashboard" && <Admincontain /> }
        { value === "createEmployee" && <NewEmployeeForm /> }
         { value === "team" && <TeamList  setValue={setValue} /> }
-        { value === "creteteam" && <CreateTeamForm /> }
+        { value === "createteam" && <CreateTeamForm /> }
         {value === "compony" && <CompanyList setValue={setValue} /> }
         { value === "createcompany" && <CreateCompany /> }
         {value === "assigntask" && <AssignTaskForm /> }

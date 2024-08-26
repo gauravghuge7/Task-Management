@@ -16,7 +16,7 @@ const Tasklist = ({ setConditionalComponent }) => {
         {
             companyName: "XYZ Company",
             priority: "Medium",
-            taskDetail: "Task Detail",
+            taskDetail: "Task Detail", 
             ticketCreateDate: "2022-01-01",
             dueDate: "2022-01-01",
             assignName: "John Doe"
@@ -30,13 +30,13 @@ const Tasklist = ({ setConditionalComponent }) => {
     
 
     return (
-        <div className="container mt-4">
-            <h2>Task List</h2>  
-            <span 
-                onClick={() => setConditionalComponent('addTask')} 
-                className="btn btn-primary"
-            >Add New Task</span>
-
+        <div className="container mt-5">
+            <div className='flex justify-between'>
+                <h2 className="mb-8">Task List</h2>
+                <button className=''
+                    onClick={() => setConditionalComponent("addTask")}
+                >Add New Task</button>s
+              </div>
             <table className="table table-bordered">
                 <thead>
                     <tr>
@@ -65,6 +65,7 @@ const Tasklist = ({ setConditionalComponent }) => {
                 </tbody>
             </table>
         </div>
+      
     );
 };
 

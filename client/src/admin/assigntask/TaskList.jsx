@@ -14,15 +14,18 @@ const TaskList = ({ setValue }) => {
 
     return (
         <Container>
-          <div className='flex justify-between'>
-                <h2 className="mb-4">Assigned Tasks</h2>
-                <button className=''
-                    onClick={() => setValue("assigntask")}
-                >Add New Task</button>
-            </div>
+         <div className="flex justify-between items-center">
+    <h2 className="mb-4">Assigned Tasks</h2>
+    <button
+        className="px-4 py-2 bg-blue-500 text-white rounded"
+        onClick={() => setValue("assigntask")}
+    >
+        Add New Task
+    </button>
+</div>
             <Row className="justify-content-md-center mt-5">  
                 <Col md={12}>
-                    <h3>Assigned Tasks</h3>
+               
                     {tasks.length > 0 ? (
                         <Table striped bordered hover>
                             <thead>

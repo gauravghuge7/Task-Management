@@ -34,12 +34,12 @@ const EmployeeSchema = new Schema({
       default: false
    }
 
-   
+    
 
 
 
 
-
+ 
 
 }, {timestamps: true});
 

@@ -46,7 +46,7 @@ const EmployeeList = ({ setValue }) => {
            <div className='flex justify-between'>
                 <h2 className="mb-4">Employees List</h2>
                 <button className=''
-                    onClick={() => setValue("createemployee")}
+                    onClick={() => setValue("createEmployee")}
                 >Add  New Employee</button>
             </div>  
 

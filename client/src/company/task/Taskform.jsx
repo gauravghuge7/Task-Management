@@ -1,32 +1,37 @@
-// src/TaskForm.js
 import React, { useRef, useState } from 'react';
-// import JoditEditor from 'react-jodit';
+import JoditEditor from 'jodit-react';
 
-
-
-
-// const editor=useRef(null);
-// const [content, setContent] = useState('');
-
-
- 
 const TaskForm = () => {
+    const editor = useRef(null);
+	const [content, setContent] = useState('');
+
     const [formData, setFormData] = useState({
         companyName: '',
         priority: '',
         taskDetail: '',
         ticketCreateDate: '',
         dueDate: '',
-        assignName: [{
-            
-        }],
+        assignName: '',
     });
+
+    const config = {
+        readonly: false,
+        placeholder: 'Start typing your task details...',
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
             [name]: value,
+        });
+    };
+
+    const handleJoditChange = (newContent) => {
+        setContent(newContent);
+        setFormData({
+            ...formData,
+            taskDetail: newContent,
         });
     };
 
@@ -70,8 +75,6 @@ const TaskForm = () => {
                     </select>
                 </div>
 
-             
-
                 <div className="mb-3">
                     <label htmlFor="ticketCreateDate" className="form-label">Ticket Creation Date</label>
                     <input 
@@ -110,24 +113,15 @@ const TaskForm = () => {
                         required 
                     />
                 </div>
+
                 <div className="mb-3">
-                    <label htmlFor="taskDetail" className="form-label">Task Detail</label>
-                    <textarea 
-                        className="form-control" 
-                        id="taskDetail" 
-                        name="taskDetail" 
-                        rows="3" 
-                        value={formData.taskDetail} 
-                        onChange={handleChange} 
-                        required
-                    ></textarea>
-                    {/* <JoditEditor
-			ref={editor}
-			value={content}
-		
-			onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-			
-		/> */}
+                    <label htmlFor="taskDetail" className="form-label">Task Details</label>
+                    <JoditEditor
+                        ref={editor}
+                        value={content}
+                        config={config}
+                       
+                    />
                 </div>
 
                 <button type="submit" className="btn btn-primary">Create Task</button>
@@ -135,6 +129,5 @@ const TaskForm = () => {
         </div>
     );
 };
- 
+
 export default TaskForm;
-   

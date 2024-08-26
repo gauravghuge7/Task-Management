@@ -13,7 +13,7 @@ const Projectlist = ({ setConditionalComponent }) => {
           teamLead: "John Doe",
           startDate: "2022-01-01",
           description: "Project Description"
-      },
+      },  
       {
           id: 2,
           name: "XYZ Project",

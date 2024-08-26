@@ -5,7 +5,7 @@ const app = express();
 
 
 
-app.get('/', (req, res) => {
+app.get('/Home', (req, res) => {
   res.send('Hello World!');
 });
 
