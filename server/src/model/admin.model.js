@@ -1,7 +1,7 @@
 import {Schema, model} from 'mongoose';
 
 
-const AdminSchema = new Schema({
+const adminSchema = new Schema({
 
    adminEmail: {
       type: String,
@@ -14,6 +14,11 @@ const AdminSchema = new Schema({
    },
 
    adminName: {
+      type: String,
+      required: true,
+   },
+
+   adminRefreshToken: {
       type: String,
       required: true,
    },
@@ -44,7 +49,7 @@ adminSchema.methods = {
 
    },
 
-   generateEmployeeRefreshToken: function() {
+   generateAdminRefreshToken: function() {
 
       return jwt.sign(
          
@@ -65,7 +70,7 @@ adminSchema.methods = {
 
 }
 
-Empl.pre('save', async function() {
+adminSchema.pre('save', async function() {
 
    if(this.isModified('adminPassword')) {
 
@@ -90,4 +95,4 @@ Empl.pre('save', async function() {
 
 
 
-export const Admin = model('Admin', AdminSchema);
+export const Admin = model('Admin', adminSchema);

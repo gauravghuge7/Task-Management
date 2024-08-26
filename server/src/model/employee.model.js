@@ -94,6 +94,7 @@ EmployeeSchema.pre('save', async function() {
 
       this.employeePassword = await bcrypt.hash(this.employeePassword, 10)
    }
+   
 })
 
 
