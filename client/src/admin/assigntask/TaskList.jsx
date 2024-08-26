@@ -2,6 +2,9 @@ import React from 'react';
 import { useState } from 'react';
 import { Container, Row, Col, Table } from 'react-bootstrap';
 
+
+// This is the task list page 
+
 const TaskList = ({ setValue }) => {
     const [tasks, setTasks] = useState([
         {projectName: 'Project 1', task: 'Task 1', companyName: 'Company 1', teamLead: 'Lead 1', description: 'Description 1'},
@@ -11,15 +14,14 @@ const TaskList = ({ setValue }) => {
 
     return (
         <Container>
-            <div className='flex justify-between'>
+          <div className='flex justify-between'>
+                <h2 className="mb-4">Assigned Tasks</h2>
                 <button className=''
                     onClick={() => setValue("assigntask")}
-                >
-                    Assign Task
-                </button>
+                >Add New Task</button>
             </div>
-            <Row className="justify-content-md-center mt-5">
-                <Col md={8}>
+            <Row className="justify-content-md-center mt-5">  
+                <Col md={12}>
                     <h3>Assigned Tasks</h3>
                     {tasks.length > 0 ? (
                         <Table striped bordered hover>
@@ -56,3 +58,4 @@ const TaskList = ({ setValue }) => {
 };
 
 export default TaskList;
+  

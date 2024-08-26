@@ -1,6 +1,15 @@
 // src/TaskForm.js
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+// import JoditEditor from 'react-jodit';
 
+
+
+
+// const editor=useRef(null);
+// const [content, setContent] = useState('');
+
+
+ 
 const TaskForm = () => {
     const [formData, setFormData] = useState({
         companyName: '',
@@ -61,18 +70,7 @@ const TaskForm = () => {
                     </select>
                 </div>
 
-                <div className="mb-3">
-                    <label htmlFor="taskDetail" className="form-label">Task Detail</label>
-                    <textarea 
-                        className="form-control" 
-                        id="taskDetail" 
-                        name="taskDetail" 
-                        rows="3" 
-                        value={formData.taskDetail} 
-                        onChange={handleChange} 
-                        required
-                    ></textarea>
-                </div>
+             
 
                 <div className="mb-3">
                     <label htmlFor="ticketCreateDate" className="form-label">Ticket Creation Date</label>
@@ -112,12 +110,31 @@ const TaskForm = () => {
                         required 
                     />
                 </div>
+                <div className="mb-3">
+                    <label htmlFor="taskDetail" className="form-label">Task Detail</label>
+                    <textarea 
+                        className="form-control" 
+                        id="taskDetail" 
+                        name="taskDetail" 
+                        rows="3" 
+                        value={formData.taskDetail} 
+                        onChange={handleChange} 
+                        required
+                    ></textarea>
+                    {/* <JoditEditor
+			ref={editor}
+			value={content}
+		
+			onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+			
+		/> */}
+                </div>
 
                 <button type="submit" className="btn btn-primary">Create Task</button>
             </form>
         </div>
     );
 };
-
+ 
 export default TaskForm;
    

@@ -71,7 +71,7 @@ const Createcompanyform = () => {
                                 required
                             />
                         </Form.Group>
-
+                        <br />
                         <Button variant="primary" type="submit">
                             Create Company
                         </Button>

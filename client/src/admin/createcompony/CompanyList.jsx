@@ -10,16 +10,14 @@ const CompanyList = ({ setValue }) => {
 
     return (
         <Container>
-            <div className='flex justify-between'>
-                <button
-                    className=''
+           <div className='flex justify-between'>
+                <h2 className="mb-4">Companies List</h2>
+                <button className=''
                     onClick={() => setValue("createcompany")}
-                >
-                    Add New Company
-                </button>
+                >Add Companies</button>
             </div>
             <Row className="justify-content-md-center mt-5">
-                <Col md={8}>
+                <Col md={12}>
                     <h3>Registered Companies</h3>
                     {companies.length > 0 ? (
                         <Table striped bordered hover>

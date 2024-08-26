@@ -24,7 +24,7 @@ const Tasklist = ({ setConditionalComponent }) => {
     ]);
 
 
-    useEffect(() => {
+    useEffect(() => { 
         console.log('Task List Data Fetched:', tasks);
     }, [tasks]);
     

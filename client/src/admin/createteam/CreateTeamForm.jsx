@@ -5,6 +5,7 @@ const CreateTeamForm = () => {
     const [teamName, setTeamName] = useState('');
     const [teamLead, setTeamLead] = useState('');
     const [teamMembers, setTeamMembers] = useState(['']);
+    const [numberOfMembers, setNumberOfMembers] = useState(1);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -20,6 +21,7 @@ const CreateTeamForm = () => {
         setTeamName('');
         setTeamLead('');
         setTeamMembers(['']);
+        setNumberOfMembers(1);
     };
 
     const handleMemberChange = (index, value) => {
@@ -28,12 +30,12 @@ const CreateTeamForm = () => {
         setTeamMembers(newTeamMembers);
     };
 
-    const addTeamMember = () => {
-        setTeamMembers([...teamMembers, '']);
-    };
+    const handleNumberOfMembersChange = (e) => {
+        const num = parseInt(e.target.value, 10);
+        setNumberOfMembers(num);
 
-    const removeTeamMember = (index) => {
-        const newTeamMembers = teamMembers.filter((_, i) => i !== index);
+        // Adjust the number of team member fields based on the input number
+        const newTeamMembers = Array(num).fill('').map((_, i) => teamMembers[i] || '');
         setTeamMembers(newTeamMembers);
     };
 
@@ -65,6 +67,17 @@ const CreateTeamForm = () => {
                             />
                         </Form.Group>
 
+                        <Form.Group controlId="numberOfMembers">
+                            <Form.Label>Number of Team Members</Form.Label>
+                            <Form.Control
+                                type="number"
+                                min="1"
+                                value={numberOfMembers}
+                                onChange={handleNumberOfMembersChange}
+                                required
+                            />
+                        </Form.Group>
+
                         <Form.Label>Team Members</Form.Label>
                         {teamMembers.map((member, index) => (
                             <Form.Group controlId={`teamMember-${index}`} key={index}>
@@ -74,20 +87,8 @@ const CreateTeamForm = () => {
                                     value={member}
                                     onChange={(e) => handleMemberChange(index, e.target.value)}
                                 />
-                                {index > 0 && (
-                                    <Button
-                                        variant="danger"
-                                        onClick={() => removeTeamMember(index)}
-                                        className="mt-2"
-                                    >
-                                        Remove
-                                    </Button>
-                                )}
                             </Form.Group>
                         ))}
-                        <Button variant="secondary" onClick={addTeamMember}>
-                            Add Team Member
-                        </Button>
 
                         <Button variant="primary" type="submit" className="mt-3">
                             Create Team

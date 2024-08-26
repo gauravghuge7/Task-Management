@@ -5,6 +5,8 @@ import Componysidebar from '../sidebar/Componysidebar'
 import Dashboard from '../dashboard/Dashboardcontain'
 import Tasklist from '../task/Tasklist'
 import TaskForm from '../task/Taskform'
+import ProjectForm from '../project/Projectform'
+import Projectlist from '../project/Projectlist'
 
 function CompanyDashboard() {
 
@@ -26,7 +28,8 @@ function CompanyDashboard() {
         {conditionalComponent === "CompanyDashboard" && <Dashboard />}
         {conditionalComponent === "CompanyTasks" && <Tasklist setConditionalComponent={setConditionalComponent} />}
         {conditionalComponent === "addTask" && <TaskForm />}
-        
+        {conditionalComponent === "projectform" && <ProjectForm  />}
+        {conditionalComponent === "Projectlist" && <Projectlist setConditionalComponent={setConditionalComponent} />}
 
       </div>
 

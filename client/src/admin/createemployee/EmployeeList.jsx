@@ -43,12 +43,12 @@ const EmployeeList = ({ setValue }) => {
 
     return (
         <div>
-            <div className='flex justify-between'>
-                <h2 className="mb-4">Employee List</h2>
+           <div className='flex justify-between'>
+                <h2 className="mb-4">Employees List</h2>
                 <button className=''
-                    onClick={() => setValue("createEmployee")}
-                >Add Employee</button>
-            </div>    
+                    onClick={() => setValue("createemployee")}
+                >Add  New Employee</button>
+            </div>  
 
             {employees.length > 0 ? (
                 <table className="table table-bordered">

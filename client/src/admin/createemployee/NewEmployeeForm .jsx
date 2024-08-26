@@ -90,6 +90,7 @@ const NewEmployeeForm = () => {
                         required
                     />
                 </div>
+                
                 <button type="submit" className="btn btn-primary mt-3">Submit</button>
             </form>
         </div>
