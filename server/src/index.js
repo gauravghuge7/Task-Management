@@ -8,7 +8,7 @@ dotenv.config({
 })
 
 
-const PORT = 4000;
+const PORT = 4000;    // this is the port number using the dynamically
 
 
 

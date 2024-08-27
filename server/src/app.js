@@ -1,9 +1,19 @@
 import express from 'express';
 import allRouter from './router/connect.router.js';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 const app = express();
 
 
+app.use(express.json());
+app.use(express.urlencoded({extended: true}))
+
+
+// read cookies from the request
+
+app.use(cookieParser());
+app.use(cors());
 
 
 
@@ -16,7 +26,7 @@ app.use("/api", allRouter);
 
 
 
-app.use("/*", (req, res) => {
+app.use("*", (req, res) => {
 
   return res.status(404).json({
     success: false,

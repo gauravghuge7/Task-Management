@@ -56,52 +56,6 @@ const TeamList = ({ setValue }) => {
         </Button>
       </div>
 
-      <Row className="justify-content-md-center mt-5">
-        <Col md={12}>
-          
-          {teams.length > 0 ? (
-            <Table
-              striped
-              bordered
-              hover
-              style={{
-                backgroundColor: "#fff",
-                color: "#333",
-                borderRadius: "12px",
-                overflow: "hidden",
-              }}
-            >
-              <thead
-                style={{
-                  backgroundColor: "#007BFF",
-                  color: "#fff",
-                }}
-              >
-                <tr>
-                  <th>#</th>
-                  <th>Team Name</th>
-                  <th>Team Lead</th>
-                  <th>Team Members</th>
-                </tr>
-              </thead>
-              <tbody>
-                {teams.map((team, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{team.name}</td>
-                    <td>{team.lead}</td>
-                    <td>{team.members.join(", ")}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          ) : (
-            <p style={{ color: "#333" }}>No teams registered yet.</p>
-          )}
-        </Col>
-      </Row>
-    </Container>
-  );
 };
 
 export default TeamList;
