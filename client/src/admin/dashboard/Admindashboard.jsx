@@ -28,6 +28,7 @@ function Admindashboard() {
 
 
        { value === "employee" && <EmployeeList setValue={setValue} /> }
+       { value === "" && <Admincontain /> }
        { value === "dashboard" && <Admincontain /> }
        { value === "createEmployee" && <NewEmployeeForm /> }
         { value === "team" && <TeamList  setValue={setValue} /> }

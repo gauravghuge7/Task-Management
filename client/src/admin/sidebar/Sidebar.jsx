@@ -3,13 +3,6 @@ import { Link } from 'react-router-dom';
 import './Sidebar.css'; // You can customize styles here
 import 'bootstrap/dist/css/bootstrap.min.css';
 function Sidebar({ setValue }) {
-
-
-  
-
-
-
-
   return (
     <div className="d-flex flex-column flex-shrink-0 p-3 bg-light" style={{ width: '250px', height: '100vh' }}>
       <h4 className="text-center">Admin Panel</h4>
@@ -56,7 +49,7 @@ function Sidebar({ setValue }) {
           onClick={() => setValue("compony")}  
         >
           <i className="bi bi-person-lines-fill me-2"></i>
-        Compony
+        Company
                 
         </button>
         </li>
@@ -82,6 +75,7 @@ function Sidebar({ setValue }) {
                 
         </button>
         </li>
+        <hr />
       </ul>
       <hr />
     </div>

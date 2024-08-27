@@ -1,6 +1,8 @@
 import {Schema, model} from 'mongoose';
+import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
 
-const ClientSchema = new Schema({
+const clientSchema = new Schema({
 
    clientName: {
       type: String,
@@ -71,7 +73,7 @@ clientSchema.methods = {
 
 }
 
-ClientSchema.pre('save', async function() {
+clientSchema.pre('save', async function() {
 
    if(this.isModified('clientPassword')) {
 
@@ -82,4 +84,4 @@ ClientSchema.pre('save', async function() {
 
 
 
-export const Client = model('Client', ClientSchema);
+export const Client = model('Client', clientSchema);

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import JoditEditor from 'jodit-react';
+import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
 
 const TaskForm = () => {
     const editor = useRef(null);
@@ -38,117 +39,126 @@ const TaskForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form Data Submitted:', formData);
-        // Handle form submission logic here (e.g., API call)
+        // Handle form submission logic here
     };
 
     return (
-        <div className="container mt-5">
-            <div className="card p-4 border-0" style={{ borderRadius: '15px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-                <h2 className="text-center mb-4" style={{ fontWeight: '600', color: '#007BFF' }}>Create a New Task</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                        <label htmlFor="companyName" className="form-label">Company Name</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="companyName"
-                            name="companyName"
-                            value={formData.companyName}
-                            onChange={handleChange}
-                            required
-                            style={{ borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
-                        />
-                    </div>
+        <Container className="mt-5">
+            <Row className="justify-content-md-center">
+                <Col md={8}>
+                    <Card className="p-4 border-0" style={{ borderRadius: '20px', boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)' }}>
+                        <Card.Body>
+                            <h2 className="text-center mb-4" style={{ fontWeight: 'bold' }}>Create New Task</h2>
+                            <Form onSubmit={handleSubmit}>
+                                <Form.Group controlId="companyName" className="mb-3">
+                                    <Form.Label>Company Name</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="companyName"
+                                        value={formData.companyName}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ borderRadius: '12px', padding: '10px', boxShadow: '0 3px 6px rgba(0, 0, 0, 0.1)' }}
+                                    />
+                                </Form.Group>
 
-                    <div className="mb-3">
-                        <label htmlFor="priority" className="form-label">Priority</label>
-                        <select
-                            className="form-select"
-                            id="priority"
-                            name="priority"
-                            value={formData.priority}
-                            onChange={handleChange}
-                            required
-                            style={{ borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
-                        >
-                            <option value="">Select Priority</option>
-                            <option value="High">High</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Low">Low</option>
-                        </select>
-                    </div>
+                                <Form.Group controlId="priority" className="mb-3">
+                                    <Form.Label>Priority</Form.Label>
+                                    <Form.Control
+                                        as="select"
+                                        name="priority"
+                                        value={formData.priority}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ borderRadius: '12px', padding: '10px', boxShadow: '0 3px 6px rgba(0, 0, 0, 0.1)' }}
+                                    >
+                                        <option value="">Select Priority</option>
+                                        <option value="High">High</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Low">Low</option>
+                                    </Form.Control>
+                                </Form.Group>
 
-                    <div className="mb-3">
-                        <label htmlFor="ticketCreateDate" className="form-label">Ticket Creation Date</label>
-                        <input
-                            type="date"
-                            className="form-control"
-                            id="ticketCreateDate"
-                            name="ticketCreateDate"
-                            value={formData.ticketCreateDate}
-                            onChange={handleChange}
-                            required
-                            style={{ borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
-                        />
-                    </div>
+                                <Form.Group controlId="ticketCreateDate" className="mb-3">
+                                    <Form.Label>Ticket Creation Date</Form.Label>
+                                    <Form.Control
+                                        type="date"
+                                        name="ticketCreateDate"
+                                        value={formData.ticketCreateDate}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ borderRadius: '12px', padding: '10px', boxShadow: '0 3px 6px rgba(0, 0, 0, 0.1)' }}
+                                    />
+                                </Form.Group>
 
-                    <div className="mb-3">
-                        <label htmlFor="dueDate" className="form-label">Due Date</label>
-                        <input
-                            type="date"
-                            className="form-control"
-                            id="dueDate"
-                            name="dueDate"
-                            value={formData.dueDate}
-                            onChange={handleChange}
-                            required
-                            style={{ borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
-                        />
-                    </div>
+                                <Form.Group controlId="dueDate" className="mb-3">
+                                    <Form.Label>Due Date</Form.Label>
+                                    <Form.Control
+                                        type="date"
+                                        name="dueDate"
+                                        value={formData.dueDate}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ borderRadius: '12px', padding: '10px', boxShadow: '0 3px 6px rgba(0, 0, 0, 0.1)' }}
+                                    />
+                                </Form.Group>
 
-                    <div className="mb-3">
-                        <label htmlFor="assignName" className="form-label">Assign Name</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="assignName"
-                            name="assignName"
-                            value={formData.assignName}
-                            onChange={handleChange}
-                            required
-                            style={{ borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
-                        />
-                    </div>
+                                <Form.Group controlId="assignName" className="mb-3">
+                                    <Form.Label>Assign Name</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="assignName"
+                                        value={formData.assignName}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ borderRadius: '12px', padding: '10px', boxShadow: '0 3px 6px rgba(0, 0, 0, 0.1)' }}
+                                    />
+                                </Form.Group>
 
-                    <div className="mb-4">
-                        <label htmlFor="taskDetail" className="form-label">Task Details</label>
-                        <JoditEditor
-                            ref={editor}
-                            value={content}
-                            config={config}
-                            tabIndex={1}
-                            onBlur={handleJoditChange}
-                            onChange={() => {}}
-                            style={{ borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
-                        />
-                    </div>
+                                <Form.Group controlId="taskDetail" className="mb-4">
+                                    <Form.Label>Task Details</Form.Label>
+                                    <JoditEditor
+                                        ref={editor}
+                                        value={content}
+                                        config={config}
+                                        tabIndex={1}
+                                        onBlur={handleJoditChange}
+                                        onChange={() => {}}
+                                        style={{ borderRadius: '12px', padding: '10px', boxShadow: '0 3px 6px rgba(0, 0, 0, 0.1)' }}
+                                    />
+                                </Form.Group>
 
-                    <button
-                        type="submit"
-                        className="btn btn-primary w-100"
-                        style={{
-                            background: 'linear-gradient(90deg, #007bff, #00d2ff)',
-                            border: 'none',
-                            borderRadius: '10px',
-                            padding: '10px 20px',
-                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                        }}
-                    >
-                        Create Task
-                    </button>
-                </form>
-            </div>
-        </div>
+                                <Button
+                                    variant="primary"
+                                    type="submit"
+                                    style={{
+                                        backgroundColor: '#17a2b8', // Teal color
+                                        border: 'none',
+                                        borderRadius: '12px',
+                                        padding: '12px 24px',
+                                        boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
+                                        color: '#fff',
+                                        fontWeight: 'bold',
+                                        transition: 'background-color 0.3s ease, transform 0.2s ease',
+                                    }}
+                                    className="w-100"
+                                    onMouseEnter={(e) => {
+                                        e.target.style.backgroundColor = '#138496'; // Darker teal on hover
+                                        e.target.style.transform = 'scale(1.05)'; // Slight scale-up on hover
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.target.style.backgroundColor = '#17a2b8'; // Original teal when not hovering
+                                        e.target.style.transform = 'scale(1)'; // Reset scale when not hovering
+                                    }}
+                                >
+                                    Submit Task
+                                </Button>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 
