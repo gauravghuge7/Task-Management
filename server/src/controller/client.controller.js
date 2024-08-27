@@ -1,7 +1,7 @@
-import { client } from "../model/client.model.js";    // modeler client import here
+import { Client } from "../model/client.model.js";    // modeler client import here
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-
+import bcrypt from "bcrypt";                 // this is the password bcrypt library for hashung the password
 
 
 
@@ -26,7 +26,7 @@ const registerClient = async(req, res) => {
 
         // check if the client already exists
 
-        const existedClient = await client.findOne({ clientEmail })
+        const existedClient = await Client.findOne({ clientEmail })
 
 
         if(existedClient) {
@@ -35,17 +35,18 @@ const registerClient = async(req, res) => {
 
         // create a entry in the database 
 
-        const client = await client.create({
+        const client = await Client.create({
             clientName,
             clientEmail,
-            clientPassword  ,
+            clientPassword,
             adminEmail
             
         })
 
         
-        return res.status(200).json(                                           // 
-            new ApiResponse(200, "Client created successfully", employee)
+        return res
+        .status(200).json(                               
+            new ApiResponse(200, "Client created successfully", client)
         )
         
     } 
@@ -56,3 +57,12 @@ const registerClient = async(req, res) => {
 
 }
 
+const loginClient = async(req, res) => {
+    
+}
+
+
+
+export {
+    registerClient
+}
