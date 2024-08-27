@@ -1,44 +1,59 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addEmployee } from "../../redux/reducers";
+import { message } from "react-message-popup";
+import axios from "axios";
 
 const EmployeeList = ({ setValue }) => {
   const [employees, setEmployees] = useState([
     {
       id: 1,
-      fullName: "John Doe",
-      email: "johndoe@gmail.com",
+      employeeName: "John Doe",
+      employeeEmail: "johndoe@gmail.com",
       designation: "Software Engineer",
-      password: "password123",
+      employeePassword: "employeePassword123",
     },
-    {
-      id: 2,
-      fullName: "Jane Doe",
-      email: "janedoe@gmail.com",
-      designation: "Software Engineer",
-      password: "password456",
-    },
-    {
-      id: 3,
-      fullName: "John Smith",
-      email: "johnsmith@gmail.com",
-      designation: "Software Engineer",
-      password: "password789",
-    },
-    {
-      id: 4,
-      fullName: "Jane Smith",
-      email: "janesmith@gmail.com",
-      designation: "Software Engineer",
-      password: "password101",
-    },
+    
   ]);
 
   const dispatch = useDispatch();
 
+
+  const decodePassword = (password) => {
+
+    
+  }
+
+
+  const fetchEmployees = async() => {
+    try {
+
+      const response = await axios.get('/api/admin/totalEmployees');
+      
+      console.log("response => ", response);
+
+      if(response.data.success === true) {
+        setEmployees(response.data.data);
+        message.success('Employees fetched successfully');
+      }
+    
+    } 
+    catch (error) {
+      message.error(error.message);  
+    }
+  }
+
+
+
   useEffect(() => {
+
+    fetchEmployees();
+
+
     dispatch(addEmployee(employees));
-  }, [dispatch, employees]);
+
+
+  },[2]);
 
   return (
     <div
@@ -83,7 +98,7 @@ const EmployeeList = ({ setValue }) => {
         </button>
       </div>
 
-      {employees.length > 0 ? (
+      {employees ? (
         <table
           className="table table-bordered"
           style={{
@@ -102,19 +117,19 @@ const EmployeeList = ({ setValue }) => {
             <tr>
               <th scope="col">#</th>
               <th scope="col">Full Name</th>
-              <th scope="col">Email</th>
+              <th scope="col">employeeEmail</th>
               <th scope="col">Designation</th>
-              <th scope="col">Password</th>
+              <th scope="col">employeePassword</th>
             </tr>
           </thead>
           <tbody>
             {employees.map((employee, index) => (
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
-                <td>{employee.fullName}</td>
-                <td>{employee.email}</td>
+                <td>{employee.employeeName}</td>
+                <td>{employee.employeeEmail}</td>
                 <td>{employee.designation}</td>
-                <td>{employee.password}</td>
+                <td>{employee.employeePassword}</td>
               </tr>
             ))}
           </tbody>
