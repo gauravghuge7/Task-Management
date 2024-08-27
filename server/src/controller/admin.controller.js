@@ -1,6 +1,8 @@
 import { Admin } from "../model/admin.model.js";
-import bcrypt from 'bcrypt';                 // this is the password bcrypt library for hashung the password
+import bcrypt from "bcrypt";                 // this is the password bcrypt library for hashung the password
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { ApiError } from "../utils/ApiError.js";
+import jwt from "jsonwebtoken";
 
     // _id is using the mongoose _id property
 const createAccessAndRefreshToken = async (_id) => {
@@ -63,6 +65,8 @@ const registerAdmin = async (req, res) => {
             adminPassword
         })
 
+        admin.save({validateBeforeSave: false});
+
 
         // return the response  for frontend
 
@@ -84,6 +88,8 @@ const loginAdmin = async (req, res) => {
         // accept the data from frontend
 
         const {adminEmail, adminPassword} = req.body;
+
+        console.log("req.body => ", req.body)
         
         // validate the data
 

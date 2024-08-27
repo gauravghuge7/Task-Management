@@ -55,3 +55,9 @@ const registerEmployee = async(req, res) => {
 
 }
 
+
+
+
+export {
+    registerEmployee
+}

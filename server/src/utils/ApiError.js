@@ -6,7 +6,7 @@
 
 class ApiError extends Error {
 
-   constructor(statusCode, message, data=null) {
+   constructor(statusCode, message, data=null, stack=null) {
 
       super(message);
 
