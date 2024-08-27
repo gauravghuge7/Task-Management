@@ -57,6 +57,11 @@ const registerClient = async(req, res) => {
 
 }
 
+const loginClient = async(req, res) => {
+    
+}
+
+
 
 export {
     registerClient
