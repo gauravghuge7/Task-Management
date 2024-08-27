@@ -4,6 +4,8 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import jwt from "jsonwebtoken";
 import { Team } from "../model/team.model.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { Employee } from "../model/employee.model.js";
 
     // _id is using the mongoose _id property
 const createAccessAndRefreshToken = async (_id) => {
@@ -83,7 +85,7 @@ const registerAdmin = async (req, res) => {
 }
 
 
-const loginAdmin = async (req, res) => {
+const loginAdmin = asyncHandler(async (req, res) => {
 
     try {
         // accept the data from frontend
@@ -135,7 +137,7 @@ const loginAdmin = async (req, res) => {
         console.log(" Error => ", error.message)
         throw new ApiError(400, error.message);
     }
-}
+})
 
 
 const getTotalEmployees = async(req, res) => {
@@ -243,5 +245,6 @@ const getAllTeams = async(req, res) => {
 
 export {
     registerAdmin,
-    loginAdmin
+    loginAdmin,
+    getTotalEmployeeDetails,
 }

@@ -1,6 +1,7 @@
 import express from 'express';
-import { loginAdmin, registerAdmin } from '../controller/admin.controller.js';
+import { getTotalEmployeeDetails, loginAdmin, registerAdmin } from '../controller/admin.controller.js';
 import { upload } from '../middleware/multer.middleware.js';
+import { verifyAdmin } from '../middleware/Admin.middleware.js';
 
 const adminRouter = express.Router();
 
@@ -16,6 +17,15 @@ adminRouter.route("/login").post(
     upload.none(),
     loginAdmin
 )
+
+
+adminRouter.route("/totalEmployees").get(
+
+    verifyAdmin,
+    getTotalEmployeeDetails
+
+)
+    
 
 
 export default adminRouter

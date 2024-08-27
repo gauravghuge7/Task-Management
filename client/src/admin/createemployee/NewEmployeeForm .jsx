@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
+import { message } from 'react-message-popup';
+import axios from 'axios';
 
 const NewEmployeeForm = () => {
   const [formData, setFormData] = useState({
@@ -21,9 +23,38 @@ const NewEmployeeForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log(formData);
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    };
+
+    const data = {
+      employeeName: formData.fullName,
+      employeeEmail: formData.email,
+      designation: formData.designation,
+      employeePassword: formData.password, 
+    }
+
+
+    try {
+      const response = await axios.post('/api/employee/register', data, config);
+
+      console.log("response => ", response);
+
+      if(response.data.success === true) {
+        message.success('Employee added successfully');
+      }
+    } 
+    catch (error) {
+      message.error(error.message);
+    }
+
+  
   };
 
   return (

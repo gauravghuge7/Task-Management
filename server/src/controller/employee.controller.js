@@ -1,6 +1,7 @@
 import { Employee } from "../model/employee.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 
 
@@ -33,7 +34,7 @@ const options = {
 
 
 
-const registerEmployee = async(req, res) => {
+const registerEmployee = asyncHandler(async(req, res) => {
 
     try {
         // accept the data from frontend  that this we are using the try catch block
@@ -82,7 +83,7 @@ const registerEmployee = async(req, res) => {
         throw new ApiError(400, error.message);    
     }
 
-}
+})
 
 const loginEmployee = async(req, res) => {
 
@@ -175,6 +176,23 @@ const getEmployeeDetails = async(req, res) => {
     }
     
 }
+
+
+
+const getEmployeePassword = asyncHandler(async(req, res) => {
+
+    try {
+
+        
+        
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+
+})
 
 
 

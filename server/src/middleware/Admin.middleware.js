@@ -10,7 +10,7 @@ export const verifyAdmin = async (req, res, next) => {
 
       if(!adminAccessToken) {
          return res.status(401).json({
-            message: 'unauthorized employee '
+            message: 'unauthorized admin '
          })
       }
 
