@@ -1,6 +1,6 @@
 
 
-// Tthis page is using the error handling method
+// this page is using the error handling method
 
 
 

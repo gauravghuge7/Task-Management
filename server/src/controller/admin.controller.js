@@ -1,11 +1,13 @@
 import { Admin } from "../model/admin.model.js";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';                 // this is the password bcrypt library for hashung the password
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-
+    // _id is using the mongoose _id property
 const createAccessAndRefreshToken = async (_id) => {
 
     const admin = await Admin.findById(_id)
+
+     // this token is used for the Access Token
 
     const adminAccessToken = admin.generateAdminAccessToken();
     const adminRefreshToken = admin.generateAdminRefreshToken();
@@ -53,7 +55,7 @@ const registerAdmin = async (req, res) => {
             throw new ApiError(400, "Admin already exists");
         }
 
-        // create a entry in the database
+        // create a entry in the database 
 
         const admin = await Admin.create({
             adminName,
@@ -62,7 +64,7 @@ const registerAdmin = async (req, res) => {
         })
 
 
-        // return the response 
+        // return the response  for frontend
 
         return res.status(200).json(
             new ApiResponse(200, "Admin created successfully", admin)

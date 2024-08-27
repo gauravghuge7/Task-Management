@@ -7,11 +7,11 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 const registerEmployee = async(req, res) => {
 
     try {
-        // accept the data from frontend
+        // accept the data from frontend  that this we are using the try catch block
 
         const {employeeName, employeeEmail, designation, employeePassword } = req.body;
 
-        // get the admin email from the request
+        // get the admin email from the request 
         const {adminEmail} = req.user;
 
         if(!employeeName || !employeeEmail || !designation || !employeePassword) {
@@ -43,7 +43,7 @@ const registerEmployee = async(req, res) => {
         })
 
         
-        return res.status(200).json(
+        return res.status(200).json(                                           // 
             new ApiResponse(200, "Employee created successfully", employee)
         )
         
