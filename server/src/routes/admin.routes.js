@@ -14,5 +14,5 @@ adminRouter.route("/login").post(
 )
 
 
-export default adminRouter
+export default adminRouter;
 

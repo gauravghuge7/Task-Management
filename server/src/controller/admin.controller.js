@@ -16,10 +16,12 @@ const createAccessAndRefreshToken = async (_id) => {
 
     await admin.save({validateBeforeSave: false});
 
+
+     // return the response  for frontend 
     return {
         adminAccessToken,
         adminRefreshToken
-    }
+    } 
 
 
 }
@@ -76,7 +78,7 @@ const registerAdmin = async (req, res) => {
         throw new ApiError(400, error.message);
     }
 }
-
+ 
 
 const loginAdmin = async (req, res) => {
 
