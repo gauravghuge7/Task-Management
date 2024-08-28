@@ -1,26 +1,49 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import axios from 'axios';
+import {message} from "react-message-popup"
 
 const CreateTeamForm = () => {
     const [teamName, setTeamName] = useState('');
     const [teamLead, setTeamLead] = useState('');
+    const [teamId, setTeamId] = useState('');
+    const [projectId, setProjectId] = useState('');
     const [teamMembers, setTeamMembers] = useState(['']);
     const [numberOfMembers, setNumberOfMembers] = useState(1);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
-        const newTeam = {
-            name: teamName,
-            lead: teamLead,
-            members: teamMembers.filter(member => member.trim() !== ''),
-        };
-        console.log(newTeam);
+        
+        try {
+        
+            const body = {
+                teamName, 
+                teamLead, 
+                projectId, 
+                employeeEmail: teamMembers.filter(member => member.trim() !== ''),
+                teamId
+            }
 
-        // Clear the form fields
-        setTeamName('');
-        setTeamLead('');
-        setTeamMembers(['']);
-        setNumberOfMembers(1);
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+
+            const response = await axios.post("/api/admin/createTeams", body, config);
+            console.log(response);
+
+            if(response.data.success) {
+                message.success('Team created successfully');
+                
+            }
+            
+        } 
+        catch (error) {
+            message.error(error.message);
+        }
+       
+
     };
 
     const handleMemberChange = (index, value) => {
@@ -36,6 +59,8 @@ const CreateTeamForm = () => {
         const newTeamMembers = Array(num).fill('').map((_, i) => teamMembers[i] || '');
         setTeamMembers(newTeamMembers);
     };
+
+
 
     return (
         <Container className="mt-5">
@@ -64,6 +89,30 @@ const CreateTeamForm = () => {
                                         placeholder="Enter team lead name"
                                         value={teamLead}
                                         onChange={(e) => setTeamLead(e.target.value)}
+                                        required
+                                        style={{ borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
+                                    />
+                                </Form.Group>
+
+                                <Form.Group controlId="teamLead" className="mb-3">
+                                    <Form.Label>Team Id</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Enter team lead name"
+                                        value={teamId}
+                                        onChange={(e) => setTeamId(e.target.value)}
+                                        required
+                                        style={{ borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
+                                    />
+                                </Form.Group>
+
+                                <Form.Group controlId="teamLead" className="mb-3">
+                                    <Form.Label>Project Id</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Enter team lead name"
+                                        value={projectId}
+                                        onChange={(e) => setProjectId(e.target.value)}
                                         required
                                         style={{ borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
                                     />

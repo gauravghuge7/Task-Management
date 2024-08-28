@@ -7,8 +7,7 @@ const TeamList =({setValue}) => {
 
     const [teams, setTeams] = useState([
         {name: 'Team 1', lead: 'John', members: ['John', 'Jane']},
-        {name: 'Team 2', lead: 'Jane', members: ['John', 'Jane']},
-        {name: 'Team 3', lead: 'John', members: ['John', 'Jane']},  
+     
     ]);
 
 
