@@ -1,17 +1,63 @@
-import { useState } from "react";
+import {  useState } from "react";
+
+import {useNavigate} from "react-router-dom";
 import { Form, Button, Container, Row, Col, Image } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { message } from 'react-message-popup';
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async(event) => {
     event.preventDefault();
     // Handle form submission logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
+
+    try {
+      
+      const body = {
+        adminEmail: email, 
+        adminPassword: password
+      }
+
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      }
+
+      const response = await axios.post("/api/admin/login", body, config);
+
+
+      console.log("response => ",response);
+
+      if(response.data.success === true) {
+        navigate("/admin/dashboard");
+      }
+
+
+
+      
+    } 
+    catch (error) {
+    
+      console.log(error);
+      message.error(error.message);
+      
+    }
+    
+    
   };
+
+
+
+
+
 
   return (
     <Container
@@ -105,6 +151,8 @@ const Login = () => {
         </Col>
       </Row>
     </Container>
+
+
   );
 };
 

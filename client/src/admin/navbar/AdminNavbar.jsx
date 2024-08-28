@@ -24,7 +24,7 @@ const AdminNavbar = ({ adminName, onLogout }) => {
               {adminName}
             </Nav.Item>
             <Nav.Item>
-              <Button variant="outline-dark" onClick={onLogout} className="ml-3">
+              <Button variant="outline-danger" onClick={onLogout} className="ml-3">
                 Logout
               </Button>
             </Nav.Item>

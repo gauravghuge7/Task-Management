@@ -1,5 +1,6 @@
 import {Schema, model} from 'mongoose';
-
+import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
 
 const adminSchema = new Schema({
 
@@ -20,7 +21,7 @@ const adminSchema = new Schema({
 
    adminRefreshToken: {
       type: String,
-      required: true,
+
    },
 
 
@@ -39,7 +40,7 @@ adminSchema.methods = {
             _id: this._id,
             adminEmail: this.adminEmail,
          },
-         process.env.EMPLOYEE_ACCESS_SECRET_KEY,      //   need to be changed the every time
+         process.env.ADMIN_ACCESS_SECRET_KEY,      //   need to be changed the every time
 
          {
             expiresIn: '24h'
@@ -54,18 +55,15 @@ adminSchema.methods = {
       return jwt.sign(
          
          {
-                  _id: this._id,
+            _id: this._id,
          },
-         process.env.EMPLOYEE_REFRESH_SECRET_KEY,     //   need to be changed the every time
+         process.env.ADMIN_REFRESH_SECRET_KEY,     //   need to be changed the every time
       
          {
             expiresIn: '7d'
          }
       )
    },
-
-
-
 
 
 }

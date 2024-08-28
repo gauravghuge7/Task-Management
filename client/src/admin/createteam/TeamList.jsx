@@ -17,27 +17,7 @@ const TeamList =({setValue}) => {
     
     console.log(" data =>  ", employee);
 
-    // if(employee) {
-
-    //     return (
-    //         <div>
-    //             {
-    //                 employee.map((data, index) => (
-                     
-    //                     <div className='flex flex-col justify-between border' key={data.id}>
-    //                             <p>{data.firstName}</p>
-    //                             <p>{data.lastName}</p>
-    //                             <p>{data.email}</p>
-    //                             <p>{data.designation}</p>
-    //                     </div>
-    //                 ))
-        
-    //             }
-
-    //         </div>
-                
-    //     )
-    // }
+   
 
     return (
         <Container>
