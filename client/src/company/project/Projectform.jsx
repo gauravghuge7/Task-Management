@@ -1,25 +1,44 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { message } from 'react-message-popup';
+import axios from 'axios';
 
 const ProjectForm = () => {
-  const [projectName, setProjectName] = useState('');
-  const [teamLead, setTeamLead] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [description, setDescription] = useState('');
 
-  const handleSubmit = (e) => {
+  const [project, setProject] = useState({
+    projectId: "",
+    projectName: "",
+    description: "",
+
+
+  })
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
     // Handle form submission
-    console.log('Project Name:', projectName);
-    console.log('Team Lead:', teamLead);
-    console.log('Project Start Date:', startDate);
-    console.log('Description:', description);
 
-    // Clear form fields after submission
-    setProjectName('');
-    setTeamLead('');
-    setStartDate('');
-    setDescription('');
+    try {
+      const data = {
+
+
+  
+      };
+  
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+  
+        }
+      };
+  
+      const response = await axios.post("/api/client/createProject", data, config);
+  
+      console.log(response.data);
+    } 
+    catch (error) {
+      message.error(error.message);
+    }
+    
   };
 
   return (
@@ -44,13 +63,14 @@ const ProjectForm = () => {
                 Create New Project
               </h2>
               <Form onSubmit={handleSubmit}>
+
                 <Form.Group controlId="projectName" className="mb-3">
                   <Form.Label>Project Name</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter project name"
-                    value={projectName}
-                    onChange={(e) => setProjectName(e.target.value)}
+                    value={project.projectName}
+                    onChange={(e) => setProject.projectName(e.target.value)}
                     required
                     style={{ 
                       borderRadius: '10px', 
@@ -63,8 +83,8 @@ const ProjectForm = () => {
                   <Form.Label>Team Lead</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter team lead name"
-                    value={teamLead}
+                    placeholder="Enter Project Id"
+                    value={project.projectId}
                     onChange={(e) => setTeamLead(e.target.value)}
                     required
                     style={{ 

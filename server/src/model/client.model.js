@@ -32,12 +32,12 @@ const clientSchema = new Schema({
 
 clientSchema.methods = {
 
-   generateclientAccessToken: function() {
+   generateClientAccessToken: function() {
 
       return jwt.sign(
          {
             _id: this._id,
-             clientEmail: this.clientEmail,
+            clientEmail: this.clientEmail,
          },
          process.env.CLIENT_ACCESS_SECRET_KEY,      //need to be changed the very time 
 
@@ -49,7 +49,7 @@ clientSchema.methods = {
 
    },
 
-   generateclientRefreshToken: function() {
+   generateClientRefreshToken: function() {
 
       return jwt.sign(
          {
@@ -59,7 +59,7 @@ clientSchema.methods = {
             adminEmail: this.adminEmail,
          },
          process.env.CLIENT_REFRESH_SECRET_KEY,            //   nedd to be changed the every time 
-                                                          
+
       
          {
             expiresIn: '7d'
