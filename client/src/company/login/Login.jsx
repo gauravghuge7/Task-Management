@@ -1,16 +1,43 @@
 import { useState } from "react";
 import { Form, Button, Container, Row, Col, Image } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {message} from "react-message-popup"
+import axios from "axios";  
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    // Handle form submission logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
+    try {
+      
+      const body = {
+        clientEmail: email,
+        clientPassword: password
+      }
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+
+      const response = await axios.post("/api/client/login",body, config);
+
+      console.log(response.data);
+
+      if(response.data.success === true){
+        message.success("Client Logged In Successfully");
+        window.location.href = "/client/dashboard";
+        
+      }
+    } 
+    catch (error) {
+    
+      console.log(error);
+      message.error("Invalid Email or Password");
+    }
   };
 
   return (
@@ -22,7 +49,7 @@ const Login = () => {
       <Row
         className="shadow-lg"
         style={{
-          maxWidth: "900px",
+          maxWidth: "900px", 
           width: "100%",
           backgroundColor: "white",
           borderRadius: "15px",

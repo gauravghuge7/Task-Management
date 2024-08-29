@@ -8,7 +8,6 @@ const NewEmployeeForm = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
-    photo: null,
     password: "",
     confirmPassword: "",
     designation: "",

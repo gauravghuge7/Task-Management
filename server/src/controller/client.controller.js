@@ -2,7 +2,30 @@ import { Client } from "../model/client.model.js";    // modeler client import h
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import bcrypt from "bcrypt";                 // this is the password bcrypt library for hashung the password
+import { asyncHandler } from "../utils/asyncHandler.js";
+import jwt from "jsonwebtoken";
 
+
+const createAccessAndRefreshToken = async(clientId) => {            
+
+    const client = await Client.findById(clientId);
+    
+
+    
+
+    const clientAccessToken = client.generateClientAccessToken();
+    const clientRefreshToken = client.generateClientRefreshToken();
+    
+    client.clientAccessToken = clientAccessToken;
+
+    await client.save({validateBeforeSave: false});
+    
+    return {
+        clientAccessToken,
+        clientRefreshToken
+    }
+}
+  
 
 
 const registerClient = async(req, res) => {
@@ -57,12 +80,57 @@ const registerClient = async(req, res) => {
 
 }
 
-const loginClient = async(req, res) => {
+const loginClient = asyncHandler(async(req, res) => {
     
-}
+    try {
+        const { clientEmail, clientPassword } = req.body;
+        
+        // validate the data 
+        if(!clientEmail || !clientPassword) {
+            throw new ApiError(400, "Please provide all the required fields");    
+        }
+        
+        // find the entry in the database
+        
+        const client = await Client.findOne({ clientEmail })
+        
+        if(!client) {
+            throw new ApiError(400, "Client does not exist");
+        }
+        
+        // check if the password is correct
+        
+        const isPasswordCorrect = await bcrypt.compare(clientPassword, client.clientPassword);
+        
+        if(!isPasswordCorrect) {
+            throw new ApiError(400, "Invalid password");
+        }
+        
+        // generate the access and refresh tokem
+        
+        const {clientAccessToken, clientRefreshToken} = await createAccessAndRefreshToken(client._id);
+        
+        
+        // return the response 
+        
+        return res
+            .status(200)
+            .cookie("clientAccessToken", clientAccessToken, options)
+            .cookie("clientRefreshToken", clientRefreshToken, options)
+            .json(
+                new ApiResponse(200, "Client logged in successfully", client)
+            )
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+})
 
 
 
 export {
-    registerClient
+    registerClient,
+    loginClient,
+    
 }

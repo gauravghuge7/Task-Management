@@ -2,6 +2,7 @@ import { Employee } from "../model/employee.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import bcrypt from 'bcrypt'
 
 
 
@@ -85,7 +86,7 @@ const registerEmployee = asyncHandler(async(req, res) => {
 
 })
 
-const loginEmployee = async(req, res) => {
+const loginEmployee = asyncHandler(async(req, res) => {
 
     try {
         // accept the data from frontend  that this we are using the try catch block
@@ -135,7 +136,7 @@ const loginEmployee = async(req, res) => {
         throw new ApiError(400, error.message);
     }
 
-}
+})
 
 const getEmployeeDetails = async(req, res) => {
 

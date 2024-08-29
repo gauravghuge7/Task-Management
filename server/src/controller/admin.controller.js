@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import { Team } from "../model/team.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Employee } from "../model/employee.model.js";
+import { Client } from "../model/client.model.js";
 
     // _id is using the mongoose _id property
 const createAccessAndRefreshToken = async (_id) => {
@@ -214,7 +215,7 @@ const getAllClients = async(req, res) => {
         return res
             .status(200)
             .json(
-                new ApiResponse(200, "Total clients", clientList)
+                new ApiResponse(200, "client list fetched successfully", clientList)
             )
         
     } 
@@ -224,6 +225,57 @@ const getAllClients = async(req, res) => {
     }
 }
 
+
+const createTeams = asyncHandler(async (req, res) => {
+
+    try {
+
+        // accept the data from the body 
+
+        console.log("req.body => ", req.body)
+
+        const {teamName, teamLead, projectId, employeeEmail, teamId} = req.body;
+
+        // validate the data
+        
+        if(!teamName || !teamLead || !projectId || !employeeEmail) {
+            throw new ApiError(400, "Please provide all the required fields");
+        }
+
+        // check if the team already exists
+        
+        const existedTeam = await Team.findOne({ teamName })
+        
+        if(existedTeam) {
+            throw new ApiError(400, "Team already exists");
+        }
+
+        // create a entry in the database 
+        
+        const team = await Team.create({
+            teamName,
+            teamLead,
+            projectId,
+            employeeEmail,
+            teamId
+        })
+
+        team.save({validateBeforeSave: false});
+
+        return res  
+            .status(200)
+            .json(
+                new ApiResponse(200, "Team created successfully", team)
+            )
+
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+
+})
 
 const getAllTeams = async(req, res) => {
 
@@ -249,4 +301,8 @@ export {
     registerAdmin,
     loginAdmin,
     getTotalEmployeeDetails,
+    getAllClients,
+    getAllTeams,
+    createTeams
+    
 }

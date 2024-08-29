@@ -1,5 +1,5 @@
 import express from 'express';
-import { getTotalEmployeeDetails, loginAdmin, registerAdmin } from '../controller/admin.controller.js';
+import { createTeams, getAllClients, getAllTeams, getTotalEmployeeDetails, loginAdmin, registerAdmin } from '../controller/admin.controller.js';
 import { upload } from '../middleware/multer.middleware.js';
 import { verifyAdmin } from '../middleware/Admin.middleware.js';
 
@@ -25,8 +25,24 @@ adminRouter.route("/totalEmployees").get(
     getTotalEmployeeDetails
 
 )
+
+
+adminRouter.route("/getAllClients").get(
+    verifyAdmin,
+    getAllClients
+)
     
 
+adminRouter.route("/createTeams").post(
+    verifyAdmin,
+    upload.none(),
+    createTeams
+)
+
+adminRouter.route("/getAllTeams").get(
+    verifyAdmin,
+    getAllTeams
+)
 
 export default adminRouter;
 
