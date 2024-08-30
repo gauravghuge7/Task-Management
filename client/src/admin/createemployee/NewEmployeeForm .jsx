@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { message } from 'react-message-popup';
 import axios from 'axios';
 
-const NewEmployeeForm = () => {
+const NewEmployeeForm = ({ fetchEmployees }) => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -48,6 +48,7 @@ const NewEmployeeForm = () => {
       if(response.data.success === true) {
         message.success('Employee added successfully');
       }
+      fetchEmployees();
     } 
     catch (error) {
       message.error(error.message);

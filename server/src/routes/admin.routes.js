@@ -1,5 +1,5 @@
 import express from 'express';
-import { createTeams, getAllClients, getAllTeams, getTotalEmployeeDetails, loginAdmin, registerAdmin } from '../controller/admin.controller.js';
+import { createTeams, getAllClients, getAllTeams, getTotalEmployeeDetails, loginAdmin, logoutAdmin, registerAdmin } from '../controller/admin.controller.js';
 import { upload } from '../middleware/multer.middleware.js';
 import { verifyAdmin } from '../middleware/Admin.middleware.js';
 
@@ -16,6 +16,13 @@ adminRouter.route("/register").post(
 adminRouter.route("/login").post(
     upload.none(),
     loginAdmin
+)
+
+
+adminRouter.route("/logout").post(
+
+    verifyAdmin,
+    logoutAdmin
 )
 
 

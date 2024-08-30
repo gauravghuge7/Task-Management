@@ -1,8 +1,8 @@
 import express from 'express';
-import { createProject, fetchProjects, loginClient, registerClient } from '../controller/client.controller.js';
+import { createProject, fetchProjects, loginClient, logoutClient, registerClient } from '../controller/client.controller.js';
 import { verifyAdmin } from '../middleware/Admin.middleware.js';
 import { upload } from '../middleware/multer.middleware.js';
-import { verifyclient } from '../middleware/Compony.middleware.js';
+import { verifyClient } from '../middleware/Compony.middleware.js';
 
 const clientRouter= express.Router();
       
@@ -20,15 +20,21 @@ clientRouter.route("/login").post(
    loginClient
 )
 
+clientRouter.route("/logout").post(
+   verifyClient,
+   logoutClient
+)
+
 clientRouter.route("/createProject").post( //verify client
-   verifyclient,
+   verifyClient,
    upload.none(),
    createProject
 )
 
 
+
 clientRouter.route("/fetchProjects").get( //verify client   
-   verifyclient,   
+   verifyClient,   
    fetchProjects
 )  
 

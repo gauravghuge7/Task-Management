@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const verifyclient = async (req, res, next) => {
+const verifyClient = async (req, res, next) => {
 
    try {
 
@@ -31,7 +31,7 @@ const verifyclient = async (req, res, next) => {
 }
 
 export {
-   verifyclient
+   verifyClient
 }
 
 /*

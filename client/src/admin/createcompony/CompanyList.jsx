@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { Container, Row, Col, Table, Button } from 'react-bootstrap';
 import { message } from 'react-message-popup';
 
@@ -35,7 +35,7 @@ const CompanyList = ({ setValue }) => {
 
     useEffect(() => {
         fetchCompanies();
-    }, [2])
+    },[1])
 
 
     return (
