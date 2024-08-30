@@ -26,6 +26,7 @@ function CompanyDashboard() {
       <div className="flex-grow-1 p-3">
 
         {conditionalComponent === "CompanyDashboard" && <Dashboard />}
+        {conditionalComponent === "" && <Dashboard />}
         {conditionalComponent === "CompanyTasks" && <Tasklist setConditionalComponent={setConditionalComponent} />}
         {conditionalComponent === "addTask" && <TaskForm />}
         {conditionalComponent === "projectform" && <ProjectForm  />}

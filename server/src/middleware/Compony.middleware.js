@@ -4,15 +4,15 @@ const verifyclient = async (req, res, next) => {
 
    try {
 
-      const ClientAccessToken = req.cookies.ClientAccessToken;
+      const clientAccessToken = req.cookies.clientAccessToken;
 
-      if(!ClientAccessToken) {
+      if(!clientAccessToken) {
          return res.status(401).json({
             message: 'unauthorized employee '
          })
       }
 
-      const decode = await jwt.verify(ClientAccessToken, process.env.CLIENT_ACCESS_SECRET_KEY);
+      const decode = await jwt.verify(clientAccessToken, process.env.CLIENT_ACCESS_SECRET_KEY);
 
 
       req.user = decode;
@@ -28,6 +28,10 @@ const verifyclient = async (req, res, next) => {
       })
    }
 
+}
+
+export {
+   verifyclient
 }
 
 /*

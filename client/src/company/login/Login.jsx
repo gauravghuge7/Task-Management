@@ -23,21 +23,25 @@ const Login = () => {
         }
       }
 
+
       const response = await axios.post("/api/client/login",body, config);
+
 
       console.log(response.data);
 
       if(response.data.success === true){
         message.success("Client Logged In Successfully");
-        window.location.href = "/client/dashboard";
+        window.location.href = "/company/dashboard";
         
       }
     } 
+
     catch (error) {
     
       console.log(error);
       message.error("Invalid Email or Password");
     }
+
   };
 
   return (

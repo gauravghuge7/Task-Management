@@ -3,15 +3,20 @@ import {Schema, model} from 'mongoose';
 
 const projectSchema = new Schema({
 
+   // clientEmail: {
+   //    type: Schema.Types.ObjectId,
+   //    ref: 'Client',
+   // },
+
    clientEmail: {
-      type: Schema.Types.ObjectId,
-      ref: 'Client',
+      type: String,
+      required: true,
    },
 
    projectId: {
       type: String,
       required: true,
- 
+
    },
 
 
@@ -23,14 +28,19 @@ const projectSchema = new Schema({
 
    projectTeamLead: {
       type: String,
-      required: true,
+      // required: true,
 
    },
 
-    description: {
-        type: String,
- 
-     },
+   teamId: {
+      type: String,
+
+   },
+
+   description: {
+      type: String,
+      required: true,
+   },
 
 
 
