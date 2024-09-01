@@ -24,6 +24,26 @@ const adminSchema = new Schema({
 
    },
 
+   employees: [{
+      type: Schema.Types.ObjectId,
+      ref: "Employee"
+   }],
+
+   clients: [{
+      type: Schema.Types.ObjectId,
+      ref: "Client"
+   }],
+
+   teams: [{
+      type: Schema.Types.ObjectId,
+      ref: "Team"
+   }],
+
+   projects: [{
+      type: Schema.Types.ObjectId,
+      ref: "Project"
+   }],
+
 
 
 }, {timestamps: true});

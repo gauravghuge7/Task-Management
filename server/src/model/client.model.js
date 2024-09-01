@@ -9,10 +9,11 @@ const clientSchema = new Schema({
       required: true,
    },
 
-   adminEmail: {
-      type: String,
-      required: true,
+   admin: {
+      type: Schema.Types.ObjectId,
+      ref: "Admin"
    },
+
    
    clientEmail: {
       type: String,

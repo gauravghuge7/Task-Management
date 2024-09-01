@@ -3,45 +3,36 @@ import {Schema, model} from 'mongoose';
 
 const projectSchema = new Schema({
 
-   // clientEmail: {
-   //    type: Schema.Types.ObjectId,
-   //    ref: 'Client',
-   // },
-
    clientEmail: {
-      type: String,
-      required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'Client',
    },
 
    projectId: {
       type: String,
       required: true,
-
    },
 
 
    projectName: {
       type: String,
       required: true,
-
    },
 
    projectTeamLead: {
-      type: String,
-      // required: true,
-
+      type: Schema.Types.ObjectId,
+      ref: "Team"
    },
 
-   teamId: {
-      type: String,
-
+   team: {
+      type: Schema.Types.ObjectId,
+      ref: "Team"
    },
 
    description: {
       type: String,
       required: true,
    },
-
 
 
 }, {timestamps: true});

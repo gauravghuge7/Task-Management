@@ -41,7 +41,7 @@ const options = {
 }
 
 
-const registerAdmin = async (req, res) => {
+const registerAdmin = asyncHandler(async (req, res) => {
 
     try {
         // accept the data from postman
@@ -85,8 +85,8 @@ const registerAdmin = async (req, res) => {
         console.log(" Error => ", error.message)
         throw new ApiError(400, error.message);
     }
-}
- 
+})
+
 
 const loginAdmin = asyncHandler(async (req, res) => {
 
@@ -140,6 +140,44 @@ const loginAdmin = asyncHandler(async (req, res) => {
         console.log(" Error => ", error.message)
         throw new ApiError(400, error.message);
     }
+})
+
+
+const logoutAdmin = asyncHandler(async (req, res) => {
+
+    const { _id } = req.user;
+
+    if(!_id) {
+        throw new ApiError(400, "Please provide the admin email");
+    }
+
+    try {
+
+        // find the entry in the database
+        
+        const admin = await Admin.findById(_id); 
+
+        admin.adminRefreshToken = null;
+        
+
+        await admin.save({validateBeforeSave: false});
+        
+
+        return res
+            .status(200)
+            .clearCookie("adminAccessToken", options)
+            .clearCookie("adminRefreshToken", options)
+            .json(
+                new ApiResponse(200, "Admin logged out successfully")
+            )
+        
+    }
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+
+
 })
 
 
@@ -303,6 +341,7 @@ export {
     getTotalEmployeeDetails,
     getAllClients,
     getAllTeams,
-    createTeams
+    createTeams,
+    logoutAdmin
     
 }

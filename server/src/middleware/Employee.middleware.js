@@ -4,15 +4,15 @@ const verifyEmployee = async (req, res, next) => {
 
    try {
 
-      const EmployeeAccessToken = req.cookies.EmployeeAccessToken;
+      const employeeAccessToken = req.cookies.employeeAccessToken;
 
-      if(!EmployeeAccessToken) {
+      if(!employeeAccessToken) {
          return res.status(401).json({
             message: 'unauthorized employee '
          })
       }
 
-      const decode = await jwt.verify(EmployeeAccessToken, process.env.EMPLOYEE_ACCESS_SECRET_KEY);
+      const decode = await jwt.verify(employeeAccessToken, process.env.EMPLOYEE_ACCESS_SECRET_KEY);
 
 
       req.user = decode;
@@ -28,6 +28,10 @@ const verifyEmployee = async (req, res, next) => {
       })
    }
 
+}
+
+export {
+   verifyEmployee
 }
 
 /*

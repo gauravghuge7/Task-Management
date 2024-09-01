@@ -9,9 +9,9 @@ const EmployeeSchema = new Schema({
       required: true,
    },
 
-   adminEmail: {
-      type: String,
-      required: true,
+   admin: {
+      type: Schema.Types.ObjectId,
+      ref: "Admin"
    },
 
    employeeEmail: {
@@ -32,14 +32,20 @@ const EmployeeSchema = new Schema({
    isTeamLeader: {
       type: Boolean,
       default: false
-   }
-
-    
+   },
 
 
+   teams: [{
+      type: Schema.Types.ObjectId,
+      ref: "Team"
+   }],
+
+   projects: [{
+      type: Schema.Types.ObjectId,
+      ref: "Project"
+   }],
 
 
- 
 
 }, {timestamps: true});
 
