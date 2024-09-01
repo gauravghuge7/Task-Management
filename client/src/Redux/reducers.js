@@ -9,7 +9,9 @@ const initialState = {
             lastName: "",
             email: "",
             designation: ""
-      }]
+      }],
+
+      
 
 }
 
@@ -24,9 +26,17 @@ const employeeSlice = createSlice({
                   state.employee = action.payload;
             }
             
-      }
-      
+      } 
+
 })
+
+// const clientSlice = createSlice({
+
+//       name: "data",
+// })
+
+
+
 
 
 export const {addEmployee } = employeeSlice.actions

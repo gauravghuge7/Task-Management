@@ -134,6 +134,45 @@ const loginClient = asyncHandler(async(req, res) => {
     }
 })
 
+const logoutClient = asyncHandler(async(req, res) => {
+    
+    try {
+        
+        const {_id} = req.user;   // get id from cookies 
+        
+        if(!_id) {  // validation
+            throw new ApiError(400, "Please provide the client email");
+        }
+        
+        
+        // find the entry in the database
+        
+        const client = await Client.findById(_id);
+        
+        if(!client) {
+            throw new ApiError(400, "Client does not exist");
+        }   
+        
+        client.clientRefreshToken = null;
+        
+        await client.save({validateBeforeSave: false});
+        
+        return res
+            .status(200)
+            .clearCookie("clientAccessToken", options)
+            .clearCookie("clientRefreshToken", options)
+            .json(
+                new ApiResponse(200, "Client logged out successfully")
+            )
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+    
+})
+
 
 const createProject = asyncHandler(async(req, res) => {
 
@@ -217,6 +256,7 @@ export {
     registerClient,
     loginClient,
     createProject,
-    fetchProjects
+    fetchProjects,
+    logoutClient
     
 }

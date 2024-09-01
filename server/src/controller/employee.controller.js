@@ -37,6 +37,8 @@ const options = {
 
 const registerEmployee = asyncHandler(async(req, res) => {
 
+    const {_id} = req.user;
+
     try {
         // accept the data from frontend  that this we are using the try catch block
 
@@ -70,7 +72,9 @@ const registerEmployee = asyncHandler(async(req, res) => {
             employeeEmail,
             designation,
             adminEmail,
-            employeePassword
+            employeePassword,
+            admin: _id,
+            isTeamLeader: false
         })
 
         
@@ -138,6 +142,48 @@ const loginEmployee = asyncHandler(async(req, res) => {
 
 })
 
+
+const logoutEmployee = asyncHandler(async(req, res) => {
+    
+    try {
+        
+        const {_id} = req.user;
+        
+        if(!_id) {
+            throw new ApiError(400, "Please provide the employee email");
+        }
+        
+        
+        // find the entry in the database
+        
+        const employee = await Employee.findById(_id);
+        
+        if(!employee) {
+            throw new ApiError(400, "Employee does not exist");
+        }   
+        
+        employee.employeeRefreshToken = null;
+        
+        await employee.save({validateBeforeSave: false});
+        
+        return res
+            .status(200)
+            .clearCookie("employeeAccessToken", options)
+            .clearCookie("employeeRefreshToken", options)
+            .json(
+                new ApiResponse(200, "Employee logged out successfully")
+            )
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+    
+})
+
+
+
 const getEmployeeDetails = async(req, res) => {
 
     try {
@@ -204,5 +250,8 @@ const getEmployeePassword = asyncHandler(async(req, res) => {
 export {
     registerEmployee,
     loginEmployee,
+    logoutEmployee,
+    getEmployeeDetails,
+    getEmployeePassword
 
 }
