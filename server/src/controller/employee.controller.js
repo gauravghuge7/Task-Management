@@ -37,6 +37,8 @@ const options = {
 
 const registerEmployee = asyncHandler(async(req, res) => {
 
+    const {_id} = req.user;
+
     try {
         // accept the data from frontend  that this we are using the try catch block
 
@@ -70,7 +72,9 @@ const registerEmployee = asyncHandler(async(req, res) => {
             employeeEmail,
             designation,
             adminEmail,
-            employeePassword
+            employeePassword,
+            admin: _id,
+            isTeamLeader: false
         })
 
         

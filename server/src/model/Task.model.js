@@ -2,23 +2,28 @@ import {Schema, model} from 'mongoose';
 
 const taskSchema = new Schema({
 
-   projectName: {
-      type: String,
-      required: true,
+   project: {
+      type: Schema.Types.ObjectId,
+      ref: "Project"
    },
 
    employeeEmail: {
       type: String,
       required: true,
-
    },
+
+   employee: {
+      type: Schema.Types.ObjectId,
+      ref: "Employee"
+   },
+
 
    projectId: {
       type: String,
       required: true,
    },
 
-   task: {
+   description: {
       type: String,
       required: true,
    },
@@ -29,13 +34,18 @@ const taskSchema = new Schema({
    },
 
    teamLead: {
-      type: String,
-      required: true,
+      type: Schema.Types.ObjectId,  
+      ref: "Team"
    },
+
 
    description: {
       type: String,
-      
+   },
+
+   assignBy: {
+      type: Schema.Types.ObjectId,
+      ref: "Team"
    }
 
 

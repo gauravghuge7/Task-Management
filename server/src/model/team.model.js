@@ -14,23 +14,19 @@ const teamSchema = new Schema( {
    },
 
    teamLead: {
-      type: String,
-      required: true,
+      type: Schema.Types.ObjectId,
+      ref: "Employee"
    },
 
    projectId: [{
-
       type: String,
       required: true,
-
    }],
 
-   employeeEmail: [{
-
-      type: String,
-      required: true,
-
-   }]
+   employee: [{
+      type: Schema.Types.ObjectId,
+      ref: "Employee"
+   }],
 
 
 

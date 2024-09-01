@@ -41,7 +41,7 @@ const options = {
 }
 
 
-const registerAdmin = async (req, res) => {
+const registerAdmin = asyncHandler(async (req, res) => {
 
     try {
         // accept the data from postman
@@ -85,8 +85,8 @@ const registerAdmin = async (req, res) => {
         console.log(" Error => ", error.message)
         throw new ApiError(400, error.message);
     }
-}
- 
+})
+
 
 const loginAdmin = asyncHandler(async (req, res) => {
 
