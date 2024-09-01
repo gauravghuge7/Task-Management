@@ -186,7 +186,7 @@ const fetchProjects = asyncHandler(async (req, res) => {
     try {
         const { clientEmail } = req.user;
         
-        // find the entry in the database
+        // find the entry in the database then check and return the response
         
         const client = await Client.findOne({ clientEmail })
         

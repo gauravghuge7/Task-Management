@@ -17,7 +17,7 @@ const CompanyList = ({ setValue }) => {
     const fetchCompanies = async () => {
         try {
             
-            const response = await axios.get("/api/admin/getAllClients")
+            const response = await axios.get("/api/admin/getAllClients")      // this is the api call we are useing the axios 
 
 
             if(response.data.success){

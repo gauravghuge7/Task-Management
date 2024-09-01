@@ -10,7 +10,7 @@ const adminRouter = express.Router();
 adminRouter.route("/register").post(
 
     upload.none(),
-    registerAdmin
+    registerAdmin  
 )
 
 adminRouter.route("/login").post(

@@ -24,7 +24,7 @@ const NewEmployeeForm = () => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-
+ 
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ const NewEmployeeForm = () => {
 
 
     try {
-      const response = await axios.post('/api/employee/register', data, config);
+      const response = await axios.post('/api/employee/register', data, config);  // thisthe bapi call to register the employee in the database
 
       console.log("response => ", response);
 

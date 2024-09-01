@@ -2,7 +2,7 @@ import { Admin } from "../model/admin.model.js";
 import bcrypt from "bcrypt";                 // this is the password bcrypt library for hashung the password
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
-import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";   //using the jwt token for the access and refresh token
 import { Team } from "../model/team.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Employee } from "../model/employee.model.js";
