@@ -14,6 +14,7 @@ import { message } from 'react-message-popup'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { addEmployee } from '../../redux/reducers'
+import ProjectList from '../CreateProject/ProjectList'
 
 
 
@@ -93,6 +94,7 @@ function Admindashboard() {
       { value === "createcompany" && <CreateCompany /> }
       {value === "assigntask" && <AssignTaskForm /> }
       { value === "task" && <TaskList setValue={setValue} /> }
+      { value === "project" && <ProjectList setValue={setValue} /> }
     
       </div>
     </div>

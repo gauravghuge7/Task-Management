@@ -54,7 +54,7 @@ function Sidebar({ setValue }) {
         </button>
         </li>
         <li>
-        {/* <button 
+        <button 
           
           className="nav-link"
           onClick={() => setValue("project")}  
@@ -62,7 +62,7 @@ function Sidebar({ setValue }) {
           <i className="bi bi-person-lines-fill me-2"></i>
         Project
                 
-        </button> */}
+        </button>
         </li>
         <li>
         <button 

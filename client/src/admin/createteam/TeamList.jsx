@@ -11,15 +11,18 @@ import axios from "axios";
 
 const TeamList = ({ setValue}) => {
     const [teams, setTeams] = useState([
-      {                                            //  this is the dayy data  we are use the showing the list of teams
+        {                                            //  this is the dayy data  we are use the showing the list of teams
         id: 1, 
         teamName: "Team 1",
         teamLead: "John",
-        teamMembers: ["John", "Jane"],
+        employee: [
+            "John",
+            "akash"
+        ],
 
-      
-      },
-      
+        
+        },
+    
     ]);
   
     const dispatch = useDispatch();
@@ -89,9 +92,17 @@ const TeamList = ({ setValue}) => {
                                         <td>{index + 1}</td>
                                         <td>{team.teamName}</td>
                                         <td>{team.teamLead}</td>
-                                        {/* <td>{team.teamMembers .map((member, index) => (
-                                            <p key={index}>{member}</p>
-                                        ))}</td> */}
+                                        <td>
+                                            {
+                                                team?.employee?.map((data, index) => {
+                                                    return <p key={index}>
+                                                    {
+                                                        data
+                                                    }
+                                                    </p>
+                                                })
+                                            }
+                                        </td> 
                                     </tr>
                                 ))}
                             </tbody>
