@@ -272,21 +272,24 @@ const createTeams = asyncHandler(async (req, res) => {
 
         console.log("req.body => ", req.body)
 
-        const {teamName, teamLead, projectId, employeeEmail, teamId} = req.body;
+       
+        const {teamName, teamLead, projectId, employee, teamId} = req.body;
 
         // validate the data
         
-        if(!teamName || !teamLead || !projectId || !employeeEmail) {
+        if(!teamName || !teamLead || !projectId || !employee) {
             throw new ApiError(400, "Please provide all the required fields");
         }
 
         // check if the team already exists
         
-        const existedTeam = await Team.findOne({ teamName })
+        const existedTeam = await Team.findOne({ teamId })
         
         if(existedTeam) {
             throw new ApiError(400, "Team already exists");
         }
+
+        
 
         // create a entry in the database 
         
@@ -294,8 +297,9 @@ const createTeams = asyncHandler(async (req, res) => {
             teamName,
             teamLead,
             projectId,
-            employeeEmail,
-            teamId
+            employee: employee,
+            teamId,
+            admin: req.user._id
         })
 
         team.save({validateBeforeSave: false});
@@ -315,6 +319,8 @@ const createTeams = asyncHandler(async (req, res) => {
 
 })
 
+
+
 const getAllTeams = async(req, res) => {
 
     try {
@@ -328,11 +334,18 @@ const getAllTeams = async(req, res) => {
         )
         
     } 
+
+
     catch (error) {
         console.log(" Error => ", error.message)
         throw new ApiError(400, error.message);
     }
+
+
 }
+
+
+
 
 
 export {
