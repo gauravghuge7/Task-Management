@@ -12,18 +12,7 @@ const Componysidebar = ({ setConditionalComponent }) => {
         borderRight: '1px solid #343a40', // Border to separate sidebar from content
       }}
     >
-      <h3
-        className="mb-4 text-center"
-        style={{
-          fontSize: '1.5rem',
-          textTransform: 'uppercase',
-          letterSpacing: '2px',
-          borderBottom: '2px solid #495057',
-          paddingBottom: '15px',
-        }}
-      >
-        Company Panel
-      </h3>
+    
       <ul className="nav nav-pills flex-column mb-auto">
         <li className="nav-item">
           <button

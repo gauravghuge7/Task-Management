@@ -1,12 +1,10 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import EditProjectForm from './EditProjectForm';
 
 const ProjectList = () => {
    const [isEditing, setIsEditing] = useState(false);
-
    const [projectData, setProjectData] = useState([
       {
-
          projectName: 'Example Project',
          companyName: 'Example Company',
          spokePersonEmail: 'example@example.com',
@@ -15,7 +13,24 @@ const ProjectList = () => {
          description: 'This is an example project description.',
          teamLead: 'John Doe',
       },
-   
+      {
+         projectName: 'Example Project',
+         companyName: 'Example Company',
+         spokePersonEmail: 'example@example.com',
+         spokePersonName: 'John Doe',
+         spokePersonNumber: '123-456-7890',
+         description: 'This is an example project description.',
+         teamLead: 'John Doe',
+      },
+      {
+         projectName: 'Example Project',
+         companyName: 'Example Company',
+         spokePersonEmail: 'example@example.com',
+         spokePersonName: 'John Doe',
+         spokePersonNumber: '123-456-7890',
+         description: 'This is an example project description.',
+         teamLead: 'John Doe',
+      },
    ]);
 
    const handleEdit = () => {
@@ -37,37 +52,43 @@ const ProjectList = () => {
    }
 
    return (
-      <div className="container mt-5 flex flex-wrap justify-center gap-8">
-
-         {
-            projectData.map((data, index) => (
-
-               <div key={index}
-                  className='shadow-lg p-3 mb-5 bg-white rounded'
-               >
-               
-               <h2>Project Details</h2>
-               <p><strong>Project Name:</strong> {projectData.projectName}</p>
-               <p><strong>Company Name:</strong> {projectData.companyName}</p>
-               <p><strong>Spokesperson Email:</strong> {projectData.spokePersonEmail}</p>
-               <p><strong>Spokesperson Name:</strong> {projectData.spokePersonName}</p>
-               <p><strong>Spokesperson Number:</strong> {projectData.teamLead}</p>
-               <p><strong>Team Lead</strong> {projectData.spokePersonNumber}</p>
-               <p><strong>Description:</strong> {projectData.description}</p>
-               <button className="btn btn-primary me-2" onClick={handleEdit}>Edit</button>
-               <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
-
-               
-               </div>
-            ))
-         }
-
-         
-
-
+      <div className="container mt-5">
+         <h2 className="mb-4">Project List</h2>
+         <table className="table table-striped table-bordered">
+            <thead>
+               <tr>
+                  <th>Project Name</th>
+                  <th>Company Name</th>
+                  <th>Spokesperson Email</th>
+                  <th>Spokesperson Name</th>
+                  <th>Spokesperson Number</th>
+                  <th>Team Lead</th>
+                  <th>Description</th>
+                  <th>Actions</th>
+               </tr>
+            </thead>
+            <tbody>
+               {
+                  projectData.map((data, index) => (
+                     <tr key={index}>
+                        <td>{data.projectName}</td>
+                        <td>{data.companyName}</td>
+                        <td>{data.spokePersonEmail}</td>
+                        <td>{data.spokePersonName}</td>
+                        <td>{data.spokePersonNumber}</td>
+                        <td>{data.teamLead}</td>
+                        <td>{data.description}</td>
+                        <td>
+                           <button className="btn btn-primary me-2" onClick={handleEdit}>Edit</button>
+                           <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
+                        </td>
+                     </tr>
+                  ))
+               }
+            </tbody>
+         </table>
       </div>
    );
 };
 
 export default ProjectList;
-

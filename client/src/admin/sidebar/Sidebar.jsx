@@ -49,7 +49,7 @@ function Sidebar({ setValue }) {
           onClick={() => setValue("compony")}  
         >
           <i className="bi bi-person-lines-fill me-2"></i>
-        Company
+        Client
                 
         </button>
         </li>

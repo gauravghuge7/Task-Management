@@ -54,7 +54,7 @@ const CreateCompanyForm = () => {
                             <h3 className="text-center mb-4" style={{ fontWeight: '600' }}>Create Company</h3>
                             <Form onSubmit={handleSubmit}>
                                 <Form.Group controlId="companyName" className="mb-3">
-                                    <Form.Label>Company Name</Form.Label>
+                                    <Form.Label>Client Name</Form.Label>
                                     <Form.Control
                                         type="text"
                                         placeholder="Enter company name"
@@ -66,7 +66,7 @@ const CreateCompanyForm = () => {
                                 </Form.Group>
 
                                 <Form.Group controlId="companyEmail" className="mb-3">
-                                    <Form.Label>Company Email</Form.Label>
+                                    <Form.Label>Client Email</Form.Label>
                                     <Form.Control
                                         type="email"
                                         placeholder="Enter company email"
@@ -78,7 +78,7 @@ const CreateCompanyForm = () => {
                                 </Form.Group>
 
                                 <Form.Group controlId="companyPassword" className="mb-3">
-                                    <Form.Label>Company Password</Form.Label>
+                                    <Form.Label>Client Password</Form.Label>
                                     <Form.Control
                                         type="password"
                                         placeholder="Enter password"

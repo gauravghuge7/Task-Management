@@ -37,7 +37,7 @@ const Admincontain = () => {
             <Card.Body>
               <div className="d-flex justify-content-center mb-4">
               <FaBuilding size={50} className="text-warning mb-3" /></div>
-              <Card.Title> Companys</Card.Title>
+              <Card.Title> Client</Card.Title>
               <Card.Text>
                 <h3>5</h3>
               </Card.Text>
@@ -59,7 +59,7 @@ const Admincontain = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col md={6} className="mb-4">
+        {/* <Col md={6} className="mb-4">
           <Card className="text-center shadow-sm">
             <Card.Body>
               <div className="d-flex justify-content-center mb-4">
@@ -71,7 +71,7 @@ const Admincontain = () => {
               </Card.Text>
             </Card.Body>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
     </Container>
   );

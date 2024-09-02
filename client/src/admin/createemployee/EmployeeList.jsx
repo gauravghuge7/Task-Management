@@ -15,6 +15,16 @@ const EmployeeList = ({ setValue }) => {
       designation: "Software Engineer",
       employeePassword: "employeePassword123",
     },
+
+        {   
+
+
+            id: 2,      
+            employeeName: "John Doe",
+            employeeEmail: "johndoe@gmail.com",
+            designation: "Software Engineer",
+            employeePassword: "employeePassword123",
+        },
     
   ]);
 

@@ -58,7 +58,7 @@ const CompanyList = ({ setValue }) => {
                     marginBottom: "25px",
                 }}
             >
-                <h2 style={{ margin: 0, color: "#333" }}>Companies List</h2>
+                <h2 style={{ margin: 0, color: "#333" }}>Client List</h2>
                 <Button
                     style={{
                         backgroundColor: "#4CAF50",
@@ -105,6 +105,7 @@ const CompanyList = ({ setValue }) => {
                                     <th>Company clientName</th>
                                     <th>Company clientEmail</th>
                                     <th>clientPassword</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,6 +115,29 @@ const CompanyList = ({ setValue }) => {
                                         <td>{company.clientName}</td>
                                         <td>{company.clientEmail}</td>
                                         <td>{company.clientPassword}</td>
+                                        <td>
+                                            <Button
+                                                style={{
+                                                    backgroundColor: "#4CAF50",
+                                                    border: "none",
+                                                    padding: "12px 24px",
+                                                    borderRadius: "8px",
+                                                    color: "#fff",
+                                                    fontWeight: "bold",
+                                                    transition: "background-color 0.3s ease",
+                                                }}
+                                                onMouseEnter={(e) =>
+                                                    (e.target.style.backgroundColor = "#45a049")
+                                                }
+                                                onMouseLeave={(e) =>
+                                                    (e.target.style.backgroundColor = "#4CAF50")
+                                                }
+                                                onClick={() => setValue("addproject")}
+                                            >
+                                                Add Project
+                                            </Button>
+                                           
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
