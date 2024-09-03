@@ -372,10 +372,11 @@ const createTeams = asyncHandler(async (req, res) => {
         console.log("teamLeadId => ", teamLeadId)
 
         
-        const employeeId = await Employee.findOne({employeeName: employee})
+        const employeeId = await Employee.find({employeeName: employee})
 
         console.log("employeeId => ", employeeId)
 
+        
         
 
         // create a entry in the database 
@@ -384,7 +385,7 @@ const createTeams = asyncHandler(async (req, res) => {
             teamName,
             teamLead: teamLeadId._id,
             projectId,
-            employee: employeeId.id,
+            employee: employeeId.map(data => data._id),
             teamId,
             admin: req.user._id
         })
@@ -412,19 +413,90 @@ const getAllTeams = async(req, res) => {
 
     try {
 
-        
-        
 
-        const team = await Team.find({admin: req.user._id})
+        const team = await Team.aggregate([
+
+            {
+                $match: {
+                    admin: new mongoose.Types.ObjectId(req.user._id)
+                }
+            },
+
+            {
+                $lookup: {
+                    from: "employees",
+                    localField: "teamLead",
+                    foreignField: "_id",
+                    as: "teamLead",
+                }
+            },
+
+            {
+                $lookup: {
+                    from: "employees",
+                    localField: "employee",
+                    foreignField: "_id",
+                    as: "employees",
+
+                }
+            },
+
+            
+
+                 // Preserve the entire teamLead array as is
+            {
+                $unwind: {
+                    path: "$teamLead",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+
+            // $addFields to include the teamLeadName and employees array
+            {
+                $addFields: {
+                    teamLeadName: "$teamLead.employeeName",
+                    employees: "$employees.employeeName",
+                    teamLeadEmail: "$teamLead.employeeEmail",
+                    employeesEmail: "$employees.employeeEmail"
+
+                }
+            },
+
+            {
+                $project: {
+                    teamName: 1,
+                    teamId: 1,
+                    
+                    teamLeadEmail: 1,
+                    employeesEmail: 1,
+                    teamLeadName: 1,
+                    employees: 1,
+                    
+                }
+            }
+
+        ])
 
 
+        const teamList = await Team.find({admin: req.user._id}).populate("employee")
 
+        // console.log("teamList => ", teamList);
+
+        teamList.map(data => {
+            console.log(data.employee);
+        }) 
 
 
         return res
         .status(200)
         .json(
-            new ApiResponse(200, "Total teams fetched successfully", {team})
+            new ApiResponse(
+                200, 
+                "Total teams fetched successfully", 
+                {
+                    team
+                }
+            )
         )
         
     } 
