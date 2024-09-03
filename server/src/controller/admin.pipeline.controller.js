@@ -42,6 +42,7 @@ const getEmployeeDetails = asyncHandler(async (req, res) => {
 
                employeeName: 1,
                employeeEmail: 1,
+               employeePassword: 1,
                designation: 1,
                admin: 1,
                isTeamLeader: 1,

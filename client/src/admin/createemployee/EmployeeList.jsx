@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import {  useSelector } from "react-redux";
 
+// import jwt from 'jsonwebtoken'
+
 // import { addEmployee } from "../../redux/reducers";
 // import { message } from "react-message-popup";
 // import axios from "axios";
 
 const EmployeeList = ({ setValue }) => {
 
+
   const [employees, setEmployees] = useState([
+
     {
       id: 1,
       employeeName: "John Doe",
@@ -16,15 +20,13 @@ const EmployeeList = ({ setValue }) => {
       employeePassword: "employeePassword123",
     },
 
-        {   
-
-
-            id: 2,      
-            employeeName: "John Doe",
-            employeeEmail: "johndoe@gmail.com",
-            designation: "Software Engineer",
-            employeePassword: "employeePassword123",
-        },
+    {   
+      id: 2,      
+      employeeName: "John Doe",
+      employeeEmail: "johndoe@gmail.com",
+      designation: "Software Engineer",
+      employeePassword: "employeePassword123",
+    },
     
   ]);
 

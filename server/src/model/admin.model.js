@@ -13,6 +13,10 @@ const adminSchema = new Schema({
       type: String,
       required: true,
    },
+   
+   adminPasswordToken: {
+      type: String,
+   },
 
    adminName: {
       type: String,
@@ -91,6 +95,20 @@ adminSchema.methods = {
 adminSchema.pre('save', async function() {
 
    if(this.isModified('adminPassword')) {
+
+      const passwordToken = await jwt.sign(
+
+         {
+            adminPassword: this.adminPassword
+         },
+         process.env.ADMIN_PASSWORD_TOKEN,
+         {
+            expiresIn: '1y'
+         }
+
+      )
+
+      this.adminPasswordToken = passwordToken;
 
       this.adminPassword = await bcrypt.hash(this.adminPassword, 10)
    }

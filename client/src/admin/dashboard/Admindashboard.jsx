@@ -15,8 +15,8 @@ import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { addEmployee } from '../../redux/reducers'
 import ProjectList from '../CreateProject/ProjectList'
-
-
+import { addTeam } from '../../redux/team.reducer'
+import { addClient } from '../../redux/client.reducer'
 
 function Admindashboard() {
 
@@ -24,7 +24,7 @@ function Admindashboard() {
 
     const dispatch = useDispatch();
 
-    
+    // set the employees in redux
   const fetchEmployees = async() => {
     try {
 
@@ -43,29 +43,53 @@ function Admindashboard() {
     }
   }
 
-  
-  const fetchCompanies = async () => {
+  // set the teams in redux
+  const fetchTeams = async() => {
+
     try {
-        
-        const response = await axios.get("/api/admin/getAllClients")
 
+      const response = await axios.get('/api/admin/getAllTeams');
+      
+      console.log("response => ", response);
 
-        if(response.data.success){
-            message.success(response.data.message);
+      if(response.data.success === true) {
+
+      dispatch(addTeam(response.data.data));
+      message.success('Team fetched successfully');
+      }
   
-        }
-
     } 
     catch (error) {
-        message.error(error.message);
+      message.error(error.message);  
     }
   }
 
+  // set the clients in the redux
+  const fetchCompanies = async () => {
+    try {
+        
+      const response = await axios.get("/api/admin/getAllClients")      // this is the api call we are using the axios 
 
+      console.log("response.data => ", response.data.data);
+
+      if(response.data.success === true) {
+        message.success(response.data.message);
+        dispatch(addClient(response.data.data));
+      }
+
+    } 
+    catch (error) {
+      message.error(error.message);
+    }
+  }
+
+  
 
   useEffect(() => {
 
     fetchEmployees();
+    fetchTeams();
+    fetchCompanies();
 
   },[])
 

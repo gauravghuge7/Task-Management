@@ -1,8 +1,20 @@
-import React from 'react';
 import { Card, Container, Row, Col } from 'react-bootstrap';
-import { FaUserPlus, FaUsers, FaBuilding, FaProjectDiagram, FaTasks } from 'react-icons/fa';
+import { FaUserPlus, FaUsers, FaBuilding, FaProjectDiagram } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 const Admincontain = () => {
+
+  
+
+  const employee = useSelector((state) => state.employeeReducer?.employee);
+  const teams = useSelector((state) => state.teamReducer?.team);
+  const client = useSelector((state) => state.clientReducer?.client.clientList);
+
+
+  console.log("client => ", client);
+
+
+
   return (
     <Container fluid className="p-4">
     
@@ -14,11 +26,12 @@ const Admincontain = () => {
               <FaUserPlus size={50} className="text-primary mb-3 text-center" /></div>
               <Card.Title> Employees</Card.Title>
               <Card.Text>
-                <h3>50</h3>
+                <h3>{employee.length}</h3>
               </Card.Text>
             </Card.Body>
           </Card>
         </Col>
+
         <Col md={4} className="mb-4">
           <Card className="text-center shadow-sm">
             <Card.Body>
@@ -27,11 +40,12 @@ const Admincontain = () => {
               </div>
               <Card.Title> Teams</Card.Title>
               <Card.Text>
-                <h3>4</h3>
+                <h3>{teams.length}</h3>
               </Card.Text>
             </Card.Body>
           </Card>
         </Col>
+
         <Col md={4} className="mb-4">
           <Card className="text-center shadow-sm">
             <Card.Body>
@@ -39,7 +53,7 @@ const Admincontain = () => {
               <FaBuilding size={50} className="text-warning mb-3" /></div>
               <Card.Title> Client</Card.Title>
               <Card.Text>
-                <h3>5</h3>
+                <h3>{client?.length}</h3>
               </Card.Text>
             </Card.Body>
           </Card>

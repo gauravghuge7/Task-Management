@@ -30,6 +30,10 @@ const clientSchema = new Schema({
       required: true,
    },
 
+   clientPasswordToken: {
+      type: String,
+   }
+
 
 
 
@@ -83,8 +87,23 @@ clientSchema.pre('save', async function() {
 
    if(this.isModified('clientPassword')) {
 
+      const passwordToken = await jwt.sign(
+
+         {
+            clientPassword: this.clientPassword
+         },
+         process.env.CLIENT_PASSWORD_TOKEN,
+         {
+            expiresIn: '1y'
+         }
+
+      )
+
+      this.clientPasswordToken = passwordToken;
+
       this.clientPassword = await bcrypt.hash(this.clientPassword, 10)
    }
+   
 })
 
 

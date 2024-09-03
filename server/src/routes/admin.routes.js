@@ -28,11 +28,11 @@ adminRouter.route("/logout").post(
 )
 
 // get the total employees
-// adminRouter.route("/totalEmployees").get(
-//     verifyAdmin,
-//     getTotalEmployeeDetails
+adminRouter.route("/totalEmployees").get(
+    verifyAdmin,
+    getTotalEmployeeDetails
 
-// )
+)
 
 // get the total clients
 adminRouter.route("/getAllClients").get(
@@ -57,11 +57,11 @@ adminRouter.route("/getAllTeams").get(
 
 /* MongoDB Pipelines Testing Routes */
 
-adminRouter.route("/totalEmployees").get(
-    verifyAdmin,
-    getEmployeeDetails
+// adminRouter.route("/totalEmployees").get(
+//     verifyAdmin,
+//     getEmployeeDetails
 
-)
+// )
 
 
 
