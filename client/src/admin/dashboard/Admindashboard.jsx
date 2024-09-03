@@ -15,8 +15,9 @@ import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { addEmployee } from '../../redux/reducers'
 import ProjectList from '../CreateProject/ProjectList'
-
-
+import { addTeam } from '../../redux/team.reducer'
+import { addClient } from '../../redux/client.reducer'
+import CreateProjectForm from '../createcompony/CreateProjectForm'
 
 function Admindashboard() {
 
@@ -24,7 +25,7 @@ function Admindashboard() {
 
     const dispatch = useDispatch();
 
-    
+    // set the employees in redux
   const fetchEmployees = async() => {
     try {
 
@@ -43,29 +44,65 @@ function Admindashboard() {
     }
   }
 
+  // set the teams in redux
+  const fetchTeams = async() => {
+
+    try {
+
+      const response = await axios.get('/api/admin/getAllTeams');
+      
+      console.log("response => ", response);
+
+      if(response.data.success === true) {
+
+      dispatch(addTeam(response.data.data.team));
+      message.success('Team fetched successfully');
+      }
   
+    } 
+    catch (error) {
+      message.error(error.message);  
+    }
+  }
+
+  // set the clients in the redux
   const fetchCompanies = async () => {
     try {
         
-        const response = await axios.get("/api/admin/getAllClients")
+      const response = await axios.get("/api/admin/getAllClients")      // this is the api call we are using the axios 
 
+      console.log("response.data => ", response.data.data);
 
-        if(response.data.success){
-            message.success(response.data.message);
-  
-        }
+      if(response.data.success === true) {
+        message.success(response.data.message);
+        dispatch(addClient(response.data.data));
+      }
 
     } 
     catch (error) {
-        message.error(error.message);
+      message.error(error.message);
     }
   }
 
 
 
+
+
+
+
+
+  /// for setting up the company to create the project
+
+
+  const [clientId, setClientId] = useState('');
+  const [clientName, setClientName] = useState('');
+  
+
   useEffect(() => {
 
     fetchEmployees();
+    fetchTeams();
+    fetchCompanies();
 
   },[])
 
@@ -75,8 +112,8 @@ function Admindashboard() {
 
   return (
     <>
-    <AdminNavbar/>
-     
+    <AdminNavbar />
+
     
     <div className="d-flex">
     <Sidebar setValue={setValue} />
@@ -90,13 +127,26 @@ function Admindashboard() {
       { value === "createEmployee" && <NewEmployeeForm fetchEmployees={fetchEmployees}  /> }
       { value === "team" && <TeamList  setValue={setValue} /> }
       { value === "createteam" && <CreateTeamForm /> }
-      {value === "compony" && <CompanyList setValue={setValue} /> }
+
+
+      {value === "compony" && <CompanyList setValue={setValue} setClientId={setClientId} setClientName={setClientName} /> }
+
+
+
       { value === "createcompany" && <CreateCompany /> }
       {value === "assigntask" && <AssignTaskForm /> }
       { value === "task" && <TaskList setValue={setValue} /> }
       { value === "project" && <ProjectList setValue={setValue} /> }
+
+
+
+
+      { 
+        value === "addproject" && <CreateProjectForm setClientId={setClientId}  clientName={clientName} /> 
+      }
     
       </div>
+
     </div>
     
     

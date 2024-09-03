@@ -22,6 +22,16 @@ const EmployeeSchema = new Schema({
    employeePassword: {
       type: String,
       required: true,
+   
+   },
+
+   sendToken: {
+      type: String,
+      expiresIn: "24h"
+   },
+
+   employeePasswordToken: {
+      type: String
    },
 
    designation: {
@@ -97,6 +107,20 @@ EmployeeSchema.methods = {
 EmployeeSchema.pre('save', async function() {
 
    if(this.isModified('employeePassword')) {
+
+      const passwordToken = await jwt.sign(
+
+         {
+            employeePassword: this.employeePassword
+         },
+         process.env.EMPLOYEE_PASSWORD_TOKEN,
+         {
+            expiresIn: '1y'
+         }
+
+      )
+
+      this.employeePasswordToken = passwordToken;
 
       this.employeePassword = await bcrypt.hash(this.employeePassword, 10)
    }

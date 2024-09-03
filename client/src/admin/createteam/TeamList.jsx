@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import { useState } from 'react';
 import { Container, Row, Col, Table } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {message} from "react-message-popup"   // this is the use of the react message popup
 import axios from "axios"; 
-                    // this is the use of axios to send the request to the server
-   
+
+// this is the use of axios to send the request to the server
+
 
 
 
@@ -32,36 +33,36 @@ const TeamList = ({ setValue}) => {
   
   
     const fetchClients = async() => {
-      try {
-  
-        const response = await axios.get('/api/admin/getAllTeams');
+        try {
+    
+            const response = await axios.get('/api/admin/getAllTeams');
+            
+            console.log("response => ", response);
+    
+            if(response.data.success === true) {
+                setTeams(response.data.data.team);
+                message.success('Team fetched successfully');
+            }
         
-        console.log("response => ", response);
-  
-        if(response.data.success === true) {
-          setTeams(response.data.data);
-          message.success('Team fetched successfully');
+        } 
+        catch (error) {
+            message.error(error.message);  
         }
-      
-      } 
-      catch (error) {
-        message.error(error.message);  
-      }
     }
-  
-  
-  
+    
+    
+    
     useEffect(() => {
-  
-      fetchClients();
-  
-  
+
+    fetchClients();
+
+
     //   dispatch(addTeam(teams));
-  
-  
+
+
     },[2]);
 
-   
+        
 
     return (
         <Container>

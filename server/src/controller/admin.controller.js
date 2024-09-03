@@ -7,6 +7,7 @@ import { Team } from "../model/team.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Employee } from "../model/employee.model.js";
 import { Client } from "../model/client.model.js";
+import mongoose from "mongoose";
 
     // _id is using the mongoose _id property
 const createAccessAndRefreshToken = async (_id) => {
@@ -181,6 +182,35 @@ const logoutAdmin = asyncHandler(async (req, res) => {
 })
 
 
+const getAdmin = async(req, res) => {
+    
+    const {adminEmail} = req.user;
+
+    if(!adminEmail) {
+        throw new ApiError(400, "Please provide the admin email");
+    }
+
+    try {
+
+        
+        const admin = await Admin.findById(req.user._id);
+        
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(200, "Admin fetched successfully", admin)
+            )
+
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+
+}
+
+
+
 const getTotalEmployees = async(req, res) => {
 
 
@@ -218,14 +248,48 @@ const getTotalEmployeeDetails = async (req, res) => {
     }
     
     try {
+
         // accept the data from frontend  that this we are using the try catch block
         
-        const employeeList = await Employee.find({adminEmail});
+        const employeeList = await Employee.find({admin: req.user._id})
+
+        console.log("employeeList => ", employeeList)
+
+        let password = []
+        
+        const data = employeeList.map((data) => {
+
+            
+            
+            data.sendToken = jwt.verify(
+                data.employeePasswordToken,
+                process.env.EMPLOYEE_PASSWORD_TOKEN,
+            )
+            
+        })
+
+        
+
+        const emp = await Employee.find({admin: req.user._id})
+        
+        console.log("emp => ", emp)
+        
+
+        console.log("data => ", data)
+
+        // console.log("password => ", password)
+
+        
+        
         
         return res
             .status(200)
             .json(
-                new ApiResponse(200, "Total employee details", employeeList)
+                new ApiResponse(
+                    200, 
+                    "Total employee details fetched successfully",
+                    employeeList
+                )
             )
         
     } 
@@ -250,10 +314,19 @@ const getAllClients = async(req, res) => {
         
         const clientList = await Client.find({adminEmail});
         
+        const passwordToken = process.env.CLIENT_PASSWORD_TOKEN;
+
         return res
             .status(200)
             .json(
-                new ApiResponse(200, "client list fetched successfully", clientList)
+                new ApiResponse(
+                    200, 
+                    "client list fetched successfully", 
+                    {
+                        clientList,
+                        passwordToken
+                    }
+                )
             )
         
     } 
@@ -269,10 +342,10 @@ const createTeams = asyncHandler(async (req, res) => {
     try {
 
         // accept the data from the body 
-
         console.log("req.body => ", req.body)
 
-       
+
+
         const {teamName, teamLead, projectId, employee, teamId} = req.body;
 
         // validate the data
@@ -289,15 +362,29 @@ const createTeams = asyncHandler(async (req, res) => {
             throw new ApiError(400, "Team already exists");
         }
 
+
+        /// find the team lead in Employee document
+        /// get the mongoDB id of the team lead
+
+
+        const teamLeadId = await Employee.findOne({employeeName: teamLead})
+
+        console.log("teamLeadId => ", teamLeadId)
+
+        
+        const employeeId = await Employee.findOne({employeeName: employee})
+
+        console.log("employeeId => ", employeeId)
+
         
 
         // create a entry in the database 
         
         const team = await Team.create({
             teamName,
-            teamLead,
+            teamLead: teamLeadId._id,
             projectId,
-            employee: employee,
+            employee: employeeId.id,
             teamId,
             admin: req.user._id
         })
@@ -325,12 +412,19 @@ const getAllTeams = async(req, res) => {
 
     try {
 
-        const team = await Team.find({});
+        
+        
+
+        const team = await Team.find({admin: req.user._id})
+
+
+
+
 
         return res
         .status(200)
         .json(
-            new ApiResponse(200, "Total teams fetched successfully", team)
+            new ApiResponse(200, "Total teams fetched successfully", {team})
         )
         
     } 
@@ -355,6 +449,7 @@ export {
     getAllClients,
     getAllTeams,
     createTeams,
-    logoutAdmin
+    logoutAdmin,
+    getAdmin
     
 }
