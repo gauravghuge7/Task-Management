@@ -17,6 +17,7 @@ import { addEmployee } from '../../redux/reducers'
 import ProjectList from '../CreateProject/ProjectList'
 import { addTeam } from '../../redux/team.reducer'
 import { addClient } from '../../redux/client.reducer'
+import CreateProjectForm from '../createcompony/CreateProjectForm'
 
 function Admindashboard() {
 
@@ -54,7 +55,7 @@ function Admindashboard() {
 
       if(response.data.success === true) {
 
-      dispatch(addTeam(response.data.data));
+      dispatch(addTeam(response.data.data.team));
       message.success('Team fetched successfully');
       }
   
@@ -83,6 +84,18 @@ function Admindashboard() {
     }
   }
 
+
+
+
+
+
+
+
+  /// for setting up the company to create the project
+
+
+  const [clientId, setClientId] = useState('');
+  const [clientName, setClientName] = useState('');
   
 
   useEffect(() => {
@@ -99,8 +112,8 @@ function Admindashboard() {
 
   return (
     <>
-    <AdminNavbar/>
-     
+    <AdminNavbar />
+
     
     <div className="d-flex">
     <Sidebar setValue={setValue} />
@@ -114,13 +127,26 @@ function Admindashboard() {
       { value === "createEmployee" && <NewEmployeeForm fetchEmployees={fetchEmployees}  /> }
       { value === "team" && <TeamList  setValue={setValue} /> }
       { value === "createteam" && <CreateTeamForm /> }
-      {value === "compony" && <CompanyList setValue={setValue} /> }
+
+
+      {value === "compony" && <CompanyList setValue={setValue} setClientId={setClientId} setClientName={setClientName} /> }
+
+
+
       { value === "createcompany" && <CreateCompany /> }
       {value === "assigntask" && <AssignTaskForm /> }
       { value === "task" && <TaskList setValue={setValue} /> }
       { value === "project" && <ProjectList setValue={setValue} /> }
+
+
+
+
+      { 
+        value === "addproject" && <CreateProjectForm setClientId={setClientId}  clientName={clientName} /> 
+      }
     
       </div>
+
     </div>
     
     

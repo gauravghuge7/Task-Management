@@ -40,8 +40,8 @@ const TeamList = ({ setValue}) => {
             console.log("response => ", response);
     
             if(response.data.success === true) {
-            setTeams(response.data.data);
-            message.success('Team fetched successfully');
+                setTeams(response.data.data.team);
+                message.success('Team fetched successfully');
             }
         
         } 

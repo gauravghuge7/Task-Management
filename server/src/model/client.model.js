@@ -32,7 +32,8 @@ const clientSchema = new Schema({
 
    clientPasswordToken: {
       type: String,
-   }
+   },
+   
 
 
 

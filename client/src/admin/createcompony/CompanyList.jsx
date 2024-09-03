@@ -3,7 +3,7 @@ import  { useEffect, useState } from 'react';
 import { Container, Row, Col, Table, Button } from 'react-bootstrap';
 import { message } from 'react-message-popup';
 
-const CompanyList = ({ setValue }) => {
+const CompanyList = ({ setValue, setClientId, setClientName }) => {
     
     const [companies, setCompanies] = useState([
         { 
@@ -30,6 +30,15 @@ const CompanyList = ({ setValue }) => {
         catch (error) {
             message.error(error.message);
         }
+    }
+
+    const setDetails = (clientId, clientName) => {
+
+        setValue("addproject");
+
+        setClientId(clientId);
+        setClientName(clientName);
+
     }
 
 
@@ -133,7 +142,7 @@ const CompanyList = ({ setValue }) => {
                                                 onMouseLeave={(e) =>
                                                     (e.target.style.backgroundColor = "#4CAF50")
                                                 }
-                                                onClick={() => setValue("addproject")}
+                                                onClick={() => setDetails(company._id, company.clientName)}
                                             >
                                                 Add Project
                                             </Button>

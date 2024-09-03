@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import axios from "axios";
-import {message } from "react-message-popup";
 
-const CreateProjectForm = () => {
+
+const CreateProjectForm = ({ clientId, clientName}) => {
    const [formData, setFormData] = useState({
       projectName: '',
       companyName: '',
@@ -29,7 +27,15 @@ const CreateProjectForm = () => {
 
    return (
       <div className="container mt-5">
-         <h2>Create Project</h2>
+         
+         <header className='flex gap-10'> 
+
+            <h2>Create Project</h2>
+
+            <h2> {clientName}</h2>
+
+         </header>
+
          <form onSubmit={handleSubmit}>
                <div className="mb-3">
                   <label htmlFor="projectName" className="form-label">Project Name</label>

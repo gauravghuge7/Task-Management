@@ -8,10 +8,34 @@ const projectSchema = new Schema({
       ref: 'Client',
    },
 
+   clientName: {
+      type: String,
+      required: true,
+   },
+
    projectId: {
       type: String,
       required: true,
    },
+
+
+   spokePersonEmail: {
+      type: String,
+      required: true,
+   },
+
+   spokePersonName: {
+      type: String,
+      required: true,
+   },
+
+
+   spokePersonNumber: {
+      type: Number,
+      required: true,
+   },
+
+
 
 
    projectName: {

@@ -7,6 +7,7 @@ import { Team } from "../model/team.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Employee } from "../model/employee.model.js";
 import { Client } from "../model/client.model.js";
+import mongoose from "mongoose";
 
     // _id is using the mongoose _id property
 const createAccessAndRefreshToken = async (_id) => {
@@ -181,6 +182,35 @@ const logoutAdmin = asyncHandler(async (req, res) => {
 })
 
 
+const getAdmin = async(req, res) => {
+    
+    const {adminEmail} = req.user;
+
+    if(!adminEmail) {
+        throw new ApiError(400, "Please provide the admin email");
+    }
+
+    try {
+
+        
+        const admin = await Admin.findById(req.user._id);
+        
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(200, "Admin fetched successfully", admin)
+            )
+
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+
+}
+
+
+
 const getTotalEmployees = async(req, res) => {
 
 
@@ -316,7 +346,6 @@ const createTeams = asyncHandler(async (req, res) => {
 
 
 
-       
         const {teamName, teamLead, projectId, employee, teamId} = req.body;
 
         // validate the data
@@ -355,7 +384,7 @@ const createTeams = asyncHandler(async (req, res) => {
             teamName,
             teamLead: teamLeadId._id,
             projectId,
-            employee: employeeId._id,
+            employee: employeeId.id,
             teamId,
             admin: req.user._id
         })
@@ -383,62 +412,10 @@ const getAllTeams = async(req, res) => {
 
     try {
 
-
-        const team = await Team.aggregate([
-
-            {
-                $match: {
-                    admin: req.user._id
-                }
-            },
-            {
-                $lookup: {
-                    from: "team",
-                    localField: "_id",
-                    foreignField: "teamLead",
-                    as: "teamLead"
-                },
-                pipeline: [
-                    {
-                        $match: {
-                            $expr: {
-                                $eq: ["$_id", "$$teamLead._id"]
-                            }
-                        }
-                    } 
-                ]
         
-            },
-            {
-                $lookup: {
-                    from: "team",
-                    localField: "_id",
-                    foreignField: "employee",
-                    as: "employee"
-                },
-                pipeline: [
-                    {
-                        $match: {
-                            _id: "employee"
-                        },
-                        
-                    }
-                ]
         
-            },
-            {
-                $project: {
-                    teamName: 1,
-                    employee: 1,
-                    teamLead: 1,
-                    teamId: 1,
-                    projectId: 1,
-                    admin: 1
-                }
-            }
 
-        ])
-
+        const team = await Team.find({admin: req.user._id})
 
 
 
@@ -447,7 +424,7 @@ const getAllTeams = async(req, res) => {
         return res
         .status(200)
         .json(
-            new ApiResponse(200, "Total teams fetched successfully", team)
+            new ApiResponse(200, "Total teams fetched successfully", {team})
         )
         
     } 
@@ -472,6 +449,7 @@ export {
     getAllClients,
     getAllTeams,
     createTeams,
-    logoutAdmin
+    logoutAdmin,
+    getAdmin
     
 }
