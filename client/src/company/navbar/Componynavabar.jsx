@@ -1,56 +1,48 @@
-
-import { Navbar, Button, Container, Dropdown, Form, Modal } from "react-bootstrap";
-import { FaUser } from 'react-icons/fa'; // Import the profile icon
+import React from 'react';
+import { Navbar, Nav, Button, Container, NavDropdown } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import { useEffect, useState } from 'react';
 
 
-function Componynavabar() {
-
+const Componynavabar = () => {  
+  
   const [client, setClient] = useState('');
   const navigate = useNavigate();
-  
   const onLogout = async () => {
-    try { 
+    
+    try {
       const response = await axios.post('/api/client/logout');  // this is the api call we are useing the axios
       console.log("response => ", response);  // this is the api call we are useing the axios
       if(response.data.success === true) {
         window.location.href = '/';
-        
 
+
+
+          
       }
-      
+
+
     } 
     catch (error) {
       console.log("error => ", error);
     }
-
-
-
-
-
-
-
-
-
-  
-
-
-
+  }
   return (
-    <div className="d-flex">
-      <Navbar bg="white" expand="lg" className="flex flex-row w-full h-20">
-        <Container className="flex flex-row justify-center align-items-center">
-          {/* Logo */}
-          <Navbar.Brand href="#" className="mb-3">
-            <img
-              src="../../../public/accets/GBIS.png"
-              alt="Logo"
-              style={{ width: "70%", height: "auto" }}
-            />
-          </Navbar.Brand>
+    <Navbar bg="light" variant="dark" expand="lg">
+      <Container>
+        <Navbar.Brand href="#home">
+          {/* Replace with your logo */}
+          <img
+            src="../../../public/accets/GBIS.png"
+            width="150"
+            height="150"
+            className="d-inline-block align-top"
+            alt="Logo"
+     
+          />
+        </Navbar.Brand>
 
-         
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
@@ -65,12 +57,8 @@ function Componynavabar() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      </Navbar>
-
-     
-     
-    </div>
+    </Navbar>
   );
-}
-}
-export default Componynavabar;
+};
+
+export default  Componynavabar;
