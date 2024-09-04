@@ -342,7 +342,7 @@ const createTeams = asyncHandler(async (req, res) => {
     try {
 
         // accept the data from the body 
-        console.log("req.body => ", req.body)
+        // console.log("req.body => ", req.body)
 
 
 
@@ -371,11 +371,19 @@ const createTeams = asyncHandler(async (req, res) => {
 
         console.log("teamLeadId => ", teamLeadId)
 
+        if(!teamLeadId) {
+            throw new ApiError(400, "Team lead does not exist");
+        }
+
         
-        const employeeId = await Employee.findOne({employeeName: employee})
+        const employeeId = await Employee.find({employeeName: employee})
 
         console.log("employeeId => ", employeeId)
 
+        if(!employeeId) {
+            throw new ApiError(400, "Employee does not exist");
+        }
+        
         
 
         // create a entry in the database 
@@ -384,7 +392,7 @@ const createTeams = asyncHandler(async (req, res) => {
             teamName,
             teamLead: teamLeadId._id,
             projectId,
-            employee: employeeId.id,
+            employee: employeeId.filter(data => data._id),
             teamId,
             admin: req.user._id
         })
@@ -412,19 +420,90 @@ const getAllTeams = async(req, res) => {
 
     try {
 
-        
-        
 
-        const team = await Team.find({admin: req.user._id})
+        const team = await Team.aggregate([
+
+            {
+                $match: {
+                    admin: new mongoose.Types.ObjectId(req.user._id)
+                }
+            },
+
+            {
+                $lookup: {
+                    from: "employees",
+                    localField: "teamLead",
+                    foreignField: "_id",
+                    as: "teamLead",
+                }
+            },
+
+            {
+                $lookup: {
+                    from: "employees",
+                    localField: "employee",
+                    foreignField: "_id",
+                    as: "employees",
+
+                }
+            },
+
+            
+
+                 // Preserve the entire teamLead array as is
+            {
+                $unwind: {
+                    path: "$teamLead",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+
+            // $addFields to include the teamLeadName and employees array
+            {
+                $addFields: {
+                    teamLead: "$teamLead.employeeName",
+                    employee: "$employees.employeeName",
+                    teamLeadEmail: "$teamLead.employeeEmail",
+                    employeesEmail: "$employees.employeeEmail"
+
+                }
+            },
+
+            {
+                $project: {
+                    teamName: 1,
+                    teamId: 1,
+                    
+                    teamLeadEmail: 1,
+                    employeesEmail: 1,
+                    teamLead: 1,
+                    employee: 1,
+                    
+                }
+            }
+
+        ])
 
 
+        const teamList = await Team.find({admin: req.user._id}).populate("employee")
 
+        // console.log("teamList => ", teamList);
+
+        teamList.map(data => {
+            console.log(data.employee);
+        }) 
 
 
         return res
         .status(200)
         .json(
-            new ApiResponse(200, "Total teams fetched successfully", {team})
+            new ApiResponse(
+                200, 
+                "Total teams fetched successfully", 
+                {
+                    team
+                }
+            )
         )
         
     } 
@@ -438,6 +517,33 @@ const getAllTeams = async(req, res) => {
 
 }
 
+
+const createProject = asyncHandler(async (req, res) => {
+
+    try {
+
+        // get the data from the body
+        const { 
+            
+            projectName,
+            description,
+            spokePersonNumber,
+            spokePersonName,
+            spokePersonEmail, 
+            team, 
+            clientName, 
+            client, 
+            projectId 
+
+        } = req.body;
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+
+})
 
 
 
