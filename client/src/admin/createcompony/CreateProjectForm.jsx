@@ -70,7 +70,7 @@ const CreateProjectForm = ({ clientId, clientName}) => {
                      className="form-control"
                      id="companyName"
                      name="companyName"
-                     value={formData.companyName}
+                     value={clientName}
                      onChange={handleChange}
                      required
                   />

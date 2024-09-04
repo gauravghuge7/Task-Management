@@ -13,6 +13,11 @@ const projectSchema = new Schema({
       required: true,
    },
 
+   client: {
+      type: Schema.Types.ObjectId,
+      ref: 'Client',
+   },
+
    projectId: {
       type: String,
       required: true,
