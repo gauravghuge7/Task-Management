@@ -342,7 +342,7 @@ const createTeams = asyncHandler(async (req, res) => {
     try {
 
         // accept the data from the body 
-        console.log("req.body => ", req.body)
+        // console.log("req.body => ", req.body)
 
 
 
@@ -371,11 +371,18 @@ const createTeams = asyncHandler(async (req, res) => {
 
         console.log("teamLeadId => ", teamLeadId)
 
+        if(!teamLeadId) {
+            throw new ApiError(400, "Team lead does not exist");
+        }
+
         
         const employeeId = await Employee.find({employeeName: employee})
 
         console.log("employeeId => ", employeeId)
 
+        if(!employeeId) {
+            throw new ApiError(400, "Employee does not exist");
+        }
         
         
 
@@ -385,7 +392,7 @@ const createTeams = asyncHandler(async (req, res) => {
             teamName,
             teamLead: teamLeadId._id,
             projectId,
-            employee: employeeId.map(data => data._id),
+            employee: employeeId.filter(data => data._id),
             teamId,
             admin: req.user._id
         })
@@ -454,8 +461,8 @@ const getAllTeams = async(req, res) => {
             // $addFields to include the teamLeadName and employees array
             {
                 $addFields: {
-                    teamLeadName: "$teamLead.employeeName",
-                    employees: "$employees.employeeName",
+                    teamLead: "$teamLead.employeeName",
+                    employee: "$employees.employeeName",
                     teamLeadEmail: "$teamLead.employeeEmail",
                     employeesEmail: "$employees.employeeEmail"
 
@@ -469,8 +476,8 @@ const getAllTeams = async(req, res) => {
                     
                     teamLeadEmail: 1,
                     employeesEmail: 1,
-                    teamLeadName: 1,
-                    employees: 1,
+                    teamLead: 1,
+                    employee: 1,
                     
                 }
             }
@@ -510,6 +517,33 @@ const getAllTeams = async(req, res) => {
 
 }
 
+
+const createProject = asyncHandler(async (req, res) => {
+
+    try {
+
+        // get the data from the body
+        const { 
+            
+            projectName,
+            description,
+            spokePersonNumber,
+            spokePersonName,
+            spokePersonEmail, 
+            team, 
+            clientName, 
+            client, 
+            projectId 
+
+        } = req.body;
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+
+})
 
 
 
