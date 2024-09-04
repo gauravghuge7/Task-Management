@@ -1,4 +1,10 @@
-import { useState } from 'react';
+import { useState , useRef} from 'react';
+import JoditEditor from 'jodit-react';
+
+
+
+  
+
 
 
 const CreateProjectForm = ({ clientId, clientName}) => {
@@ -10,6 +16,14 @@ const CreateProjectForm = ({ clientId, clientName}) => {
       spokePersonNumber: '',
       description: '',
    });
+
+   const editor = useRef(null);
+   const [content, setContent] = useState('');
+   const config = {
+      readonly: false,
+      placeholder: 'Start typing your description...',
+  };
+
 
    const handleChange = (e) => {
       const { name, value } = e.target;
@@ -99,15 +113,16 @@ const CreateProjectForm = ({ clientId, clientName}) => {
                </div>
                <div className="mb-3">
                   <label htmlFor="description" className="form-label">Project Description</label>
-                  <textarea
-                     className="form-control"
-                     id="description"
-                     name="description"
-                     rows="3"
-                     value={formData.description}
-                     onChange={handleChange}
-                     required
-                  ></textarea>
+                
+                                   
+                                    <JoditEditor
+                                        ref={editor}
+                                        value={content}
+                                        config={config}
+                                        onChange={newContent => setContent(newContent)}
+
+                                    /> 
+                           
                </div>
                <button type="submit" className="btn btn-primary">Submit</button>
          </form>

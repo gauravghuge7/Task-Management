@@ -257,6 +257,6 @@ export {
     loginClient,
     createProject,
     fetchProjects,
-    logoutClient
+    logoutClient,
     
 }

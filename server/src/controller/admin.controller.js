@@ -415,7 +415,22 @@ const getAllTeams = async(req, res) => {
         
         
 
-        const team = await Team.find({admin: req.user._id})
+        const team = await Admin.aggregate([
+            {
+                $match: {
+                    _id: req.user._id
+                }
+            },
+
+            {
+                $lookup: {
+                    from: "teams",
+                    localField: "_id",
+                    foreignField: "admin",
+                    as: "teams"
+                }
+            }
+        ])
 
 
 
