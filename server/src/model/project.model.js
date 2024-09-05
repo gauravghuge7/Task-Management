@@ -8,6 +8,11 @@ const projectSchema = new Schema({
       ref: 'Client',
    },
 
+   admin: {
+      type: Schema.Types.ObjectId,
+      ref: 'Admin',
+   },
+
    clientName: {
       type: String,
       required: true,

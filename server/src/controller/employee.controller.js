@@ -1,4 +1,5 @@
 import { Employee } from "../model/employee.model.js";
+import { Team } from "../model/team.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -189,20 +190,9 @@ const getEmployeeDetails = async(req, res) => {
     try {
         // accept the data from frontend  that this we are using the try catch block
         
-        const { employeeAccessToken } = req.cookies;
+        const {_id} = req.user;
         
-        if(!employeeAccessToken) {
-            throw new ApiError(400, "Please provide the employee access token");
-        }
-        
-        // validate the data 
-        if(!employeeAccessToken) {
-            throw new ApiError(400, "Please provide the employee access token");    
-        }
-        
-        // find the entry in the database
-        
-        const employee = await Employee.findOne({ employeeAccessToken })
+        const employee = await Employee.findById(_id);
         
         if(!employee) {
             throw new ApiError(400, "Employee does not exist");
@@ -212,7 +202,7 @@ const getEmployeeDetails = async(req, res) => {
         return res
             .status(200)
             .json(
-                new ApiResponse(200, "Employee logged in successfully", employee)
+                new ApiResponse(200, "Employee Details fetched successfully", employee)
             )
         
     } 
@@ -279,6 +269,58 @@ const employeelogout = asyncHandler(async(req, res) => {
     }
     
 })
+
+
+const getTeamLeadOrNot = asyncHandler(async(req, res) => {
+
+    try {
+
+        const {_id} = req.user;
+        
+        if(!_id) {
+            throw new ApiError(400, "Please provide the employee email");
+        }
+        
+        
+        // find the entry in the database
+        
+        const employee = await Employee.findById(_id);
+        
+        if(!employee) {
+            throw new ApiError(400, "Employee does not exist");
+        }
+
+        // find the entry in a team as the teamLead
+        
+        const teamLead = await Team.find({employee: employee._id})
+        
+        if(teamLead.length === 0) {
+            
+            return res
+                .status(200)
+                .json(
+                    new ApiResponse(200, "Employee Projects fetched successfully", [])
+                )
+        }
+        
+        // return the response 
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(200, "Employee Projects fetched successfully", teamLead)
+            )
+
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+
+})
+
+
+
 
 
 

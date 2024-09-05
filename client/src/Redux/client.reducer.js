@@ -7,7 +7,15 @@ const initialState = {
       clientEmail: "",
       clientPassword: "",
       admin: ""
-   }]
+   }],
+
+   clientDetails: {
+      id: 0,
+      clientName: "",
+      clientEmail: "",
+      clientPassword: "",
+      admin: ""
+   }
 
 }
 
@@ -21,6 +29,10 @@ const clientSlice = createSlice({
       addClient: (state, action) => {
          
          state.client = action.payload;
+      },
+      addClientDetails: (state, action) => {
+         
+         state.clientDetails = action.payload;
       }
 
    }

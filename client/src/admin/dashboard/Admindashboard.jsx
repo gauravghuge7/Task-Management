@@ -142,7 +142,7 @@ function Admindashboard() {
 
 
       { 
-        value === "addproject" && <CreateProjectForm setClientId={setClientId}  clientName={clientName} /> 
+        value === "addproject" && <CreateProjectForm clientId={clientId}  clientName={clientName} /> 
       }
     
       </div>

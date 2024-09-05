@@ -12,6 +12,44 @@ const initialState = {
             
       }],
 
+
+      employeeDetails: {
+            id: 0,
+            firstName: "",
+            lastName: "",
+            email: "",
+            designation: "",
+            projects: [{
+                  projectName: "",
+                  description: "",
+                  spokePersonName: "",
+                  spokePersonEmail: "",
+                  spokePersonNumber: "",
+                  teamLead: "",
+                  team: [{
+                        teamName: "",
+                        teamLead: "",
+                        employee: [{
+                              id: 0,
+                              firstName: "",
+                              lastName: "",
+                              email: "",
+                              designation: "",
+                        }]
+                  }]
+            }],
+            tasks: [{
+                  id: 0,
+                  taskName: "",
+                  description: "",
+                  date: "",
+                  time: "",
+                  status: "",
+                  assignedTo: "",
+                  projectId: "",
+            }]
+      }
+
       
 
 }
@@ -25,9 +63,13 @@ const employeeSlice = createSlice({
 
             addEmployee: (state, action ) => {
                   state.employee = action.payload;
+            },
+
+            addEmployeeDetails: (state, action ) => {
+                  state.employeeDetails = action.payload;
             }
             
-      } 
+      }
 
 })
 
