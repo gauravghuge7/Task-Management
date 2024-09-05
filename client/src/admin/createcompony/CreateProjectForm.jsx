@@ -19,28 +19,15 @@ const CreateProjectForm = ({ clientId, clientName}) => {
       projectId: ""
    });
 
-   
-
-   const document = new FormData();
-
-   
+   const data = new FormData();
 
 
    // get data from the redux store
-
    const teams = useSelector(state => state.teamReducer.team);
 
    console.log("teams => ", teams);
 
 
-   const editor = useRef(null);
-
-   const [content, setContent] = useState('');
-
-   const config = {
-      readonly: false,
-      placeholder: 'Start typing your description...',
-   };
 
 
    const handleChange = (e) => {
@@ -55,15 +42,21 @@ const CreateProjectForm = ({ clientId, clientName}) => {
       e.preventDefault();
 
 
-      document.append("projectName", formData.projectName);
-      document.append("spokePersonNumber", formData.spokePersonNumber);
-      document.append("spokePersonName", formData.spokePersonName);
-      document.append("spokePersonEmail", formData.spokePersonEmail);
-      document.append("team", formData.team);
-      document.append("clientName", clientName);
-      document.append("client", clientId);
-      document.append("projectId", formData.projectId);
-      
+      console.log("formData => ", data);
+
+
+      data.append("projectName", formData.projectName);
+      data.append("spokePersonNumber", formData.spokePersonNumber);
+      data.append("spokePersonName", formData.spokePersonName);
+      data.append("spokePersonEmail", formData.spokePersonEmail);
+      data.append("team", formData.team);
+      data.append("clientName", clientName);
+      data.append("client", clientId);
+      data.append("projectId", formData.projectId);
+
+      console.log("formData => ", data);
+
+
 
       const config = {
          headers: {
@@ -73,7 +66,7 @@ const CreateProjectForm = ({ clientId, clientName}) => {
       }
 
 
-      const response = await axios.post("/api/admin/project", document, config);
+      const response = await axios.post("/api/admin/project", data, config);
       
       console.log("response => ", response);
 
@@ -209,10 +202,31 @@ const CreateProjectForm = ({ clientId, clientName}) => {
 
             <div>
 
-               <CreatePresentation document={document} />
+               <section>
+                  <label> Project Description </label>
+                  <textarea 
+                     cols="50" 
+                     className='w-full border p-2 mb-4'
+                     placeholder="Add text to the slide"
+                     value={formData.description}
+                     onChange={handleChange}
+                  >
+                  </textarea>
+               </section>
+
+               <div>
+                  <label> Select Document </label>
+                  <br/>
+                  <input 
+                     type="file"
+                     onChange={(e) => data.append("document",e.target.files[0])} 
+                  />
+                  <br/>
+               </div>
 
             </div>
 
+            <br/>
             
             
 

@@ -9,6 +9,7 @@ import { Employee } from "../model/employee.model.js";
 import { Client } from "../model/client.model.js";
 import mongoose from "mongoose";
 import { Project } from "../model/project.model.js";
+import { uploadOnCloudinary } from "../helper/cloudinary.js";
 
     // _id is using the mongoose _id property
 const createAccessAndRefreshToken = async (_id) => {
@@ -527,14 +528,16 @@ const createProject = asyncHandler(async (req, res) => {
         const { 
             
             projectName,
-            description,
+            projectId,
+
             spokePersonNumber,
             spokePersonName,
             spokePersonEmail, 
             team, 
+
             clientName,
             client, 
-            projectId,
+           
             admin
 
         } = req.body;
@@ -542,7 +545,7 @@ const createProject = asyncHandler(async (req, res) => {
         console.log("req.body => ", req.body)
 
 
-        if(!projectName || !description || !spokePersonNumber || !spokePersonName || !spokePersonEmail || !team || !clientName || !client || !projectId) {
+        if(!projectName || !spokePersonNumber || !spokePersonName || !spokePersonEmail || !team || !clientName || !client || !projectId) {
             throw new ApiError(400, "Please provide all the required fields");
         }
 
@@ -555,12 +558,22 @@ const createProject = asyncHandler(async (req, res) => {
             throw new ApiError(400, "Project already exists");
         }
 
+        console.log("req.file => ", req.file)
+        console.log("req.files => ", req.files)
+
+
+        // upload a description on cloudinary
+
+        const response = await uploadOnCloudinary(req.file.path);
+        
+
+
 
         // create a entry in the database 
         
         const project = await Project.create({
             projectName,
-            description,
+            description: response.url,
             spokePersonNumber,
             spokePersonName,
             spokePersonEmail,

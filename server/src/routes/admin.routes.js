@@ -80,7 +80,7 @@ adminRouter.route("/getAllTeams").get(
 adminRouter.route("/project")
 .post(
     verifyAdmin,
-    upload.none(),
+    upload.single("document"),
     createProject
 )
 .get(

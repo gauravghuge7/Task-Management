@@ -68,6 +68,11 @@ const projectSchema = new Schema({
       required: true,
    },
 
+   descriptionDocument: {
+      type: String,
+      required: true,
+   },
+
 
 }, {timestamps: true});
 

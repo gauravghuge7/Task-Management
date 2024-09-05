@@ -7,12 +7,16 @@ import Employeecontain from './Employeecontain'
 import Task from '../task/Task'
 import axios from 'axios'
 import { message } from 'react-message-popup'
+import LeadProjects from '../TeamLead/LeadProjects'
+import EmpProjects from '../EmployeeProjects/EmpProjects'
 
 function Employeedashboard() {
 
   const [conditionalComponent, setConditionalComponent] = useState("");
 
-  const [isTeamLead, setIsTeamLead] = useState(false);
+
+  
+
 
   const getEmployeeDetails = async() => {
     try {
@@ -21,6 +25,8 @@ function Employeedashboard() {
 
       if(response.data.success === true) {
         message.success(response.data.message);
+
+
       }
       
     
@@ -44,7 +50,7 @@ function Employeedashboard() {
 
     <div className="d-flex">
 
-      <EmployeeSidebar setConditionalComponent={setConditionalComponent} isTeamLead={isTeamLead} />
+      <EmployeeSidebar setConditionalComponent={setConditionalComponent} />
         
         
       <div className="flex-grow-1 p-3">
@@ -52,6 +58,9 @@ function Employeedashboard() {
         {conditionalComponent === "TaskList" && <Task />}
         {conditionalComponent === "" && <Employeecontain/>}
         {conditionalComponent === "Contain" && <Employeecontain/>}
+
+        {conditionalComponent === "teamLead" && <LeadProjects/>}
+        {conditionalComponent === "projects" && <EmpProjects/>}
 
         
 
