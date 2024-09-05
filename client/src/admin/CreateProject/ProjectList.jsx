@@ -1,37 +1,65 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import EditProjectForm from './EditProjectForm';
+import axios from 'axios';
+import {message} from "react-message-popup"
 
 const ProjectList = () => {
    const [isEditing, setIsEditing] = useState(false);
    const [projectData, setProjectData] = useState([
       {
          projectName: 'Example Project',
-         companyName: 'Example Company',
+         clientName: 'Example Company',
          spokePersonEmail: 'example@example.com',
          spokePersonName: 'John Doe',
          spokePersonNumber: '123-456-7890',
          description: 'This is an example project description.',
-         teamLead: 'John Doe',
+         team: ['John Doe'],
       },
-      {
-         projectName: 'Example Project',
-         companyName: 'Example Company',
-         spokePersonEmail: 'example@example.com',
-         spokePersonName: 'John Doe',
-         spokePersonNumber: '123-456-7890',
-         description: 'This is an example project description.',
-         teamLead: 'John Doe',
-      },
-      {
-         projectName: 'Example Project',
-         companyName: 'Example Company',
-         spokePersonEmail: 'example@example.com',
-         spokePersonName: 'John Doe',
-         spokePersonNumber: '123-456-7890',
-         description: 'This is an example project description.',
-         teamLead: 'John Doe',
-      },
+
    ]);
+
+
+
+   const getAllProjects = async() => {
+
+      try {
+         
+         const config = {
+            headers: {
+               'Content-Type': 'application/json',
+            },
+         }
+
+
+         const response = await axios.get("/api/admin/project", config);
+
+         console.log("response => ", response);
+
+         if(response.data.success === true) {
+            message.success(response.data.message);
+            setProjectData(response?.data?.data?.project);
+         }
+
+      } 
+      catch (error) {
+         console.log(error);
+         message.error(error?.message)   
+      }
+   }
+
+
+
+
+   useEffect(() => {
+      getAllProjects();
+   }, []);
+
+
+
+
+
+
+
 
    const handleEdit = () => {
       setIsEditing(true);
@@ -72,11 +100,13 @@ const ProjectList = () => {
                   projectData.map((data, index) => (
                      <tr key={index}>
                         <td>{data.projectName}</td>
-                        <td>{data.companyName}</td>
+                        <td>{data.clientName}</td>
                         <td>{data.spokePersonEmail}</td>
                         <td>{data.spokePersonName}</td>
                         <td>{data.spokePersonNumber}</td>
-                        <td>{data.teamLead}</td>
+
+                        <td>{data.team?.map(data => data.teamLead)}</td>
+                        
                         <td>{data.description}</td>
                         <td>
                            <button className="btn btn-primary me-2" onClick={handleEdit}>Edit</button>

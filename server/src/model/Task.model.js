@@ -17,6 +17,11 @@ const taskSchema = new Schema({
       ref: "Employee"
    },
 
+   previousEmployee: [{
+      type: Schema.Types.ObjectId,
+      ref: "Employee"
+   }],
+
 
    projectId: {
       type: String,

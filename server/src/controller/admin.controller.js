@@ -8,6 +8,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { Employee } from "../model/employee.model.js";
 import { Client } from "../model/client.model.js";
 import mongoose from "mongoose";
+import { Project } from "../model/project.model.js";
 
     // _id is using the mongoose _id property
 const createAccessAndRefreshToken = async (_id) => {
@@ -531,11 +532,54 @@ const createProject = asyncHandler(async (req, res) => {
             spokePersonName,
             spokePersonEmail, 
             team, 
-            clientName, 
+            clientName,
             client, 
-            projectId 
+            projectId,
+            admin
 
         } = req.body;
+
+        console.log("req.body => ", req.body)
+
+
+        if(!projectName || !description || !spokePersonNumber || !spokePersonName || !spokePersonEmail || !team || !clientName || !client || !projectId) {
+            throw new ApiError(400, "Please provide all the required fields");
+        }
+
+        
+        // check if the project already exists
+        
+        const existedProject = await Project.findOne({ projectId })
+        
+        if(existedProject) {
+            throw new ApiError(400, "Project already exists");
+        }
+
+
+        // create a entry in the database 
+        
+        const project = await Project.create({
+            projectName,
+            description,
+            spokePersonNumber,
+            spokePersonName,
+            spokePersonEmail,
+            team,
+            clientName,
+            client,
+            projectId,
+            admin: req?.user?._id
+
+        })
+
+        await project.save();
+
+        return res  
+            .status(200)
+            .json(
+                new ApiResponse(200, "Project created successfully", project)
+            )
+
         
     } 
     catch (error) {
@@ -544,6 +588,108 @@ const createProject = asyncHandler(async (req, res) => {
     }
 
 })
+
+
+
+const getAllProjects = asyncHandler(async(req, res) => {
+
+    try {
+    
+
+        const project = await Project.aggregate([
+
+            {
+                $match: {
+                    admin: new mongoose.Types.ObjectId(req.user._id)
+                }
+            },
+
+            {
+                $lookup: {
+                    from: "teams",
+                    localField: "team",
+                    foreignField: "_id",
+                    as: "team",
+
+                    pipeline: [
+                        {
+                            $lookup: {
+                                from: "employees",
+                                localField: "teamLead",
+                                foreignField: "_id",
+                                as: "teamLead",
+                            },
+
+                        },
+
+                        {
+                            $addFields: {
+                                teamLead: "$teamLead.employeeName", 
+                                teamLeadEmail: "$teamLead.employeeEmail",
+                            }
+                        }
+                    ]
+                }
+            },
+
+            {
+                $addFields: {
+                    teamLead: "$teamLead.employeeName",
+                    teamLeadEmail: "$teamLead.employeeEmail",
+                }
+            },
+         
+
+            {
+                $project: {
+
+                    admin: 1,
+
+                    projectName: 1,
+                    projectId: 1,
+                    description: 1,
+
+
+                    clientName: 1,
+                    client: 1,
+                    spokePersonNumber: 1,
+                    spokePersonName: 1,
+                    spokePersonEmail: 1,
+
+
+                    team: 1,
+                    teamLead: 1,
+                    teamLeadEmail: 1,
+                }
+            }
+        ])
+
+
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(
+                    200, 
+                    "Total projects fetched successfully", 
+                    {
+                        project
+                    }
+                )
+            )
+
+        
+    } 
+    catch (error) {
+        
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+
+})
+
+
+
+
 
 
 
@@ -556,6 +702,11 @@ export {
     getAllTeams,
     createTeams,
     logoutAdmin,
-    getAdmin
+    getAdmin,
+
+
+    // project routes 
+    createProject,
+    getAllProjects,
     
 }
