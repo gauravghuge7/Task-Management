@@ -1,14 +1,59 @@
+
+
+import { Navbar, Button, Container, Dropdown, Form, Modal, Nav } from "react-bootstrap";
+import { FaUser } from 'react-icons/fa'; // Import the profile icon
+
 import React from 'react';
 import { Navbar, Nav, Button, Container, NavDropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios'
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 const Componynavabar = () => {  
   
   const [client, setClient] = useState('');
+
   const navigate = useNavigate();
+
+
+
+
+  const getClient = async () => {
+
+    try {
+      const response = await axios.get("http://localhost:8080/client/getClient");
+
+
+      console.log(response.data);
+      
+    } 
+    catch (error) {
+      console.log(error);
+    }
+
+  };
+
+
+  
+  const onLogout = async () => {
+
+    try {
+      const response = await axios.post("/api/client/logout");
+      
+
+
+      console.log(response.data);
+
+
+
+
+      if(response.data.success){
+        navigate("/");
+      }
+
   const onLogout = async () => {
     
     try {
@@ -23,11 +68,30 @@ const Componynavabar = () => {
       }
 
 
+
     } 
     catch (error) {
-      console.log("error => ", error);
+      console.log(error);  
     }
   }
+
+    
+
+
+
+
+
+  useEffect(() => {
+    getClient();
+  }, []);
+
+
+
+
+  
+
+
+
   return (
     <Navbar bg="light" variant="dark" expand="lg">
       <Container>
@@ -43,6 +107,9 @@ const Componynavabar = () => {
           />
         </Navbar.Brand>
 
+
+        
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
@@ -57,8 +124,19 @@ const Componynavabar = () => {
           </Nav>
         </Navbar.Collapse>
       </Container>
+
+      </Navbar>
+
+
+    </div>
+  );
+}
+
+export default Componynavabar;
+
     </Navbar>
   );
 };
 
 export default  Componynavabar;
+

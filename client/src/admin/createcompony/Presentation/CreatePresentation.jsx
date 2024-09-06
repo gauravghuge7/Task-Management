@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import  { useState, useRef, useEffect } from 'react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
-const CreatePresentation = ({document}) => {
+const CreatePresentation = ({data}) => {
     const [slides, setSlides] = useState([
         { text: '', image: '', drawing: null }
     ]);
@@ -77,7 +77,7 @@ const CreatePresentation = ({document}) => {
 
         setPdfUrl(pdfUrl);
 
-        document.append('file', new Blob([pdfUrl], { type: 'application/pdf' }), 'presentation.pdf');
+        data.append('document', pdfBlob);
     };
 
     const generatePDFDownload = async () => {
@@ -93,7 +93,6 @@ const CreatePresentation = ({document}) => {
         const pdfUrl = URL.createObjectURL(pdfBlob);
         setPdfUrl(pdfUrl);
 
-        setPresentation(pdfUrl)
     };
 
     return (
@@ -134,7 +133,7 @@ const CreatePresentation = ({document}) => {
                 <input type="file" onChange={handleImageChange} className="mb-4" />
                 {slides[currentSlide].image && (
                 <div className='flex flex-wrap justify-center'>
-                    <img src={slides[currentSlide].image} alt="slide" className="w-[12rem] mb-4" />
+                    <img src={slides[currentSlide].image} alt="slide" className="w-[16rem] mb-4" />
                 </div>
                 )}
             </div>
@@ -148,7 +147,7 @@ const CreatePresentation = ({document}) => {
             <iframe
                 src={pdfUrl}
                 width="800px"
-                height="400px"
+                height="600px"
                 className="border"
                 title="PDF Preview"
             />

@@ -8,7 +8,7 @@ const verifyClient = async (req, res, next) => {
 
       if(!clientAccessToken) {
          return res.status(401).json({
-            message: 'unauthorized employee '
+            message: 'unauthorized client'
          })
       }
 
