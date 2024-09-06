@@ -46,6 +46,11 @@ const projectSchema = new Schema({
    },
 
 
+   changes: [{
+      type: Schema.Types.ObjectId,
+      ref: "Ticket"
+   }],
+ 
 
 
    projectName: {
@@ -64,6 +69,11 @@ const projectSchema = new Schema({
    },
 
    description: {
+      type: String,
+      required: true,
+   },
+
+   descriptionDocument: {
       type: String,
       required: true,
    },

@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import EditProjectForm from './EditProjectForm';
 import Projectform from './Projectform';
+import axios from 'axios';
 
 const Projectlist = () => {
    const [isEditing, setIsEditing] = useState(false);
+
    const [projectData, setProjectData] = useState([
       {
          projectName: 'Example Project',
@@ -23,15 +25,30 @@ const Projectlist = () => {
       
    };
 
-  //  const handleDelete = () => {
-  //     // Handle delete logic here (e.g., API call)
-  //     console.log('Project deleted');
-  //  };
+
+   const getProjects = async () => {
+      try {
+         const response = await axios.get('/api/client/fetchProjects');
+         console.log(response.data);
+
+ 
+      } 
+      catch (error) {
+         console.log(error);
+      }
+   };
+
+   useEffect(() => {
+      getProjects();
+   }, []);
+
+
 
    const handleSave = (updatedData) => {
       setProjectData(updatedData);
       setIsEditing(false);
    };
+
 
    if (isEditing) {
       return <EditProjectForm projectData={projectData} onSave={handleSave} />;

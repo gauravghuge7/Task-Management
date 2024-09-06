@@ -1,8 +1,10 @@
 import { Employee } from "../model/employee.model.js";
+import { Project } from "../model/project.model.js";
 import { Team } from "../model/team.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import mongoose from "mongoose";
 import bcrypt from 'bcrypt'
 
 
@@ -299,7 +301,7 @@ const getTeamLeadOrNot = asyncHandler(async(req, res) => {
             return res
                 .status(200)
                 .json(
-                    new ApiResponse(200, "Employee Projects fetched successfully", [])
+                    new ApiResponse(200, "Employee Teams fetched successfully", [])
                 )
         }
         
@@ -320,6 +322,155 @@ const getTeamLeadOrNot = asyncHandler(async(req, res) => {
 })
 
 
+const getTeamLeadProjects = asyncHandler(async(req, res) => {
+
+    const { teamLead } = req.body;
+
+    console.log("req.body => ", req.body)
+
+
+
+    try {
+
+        const projects = await Team.aggregate([
+            {
+                $match: {
+                    teamLead: new mongoose.Types.ObjectId(req.user._id)
+                }
+            },
+            {
+                $lookup: {
+                    from: "projects",
+                    localField: "_id",
+                    foreignField: "team",
+                    as: "project",
+                }
+
+            },
+            {
+                $addFields: {
+                    project: "$project"
+                }
+            },
+            {
+                $project: {
+                    project: 1,
+                }
+            }
+        ])
+
+
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(200, "Team Lead Projects fetched successfully", projects)
+            )
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+
+})
+
+
+
+const getEmployeeProjects = asyncHandler(async(req, res) => {
+    
+    try {
+
+        const {_id} = req.user;
+
+        if(!_id) {
+            throw new ApiError(400, "Please provide the employee email");
+        }
+
+        const employee = await Employee.findById(_id);
+
+        if(!employee) {
+            throw new ApiError(400, "Employee does not exist");
+        }
+
+        // find the entry in a team as the teamLead
+        
+        // const teams = await Team.find({employee: employee._id})
+        
+
+        // const projects = await Project.aggregate([
+
+        //     {
+        //         $match: {
+        //             team: teams.map(data => new mongoose.Types.ObjectId(data._id))
+        //         }
+        //     },
+
+        // ])
+        
+
+
+
+        /// alter method for above code 
+
+
+        const projects = await Team.aggregate([
+
+            {
+                $match: {
+                    employee: new mongoose.Types.ObjectId(employee._id)
+                }
+            },
+            {
+                $lookup: {
+                    from: "projects",
+                    localField: "_id",
+                    foreignField: "team",
+                    as: "project",
+
+                    pipeline: [
+                        {
+                            $lookup: {
+                                from: "teams",
+                                localField: "team",
+                                foreignField: "_id",
+                                as: "team",
+                            }
+                        },
+                        {
+                            $addFields: {
+                                team: "$team.teamName",
+                                teamId: "$team._id",
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $addFields: {
+                    project: "$project"
+                }
+            },
+            {
+                $project: {
+                    project: 1,
+                }
+            }
+        ])
+
+
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(200, "Employee Projects fetched successfully", projects)
+            )
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+})
+
 
 
 
@@ -331,6 +482,11 @@ export {
     loginEmployee,
     logoutEmployee,
     getEmployeeDetails,
-    getEmployeePassword
+    getEmployeePassword,
+    getEmployeeProjects,
+
+
+    getTeamLeadOrNot,
+    getTeamLeadProjects
 
 }
