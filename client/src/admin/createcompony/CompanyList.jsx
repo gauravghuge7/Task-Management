@@ -1,12 +1,52 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import  { useEffect, useState } from 'react';
 import { Container, Row, Col, Table, Button } from 'react-bootstrap';
+import { message } from 'react-message-popup';
 
-const CompanyList = ({ setValue }) => {
+const CompanyList = ({ setValue, setClientId, setClientName }) => {
+    
     const [companies, setCompanies] = useState([
-        { name: 'Company 1', email: 'company1@gmail.com', password: 'password123' },
-        { name: 'Company 2', email: 'company2@gmail.com', password: 'password456' },
-        { name: 'Company 3', email: 'company3@gmail.com', password: 'password789' },
+        { 
+            clientName: 'Company 1', 
+            clientEmail: 'company1@gmail.com', 
+            clientPassword: 'clientPassword123'
+        },
+        
     ]);
+
+
+    const fetchCompanies = async () => {
+        try {
+            
+            const response = await axios.get("/api/admin/getAllClients")      // this is the api call we are useing the axios 
+
+
+            if(response.data.success){
+                message.success(response.data.message);
+                setCompanies(response.data.data.clientList);
+            }
+
+        } 
+        catch (error) {
+            message.error(error.message);
+        }
+    }
+
+    const setDetails = (clientId, clientName) => {
+
+        setValue("addproject");
+
+        setClientId(clientId);
+        setClientName(clientName);
+
+    }
+
+
+
+    useEffect(() => {
+        fetchCompanies();
+    },[1])
+
 
     return (
         <Container
@@ -28,7 +68,7 @@ const CompanyList = ({ setValue }) => {
                     marginBottom: "25px",
                 }}
             >
-                <h2 style={{ margin: 0, color: "#333" }}>Companies List</h2>
+                <h2 style={{ margin: 0, color: "#333" }}>Client List</h2>
                 <Button
                     style={{
                         backgroundColor: "#4CAF50",
@@ -72,18 +112,42 @@ const CompanyList = ({ setValue }) => {
                             >
                                 <tr>
                                     <th>#</th>
-                                    <th>Company Name</th>
-                                    <th>Company Email</th>
-                                    <th>Password</th>
+                                    <th>Company clientName</th>
+                                    <th>Company clientEmail</th>
+                                    <th>clientPassword</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {companies.map((company, index) => (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
-                                        <td>{company.name}</td>
-                                        <td>{company.email}</td>
-                                        <td>{company.password}</td>
+                                        <td>{company.clientName}</td>
+                                        <td>{company.clientEmail}</td>
+                                        <td>{company.clientPassword}</td>
+                                        <td>
+                                            <Button
+                                                style={{
+                                                    backgroundColor: "#4CAF50",
+                                                    border: "none",
+                                                    padding: "12px 24px",
+                                                    borderRadius: "8px",
+                                                    color: "#fff",
+                                                    fontWeight: "bold",
+                                                    transition: "background-color 0.3s ease",
+                                                }}
+                                                onMouseEnter={(e) =>
+                                                    (e.target.style.backgroundColor = "#45a049")
+                                                }
+                                                onMouseLeave={(e) =>
+                                                    (e.target.style.backgroundColor = "#4CAF50")
+                                                }
+                                                onClick={() => setDetails(company._id, company.clientName)}
+                                            >
+                                                Add Project
+                                            </Button>
+
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

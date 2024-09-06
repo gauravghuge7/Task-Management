@@ -1,12 +1,11 @@
 import  { useState } from 'react'
-
-import Componynavabar from '../navbar/Componynavabar'
 import Componysidebar from '../sidebar/Componysidebar'
 import Dashboard from '../dashboard/Dashboardcontain'
 import Tasklist from '../task/Tasklist'
 import TaskForm from '../task/Taskform'
 import ProjectForm from '../project/Projectform'
 import Projectlist from '../project/Projectlist'
+import Componynavabar from '../navbar/Componynavabar'
 
 function CompanyDashboard() {
 
@@ -15,17 +14,18 @@ function CompanyDashboard() {
 
   return (
     <>
-       <Componynavabar/>
+    
+      <Componynavabar />
 
+    <div className="d-flex">
 
-     <div className="d-flex">
- 
       <Componysidebar setConditionalComponent={setConditionalComponent} />
         
         
       <div className="flex-grow-1 p-3">
 
         {conditionalComponent === "CompanyDashboard" && <Dashboard />}
+        {conditionalComponent === "" && <Dashboard />}
         {conditionalComponent === "CompanyTasks" && <Tasklist setConditionalComponent={setConditionalComponent} />}
         {conditionalComponent === "addTask" && <TaskForm />}
         {conditionalComponent === "projectform" && <ProjectForm  />}

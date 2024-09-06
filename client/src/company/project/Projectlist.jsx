@@ -1,119 +1,97 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Table, Button } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import EditProjectForm from './EditProjectForm';
+import Projectform from './Projectform';
+import axios from 'axios';
 
-const ProjectList = ({ setConditionalComponent }) => {
-  const [projects, setProjects] = useState([
-    {
-      id: 1,
-      name: "ABC Project",
-      teamLead: "John Doe",
-      startDate: "2022-01-01",
-      description: "Project Description"
-    },
-    {
-      id: 2,
-      name: "XYZ Project",
-      teamLead: "John Doe",
-      startDate: "2022-01-01",
-      description: "Project Description"
-    },
-  ]);
+const Projectlist = () => {
+   const [isEditing, setIsEditing] = useState(false);
 
-  useEffect(() => {
-    console.log('Project List Data Fetched:', projects);
-  }, [projects]);
+   const [projectData, setProjectData] = useState([
+      {
+         projectName: 'Example Project',
+         companyName: 'Example Company',
+         spokePersonEmail: 'example@example.com',
+         spokePersonName: 'John Doe',
+         spokePersonNumber: '123-456-7890',
+         description: 'This is an example project description.',
+         teamLead: 'John Doe',
+      },
 
-  return (
-    <Container
-      style={{
-        background: "#f8f9fa",
-        padding: "40px",
-        borderRadius: "15px",
-        boxShadow: "0 8px 20px rgba(0, 0, 0, 0.15)",
-        color: "#333",
-        maxWidth: "95%",
-        marginTop: "30px",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "25px",
-        }}
-      >
-        <h2 style={{ margin: 0, color: "#333", fontWeight: "bold" }}>Project List</h2>
-        <Button
-          style={{
-            backgroundColor: "#17a2b8",  // Teal color
-            border: "none",
-            padding: "12px 24px",
-            borderRadius: "8px",
-            color: "#fff",
-            fontWeight: "bold",
-            transition: "background-color 0.3s ease, transform 0.2s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.backgroundColor = "#138496";  // Darker teal on hover
-            e.target.style.transform = "scale(1.05)";    // Slight scale-up on hover
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.backgroundColor = "#17a2b8";  // Original teal when not hovering
-            e.target.style.transform = "scale(1)";       // Reset scale when not hovering
-          }}
-          onClick={() => setConditionalComponent("projectform")}
-        >
-          Add New Project
-        </Button>
-      </div>
+   ]);
 
-      <Row className="justify-content-md-center mt-5">
-        <Col md={12}>
-          <Table
-            striped
-            bordered
-            hover
-            style={{
-              backgroundColor: "#fff",
-              color: "#333",
-              borderRadius: "12px",
-              overflow: "hidden",
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <thead
-              style={{
-                backgroundColor: "#343a40", // Darker gray header
-                color: "#fff",
-                textAlign: "center",  // Center align header text
-                fontSize: "1.1rem",
-              }}
-            >
-              <tr>
-                <th>#</th>
-                <th>Project Name</th>
-                <th>Team Lead</th>
-                <th>Start Date</th>
-                <th>Description</th>
-              </tr>
+   const handleAddTask = () => {
+      setIsEditing(true);
+
+      
+   };
+
+
+   const getProjects = async () => {
+      try {
+         const response = await axios.get('/api/client/fetchProjects');
+         console.log(response.data);
+
+ 
+      } 
+      catch (error) {
+         console.log(error);
+      }
+   };
+
+   useEffect(() => {
+      getProjects();
+   }, []);
+
+
+
+   const handleSave = (updatedData) => {
+      setProjectData(updatedData);
+      setIsEditing(false);
+   };
+
+
+   if (isEditing) {
+      return <EditProjectForm projectData={projectData} onSave={handleSave} />;
+   }
+
+   return (
+      <div className="container mt-5">
+         <h2 className="mb-4 text-center">Project List</h2>
+         <table className="table table-striped table-bordered">
+            <thead>
+               <tr>
+                  <th>Project Name</th>
+                  <th>Company Name</th>
+                  <th>Spokesperson Email</th>
+                  <th>Spokesperson Name</th>
+                  <th>Spokesperson Number</th>
+                  <th>Team Lead</th>
+                  <th>Description</th>
+                  <th>Actions</th>
+               </tr>
             </thead>
             <tbody>
-              {projects.map((project, index) => (
-                <tr key={index} style={{ textAlign: "center" }}> {/* Center align table text */}
-                  <td>{index + 1}</td>
-                  <td>{project.name}</td>
-                  <td>{project.teamLead}</td>
-                  <td>{project.startDate}</td>
-                  <td>{project.description}</td>
-                </tr>
-              ))}
+               {
+                  projectData.map((data, index) => (
+                     <tr key={index}>
+                        <td>{data.projectName}</td>
+                        <td>{data.companyName}</td>
+                        <td>{data.spokePersonEmail}</td>
+                        <td>{data.spokePersonName}</td>
+                        <td>{data.spokePersonNumber}</td>
+                        <td>{data.teamLead}</td>
+                        <td>{data.description}</td>
+                        <td>
+                           <button className="btn btn-primary me-2" onClick={handleAddTask}>Add Task</button>
+                           {/* <button className="btn btn-danger" onClick={handleDelete}>Delete</button> */}
+                        </td>
+                     </tr>
+                  ))
+               }
             </tbody>
-          </Table>
-        </Col>
-      </Row>
-    </Container>
-  );
+         </table>
+      </div>
+   );
 };
 
-export default ProjectList;
+export default Projectlist;

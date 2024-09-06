@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import axios from "axios";
+import {message } from "react-message-popup";
 
 const CreateCompanyForm = () => {
     const [companyName, setCompanyName] = useState('');
@@ -7,19 +9,40 @@ const CreateCompanyForm = () => {
     const [companyPassword, setCompanyPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
         
         if (companyPassword !== confirmPassword) {
             alert('Passwords do not match!');
             return;
         }
-        // Submit form data to the backend or handle it as needed
-        console.log({
-            companyName,
-            companyEmail,
-            companyPassword,
-        });
+        try {
+            
+            const body = {
+                clientName: companyName,
+                clientEmail: companyEmail,
+                clientPassword: companyPassword,
+            }
+    
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            };
+    
+            const response = await axios.post('/api/client/register', body, config);
+    
+            console.log(response);
+
+            if(response?.data?.success) {
+                message.success(response?.data?.message);
+            }
+            
+        } 
+        catch (error) {
+            message.error(error.message);
+        }
+        
     };
 
     return (
@@ -31,7 +54,7 @@ const CreateCompanyForm = () => {
                             <h3 className="text-center mb-4" style={{ fontWeight: '600' }}>Create Company</h3>
                             <Form onSubmit={handleSubmit}>
                                 <Form.Group controlId="companyName" className="mb-3">
-                                    <Form.Label>Company Name</Form.Label>
+                                    <Form.Label>Client Name</Form.Label>
                                     <Form.Control
                                         type="text"
                                         placeholder="Enter company name"
@@ -43,7 +66,7 @@ const CreateCompanyForm = () => {
                                 </Form.Group>
 
                                 <Form.Group controlId="companyEmail" className="mb-3">
-                                    <Form.Label>Company Email</Form.Label>
+                                    <Form.Label>Client Email</Form.Label>
                                     <Form.Control
                                         type="email"
                                         placeholder="Enter company email"
@@ -55,7 +78,7 @@ const CreateCompanyForm = () => {
                                 </Form.Group>
 
                                 <Form.Group controlId="companyPassword" className="mb-3">
-                                    <Form.Label>Company Password</Form.Label>
+                                    <Form.Label>Client Password</Form.Label>
                                     <Form.Control
                                         type="password"
                                         placeholder="Enter password"

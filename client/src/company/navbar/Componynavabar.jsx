@@ -1,18 +1,73 @@
-import React, { useState } from "react";
-import { Navbar, Button, Container, Dropdown, Form, Modal } from "react-bootstrap";
+
+import { Navbar, Button, Container, Dropdown, Form, Modal, Nav } from "react-bootstrap";
 import { FaUser } from 'react-icons/fa'; // Import the profile icon
+import axios from 'axios'
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 function Componynavabar() {
-  const [showProfile, setShowProfile] = useState(false);
 
-  const handleClose = () => setShowProfile(false);
-  const handleShow = () => setShowProfile(true);
+  const [client, setClient] = useState('');
 
-  const handleLogout = () => {
-    // Logic to handle logout goes here
-    console.log("Logout clicked");
-    // For example, you can clear the user session or redirect to the login page
+  const navigate = useNavigate();
+
+
+
+  const getClient = async () => {
+
+    try {
+      const response = await axios.get("http://localhost:8080/client/getClient");
+
+
+      console.log(response.data);
+      
+    } 
+    catch (error) {
+      console.log(error);
+    }
+
   };
+
+
+  
+  const onLogout = async () => {
+
+    try {
+      const response = await axios.post("/api/client/logout");
+      
+
+
+      console.log(response.data);
+
+
+
+
+      if(response.data.success){
+        navigate("/");
+      }
+    } 
+    catch (error) {
+      console.log(error);  
+    }
+  }
+
+    
+
+
+
+
+
+  useEffect(() => {
+    getClient();
+  }, []);
+
+
+
+
+  
+
+
 
   return (
     <div className="d-flex">
@@ -27,68 +82,24 @@ function Componynavabar() {
             />
           </Navbar.Brand>
 
-          {/* Profile Dropdown */}
-          <Dropdown className="ml-auto">
-            <Dropdown.Toggle
-              id="dropdown-basic"
-              style={{
-                backgroundColor: "white",
-                border: "none",
-                boxShadow: "none",
-                color: "white",
-                padding: 0, // Remove padding
-                width: "auto",
-                height: "auto",
-                borderRadius: "50%" // Make it circular if you want
-              }}
-            >
-              <FaUser
-                style={{
-                  color: "#17a2b8", // Teal color
-                  fontSize: "2.0rem"
-                }}
-              /> {/* Teal profile icon */}
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu
-              align="end"
-              style={{ backgroundColor: "white", borderColor: "white" }} // White background for menu
-            >
-              <Dropdown.Item onClick={handleShow}>Edit Profile</Dropdown.Item>
-              <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Container>
+        
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ml-auto">
+            <Nav.Item className="d-flex align-items-center text-black">
+              {client?.clientName}
+            </Nav.Item>
+            <Nav.Item>
+              <Button variant="outline-dark" onClick={onLogout} className="ml-3">
+                Logout
+              </Button>
+            </Nav.Item>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
       </Navbar>
 
-      {/* Profile Modal */}
-      <Modal show={showProfile} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Profile</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formBasicName">
-              <Form.Label>Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter your name" />
-            </Form.Group>
 
-            <Form.Group controlId="formBasicEmail" className="mt-3">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
-            </Form.Group>
-
-            <Form.Group controlId="formBasicPassword" className="mt-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
-
-            <Button variant="primary" type="submit" className="mt-4">
-              Save Changes
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
     </div>
   );
 }

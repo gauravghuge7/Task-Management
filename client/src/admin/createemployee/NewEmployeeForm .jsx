@@ -4,11 +4,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { message } from 'react-message-popup';
 import axios from 'axios';
 
-const NewEmployeeForm = () => {
+const NewEmployeeForm = ({ fetchEmployees }) => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
-    photo: null,
     password: "",
     confirmPassword: "",
     designation: "",
@@ -25,7 +24,7 @@ const NewEmployeeForm = () => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-
+ 
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -42,13 +41,14 @@ const NewEmployeeForm = () => {
 
 
     try {
-      const response = await axios.post('/api/employee/register', data, config);
+      const response = await axios.post('/api/employee/register', data, config);  // thisthe bapi call to register the employee in the database
 
       console.log("response => ", response);
 
       if(response.data.success === true) {
         message.success('Employee added successfully');
       }
+      fetchEmployees();
     } 
     catch (error) {
       message.error(error.message);

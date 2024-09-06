@@ -1,7 +1,11 @@
 import { Employee } from "../model/employee.model.js";
+import { Project } from "../model/project.model.js";
+import { Team } from "../model/team.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import mongoose from "mongoose";
+import bcrypt from 'bcrypt'
 
 
 
@@ -36,6 +40,8 @@ const options = {
 
 const registerEmployee = asyncHandler(async(req, res) => {
 
+    const {_id} = req.user;
+
     try {
         // accept the data from frontend  that this we are using the try catch block
 
@@ -69,7 +75,9 @@ const registerEmployee = asyncHandler(async(req, res) => {
             employeeEmail,
             designation,
             adminEmail,
-            employeePassword
+            employeePassword,
+            admin: _id,
+            isTeamLeader: false
         })
 
         
@@ -85,7 +93,7 @@ const registerEmployee = asyncHandler(async(req, res) => {
 
 })
 
-const loginEmployee = async(req, res) => {
+const loginEmployee = asyncHandler(async(req, res) => {
 
     try {
         // accept the data from frontend  that this we are using the try catch block
@@ -135,27 +143,58 @@ const loginEmployee = async(req, res) => {
         throw new ApiError(400, error.message);
     }
 
-}
+})
+
+
+const logoutEmployee = asyncHandler(async(req, res) => {
+    
+    try {
+        
+        const {_id} = req.user;
+        
+        if(!_id) {
+            throw new ApiError(400, "Please provide the employee email");
+        }
+        
+        
+        // find the entry in the database
+        
+        const employee = await Employee.findById(_id);
+        
+        if(!employee) {
+            throw new ApiError(400, "Employee does not exist");
+        }   
+        
+        employee.employeeRefreshToken = null;
+        
+        await employee.save({validateBeforeSave: false});
+        
+        return res
+            .status(200)
+            .clearCookie("employeeAccessToken", options)
+            .clearCookie("employeeRefreshToken", options)
+            .json(
+                new ApiResponse(200, "Employee logged out successfully")
+            )
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+    
+})
+
+
 
 const getEmployeeDetails = async(req, res) => {
 
     try {
         // accept the data from frontend  that this we are using the try catch block
         
-        const { employeeAccessToken } = req.cookies;
+        const {_id} = req.user;
         
-        if(!employeeAccessToken) {
-            throw new ApiError(400, "Please provide the employee access token");
-        }
-        
-        // validate the data 
-        if(!employeeAccessToken) {
-            throw new ApiError(400, "Please provide the employee access token");    
-        }
-        
-        // find the entry in the database
-        
-        const employee = await Employee.findOne({ employeeAccessToken })
+        const employee = await Employee.findById(_id);
         
         if(!employee) {
             throw new ApiError(400, "Employee does not exist");
@@ -165,7 +204,7 @@ const getEmployeeDetails = async(req, res) => {
         return res
             .status(200)
             .json(
-                new ApiResponse(200, "Employee logged in successfully", employee)
+                new ApiResponse(200, "Employee Details fetched successfully", employee)
             )
         
     } 
@@ -193,6 +232,244 @@ const getEmployeePassword = asyncHandler(async(req, res) => {
     }
 
 })
+  
+const employeelogout = asyncHandler(async(req, res) => {
+    
+    try {
+        
+        const {_id} = req.user;
+        
+        if(!_id) {
+            throw new ApiError(400, "Please provide the employee email");
+        }
+        
+        
+        // find the entry in the database
+        
+        const employee = await Employee.findById(_id);
+        
+        if(!employee) {
+            throw new ApiError(400, "Employee does not exist");
+        }   
+        
+        employee.employeeRefreshToken = null;
+        
+        await employee.save({validateBeforeSave: false});
+        
+        return res
+            .status(200)
+            .clearCookie("employeeAccessToken", options)
+            .clearCookie("employeeRefreshToken", options)
+            .json(
+                new ApiResponse(200, "Employee logged out successfully")
+            )
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+    
+})
+
+
+const getTeamLeadOrNot = asyncHandler(async(req, res) => {
+
+    try {
+
+        const {_id} = req.user;
+        
+        if(!_id) {
+            throw new ApiError(400, "Please provide the employee email");
+        }
+        
+        
+        // find the entry in the database
+        
+        const employee = await Employee.findById(_id);
+        
+        if(!employee) {
+            throw new ApiError(400, "Employee does not exist");
+        }
+
+        // find the entry in a team as the teamLead
+        
+        const teamLead = await Team.find({employee: employee._id})
+        
+        if(teamLead.length === 0) {
+            
+            return res
+                .status(200)
+                .json(
+                    new ApiResponse(200, "Employee Teams fetched successfully", [])
+                )
+        }
+        
+        // return the response 
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(200, "Employee Projects fetched successfully", teamLead)
+            )
+
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+
+})
+
+
+const getTeamLeadProjects = asyncHandler(async(req, res) => {
+
+    const { teamLead } = req.body;
+
+    console.log("req.body => ", req.body)
+
+
+
+    try {
+
+        const projects = await Team.aggregate([
+            {
+                $match: {
+                    teamLead: new mongoose.Types.ObjectId(req.user._id)
+                }
+            },
+            {
+                $lookup: {
+                    from: "projects",
+                    localField: "_id",
+                    foreignField: "team",
+                    as: "project",
+                }
+
+            },
+            {
+                $addFields: {
+                    project: "$project"
+                }
+            },
+            {
+                $project: {
+                    project: 1,
+                }
+            }
+        ])
+
+
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(200, "Team Lead Projects fetched successfully", projects)
+            )
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+
+})
+
+
+
+const getEmployeeProjects = asyncHandler(async(req, res) => {
+    
+    try {
+
+        const {_id} = req.user;
+
+        if(!_id) {
+            throw new ApiError(400, "Please provide the employee email");
+        }
+
+        const employee = await Employee.findById(_id);
+
+        if(!employee) {
+            throw new ApiError(400, "Employee does not exist");
+        }
+
+        // find the entry in a team as the teamLead
+        
+        // const teams = await Team.find({employee: employee._id})
+        
+
+        // const projects = await Project.aggregate([
+
+        //     {
+        //         $match: {
+        //             team: teams.map(data => new mongoose.Types.ObjectId(data._id))
+        //         }
+        //     },
+
+        // ])
+        
+
+
+
+        /// alter method for above code 
+
+
+        const projects = await Team.aggregate([
+
+            {
+                $match: {
+                    employee: new mongoose.Types.ObjectId(employee._id)
+                }
+            },
+            {
+                $lookup: {
+                    from: "projects",
+                    localField: "_id",
+                    foreignField: "team",
+                    as: "project",
+
+                    pipeline: [
+                        {
+                            $lookup: {
+                                from: "teams",
+                                localField: "team",
+                                foreignField: "_id",
+                                as: "team",
+                            }
+                        },
+                        {
+                            $addFields: {
+                                team: "$team.teamName",
+                                teamId: "$team._id",
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $addFields: {
+                    project: "$project"
+                }
+            },
+            {
+                $project: {
+                    project: 1,
+                }
+            }
+        ])
+
+
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(200, "Employee Projects fetched successfully", projects)
+            )
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+})
 
 
 
@@ -203,5 +480,13 @@ const getEmployeePassword = asyncHandler(async(req, res) => {
 export {
     registerEmployee,
     loginEmployee,
+    logoutEmployee,
+    getEmployeeDetails,
+    getEmployeePassword,
+    getEmployeeProjects,
+
+
+    getTeamLeadOrNot,
+    getTeamLeadProjects
 
 }

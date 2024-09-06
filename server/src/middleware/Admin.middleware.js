@@ -13,7 +13,7 @@ export const verifyAdmin = async (req, res, next) => {
             message: 'unauthorized admin '
          })
       }
-
+ 
       const decode = await jwt.verify(adminAccessToken, process.env.ADMIN_ACCESS_SECRET_KEY);
 
 

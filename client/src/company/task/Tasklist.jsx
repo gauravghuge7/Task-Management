@@ -6,18 +6,22 @@ const TaskList = ({ setConditionalComponent }) => {
     {
       companyName: "ABC Company",
       priority: "High",
+      saptype: "SAP ABAP",
       taskDetail: "Task Detail",
       ticketCreateDate: "2022-01-01",
       dueDate: "2022-01-01",
       assignName: "John Doe"
+      // assignteam: "ABC Team"
     },
     {
       companyName: "XYZ Company",
       priority: "Medium",
+      saptype: "SAP ABAP",
       taskDetail: "Task Detail",
       ticketCreateDate: "2022-01-01",
       dueDate: "2022-01-01",
       assignName: "John Doe"
+      // assignteam: "ABC Team"
     },
   ]);
 
@@ -94,12 +98,14 @@ const TaskList = ({ setConditionalComponent }) => {
             >
               <tr>
                 <th>#</th>
-                <th>Company Name</th>
+                <th>Ticket Name</th>
                 <th>Priority</th>
+                <th>SAP Type</th>
                 <th>Task Detail</th>
                 <th>Ticket Creation Date</th>
                 <th>Due Date</th>
-                <th>Assign Name</th>
+                <th> Name</th>
+                <th>Assign To Team</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -109,10 +115,12 @@ const TaskList = ({ setConditionalComponent }) => {
                   <td>{index + 1}</td>
                   <td>{task.companyName}</td>
                   <td>{task.priority}</td>
+                  <td>{task.saptype}</td>
                   <td>{task.taskDetail}</td>
                   <td>{task.ticketCreateDate}</td>
                   <td>{task.dueDate}</td>
                   <td>{task.assignName}</td>
+                  <td>{task.assignteam}</td>
                   <td>
                     <Button
                       style={{

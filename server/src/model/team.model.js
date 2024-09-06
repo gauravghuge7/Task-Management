@@ -8,29 +8,37 @@ const teamSchema = new Schema( {
       required: true,
    },
 
+   admin: {
+      type: Schema.Types.ObjectId,
+      ref: "Admin"
+   },
+
+
    teamId: {
       type: String,
       required: true,
    },
 
    teamLead: {
-      type: String,
-      required: true,
+      type: Schema.Types.ObjectId,   // bson type
+      ref: "Employee"
    },
 
-   projectId: [{
 
+   projectId: [{
       type: String,
-      required: true,
 
    }],
 
-   employeeEmail: [{
-
-      type: String,
+   project: [{
+      type: Schema.Types.ObjectId,
       required: true,
+   }],
 
-   }]
+   employee: [{
+      type: Schema.Types.ObjectId,
+      ref: "Employee"
+   }],
 
 
 

@@ -1,13 +1,27 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { addEmployee } from "../../redux/reducers";
-import { message } from "react-message-popup";
-import axios from "axios";
+import {  useSelector } from "react-redux";
+
+// import jwt from 'jsonwebtoken'
+
+// import { addEmployee } from "../../redux/reducers";
+// import { message } from "react-message-popup";
+// import axios from "axios";
 
 const EmployeeList = ({ setValue }) => {
+
+
   const [employees, setEmployees] = useState([
+
     {
       id: 1,
+      employeeName: "John Doe",
+      employeeEmail: "johndoe@gmail.com",
+      designation: "Software Engineer",
+      employeePassword: "employeePassword123",
+    },
+
+    {   
+      id: 2,      
       employeeName: "John Doe",
       employeeEmail: "johndoe@gmail.com",
       designation: "Software Engineer",
@@ -16,44 +30,39 @@ const EmployeeList = ({ setValue }) => {
     
   ]);
 
-  const dispatch = useDispatch();
+
+  // const dispatch = useDispatch();   // for sending data to redux
+
+  const data = useSelector((state) => state.employeeReducer.employee);
 
 
-  const decodePassword = (password) => {
 
-    
-  }
+  // const fetchEmployees = async() => {
+  //   try {
 
-
-  const fetchEmployees = async() => {
-    try {
-
-      const response = await axios.get('/api/admin/totalEmployees');
+  //     const response = await axios.get('/api/admin/totalEmployees');
       
-      console.log("response => ", response);
+  //     console.log("response => ", response);
 
-      if(response.data.success === true) {
-        setEmployees(response.data.data);
-        message.success('Employees fetched successfully');
-      }
+  //     if(response.data.success === true) {
+  //       setEmployees(response.data.data);
+  //       message.success('Employees fetched successfully');
+  //     }
     
-    } 
-    catch (error) {
-      message.error(error.message);  
-    }
-  }
+  //   } 
+  //   catch (error) {
+  //     message.error(error.message);  
+  //   }
+  // }
 
 
 
   useEffect(() => {
 
-    fetchEmployees();
-
-
-    dispatch(addEmployee(employees));
-
+    setEmployees(data);
 
   },[2]);
+
 
   return (
     <div
@@ -142,3 +151,4 @@ const EmployeeList = ({ setValue }) => {
 };
 
 export default EmployeeList;
+

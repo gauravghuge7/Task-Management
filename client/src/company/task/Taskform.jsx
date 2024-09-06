@@ -51,11 +51,11 @@ const TaskForm = () => {
                             <h2 className="text-center mb-4" style={{ fontWeight: 'bold' }}>Create New Task</h2>
                             <Form onSubmit={handleSubmit}>
                                 <Form.Group controlId="companyName" className="mb-3">
-                                    <Form.Label>Company Name</Form.Label>
+                                    <Form.Label>Task Name</Form.Label>
                                     <Form.Control
                                         type="text"
                                         name="companyName"
-                                        value={formData.companyName}
+                                        value={formData.taskName}
                                         onChange={handleChange}
                                         required
                                         style={{ borderRadius: '12px', padding: '10px', boxShadow: '0 3px 6px rgba(0, 0, 0, 0.1)' }}
@@ -79,6 +79,22 @@ const TaskForm = () => {
                                     </Form.Control>
                                 </Form.Group>
 
+                                <Form.Group controlId="priority" className="mb-3">
+                                    <Form.Label>SAP Type</Form.Label>
+                                    <Form.Control
+                                        as="select"
+                                        name="saptype"
+                                        value={formData.saptype}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ borderRadius: '12px', padding: '10px', boxShadow: '0 3px 6px rgba(0, 0, 0, 0.1)' }}
+                                    >
+                                        <option value="">Select Priority</option>
+                                        <option value="High">SAP ABAP</option>
+                                        <option value="Medium">SAP MM</option>
+                                        <option value="Low">SAP </option>
+                                    </Form.Control>
+                                </Form.Group>
                                 <Form.Group controlId="ticketCreateDate" className="mb-3">
                                     <Form.Label>Ticket Creation Date</Form.Label>
                                     <Form.Control
@@ -109,6 +125,17 @@ const TaskForm = () => {
                                         type="text"
                                         name="assignName"
                                         value={formData.assignName}
+                                        onChange={handleChange}
+                                        required
+                                        style={{ borderRadius: '12px', padding: '10px', boxShadow: '0 3px 6px rgba(0, 0, 0, 0.1)' }}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="assignName" className="mb-3">
+                                    <Form.Label>Assign To Team</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="assignName"
+                                        value={formData.assignteam}
                                         onChange={handleChange}
                                         required
                                         style={{ borderRadius: '12px', padding: '10px', boxShadow: '0 3px 6px rgba(0, 0, 0, 0.1)' }}

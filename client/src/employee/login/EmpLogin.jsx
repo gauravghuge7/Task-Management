@@ -1,16 +1,43 @@
 import { useState } from "react";
 import { Form, Button, Container, Row, Col, Image } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {message} from "react-message-popup"
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    // Handle form submission logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
+    try {
+      
+      const body = {
+        employeeEmail: email, 
+        employeePassword: password 
+      }
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+
+      const response = await axios.post("/api/employee/login",body, config);
+
+      console.log(response.data);
+
+      if(response.data.success === true){
+        message.success("Employee Logged In Successfully");
+        window.location.href = "/employee/dashboard";
+        
+      }
+    } 
+    catch (error) {
+    
+      console.log(error);
+      message.error("Invalid Email or Password");
+    }
   };
 
   return (

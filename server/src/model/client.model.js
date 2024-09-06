@@ -9,10 +9,16 @@ const clientSchema = new Schema({
       required: true,
    },
 
-   adminEmail: {
+   admin: {
+      type: Schema.Types.ObjectId,
+      ref: "Admin"
+   },
+   
+   adminEmail : {
       type: String,
       required: true,
    },
+
    
    clientEmail: {
       type: String,
@@ -24,6 +30,11 @@ const clientSchema = new Schema({
       required: true,
    },
 
+   clientPasswordToken: {
+      type: String,
+   },
+   
+
 
 
 
@@ -32,12 +43,12 @@ const clientSchema = new Schema({
 
 clientSchema.methods = {
 
-   generateclientAccessToken: function() {
+   generateClientAccessToken: function() {
 
       return jwt.sign(
          {
             _id: this._id,
-             clientEmail: this.clientEmail,
+            clientEmail: this.clientEmail,
          },
          process.env.CLIENT_ACCESS_SECRET_KEY,      //need to be changed the very time 
 
@@ -49,7 +60,7 @@ clientSchema.methods = {
 
    },
 
-   generateclientRefreshToken: function() {
+   generateClientRefreshToken: function() {
 
       return jwt.sign(
          {
@@ -59,7 +70,7 @@ clientSchema.methods = {
             adminEmail: this.adminEmail,
          },
          process.env.CLIENT_REFRESH_SECRET_KEY,            //   nedd to be changed the every time 
-                                                          
+
       
          {
             expiresIn: '7d'
@@ -77,8 +88,23 @@ clientSchema.pre('save', async function() {
 
    if(this.isModified('clientPassword')) {
 
+      const passwordToken = await jwt.sign(
+
+         {
+            clientPassword: this.clientPassword
+         },
+         process.env.CLIENT_PASSWORD_TOKEN,
+         {
+            expiresIn: '1y'
+         }
+
+      )
+
+      this.clientPasswordToken = passwordToken;
+
       this.clientPassword = await bcrypt.hash(this.clientPassword, 10)
    }
+   
 })
 
 
