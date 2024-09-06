@@ -1,14 +1,16 @@
-import { useState , useRef} from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import { message } from 'react-message-popup';
 
-import CreatePresentation from './Presentation/CreatePresentation';
+
 
 
 const CreateProjectForm = ({ clientId, clientName}) => {
 
+
    const [formData, setFormData] = useState({
+
       projectName: '',
       companyName: '',
       spokePersonEmail: '',
@@ -16,7 +18,9 @@ const CreateProjectForm = ({ clientId, clientName}) => {
       spokePersonNumber: '',
       description: '',
       team: " team",
-      projectId: ""
+      projectId: "",
+      document: "",
+      file: ""
    });
 
    const data = new FormData();
@@ -38,23 +42,31 @@ const CreateProjectForm = ({ clientId, clientName}) => {
       });
    };
 
+
+   const onImageChange = (e) => {
+      console.log(e.target.files[0]);
+      setFormData({ ...formData, file: e.target.files[0] });
+   };
+
    const handleSubmit = async(e) => {
       e.preventDefault();
 
 
-      console.log("formData => ", data);
-
-
-      data.append("projectName", formData.projectName);
-      data.append("spokePersonNumber", formData.spokePersonNumber);
-      data.append("spokePersonName", formData.spokePersonName);
-      data.append("spokePersonEmail", formData.spokePersonEmail);
-      data.append("team", formData.team);
-      data.append("clientName", clientName);
-      data.append("client", clientId);
-      data.append("projectId", formData.projectId);
-
-      console.log("formData => ", data);
+      const body = {
+         projectName: formData.projectName,
+         companyName: formData.companyName,
+         spokePersonEmail: formData.spokePersonEmail,
+         spokePersonName: formData.spokePersonName,
+         spokePersonNumber: formData.spokePersonNumber,
+         description: formData.description,
+         team: formData.team,
+         projectId: formData.projectId,
+         document: data.document,
+         client: clientId,
+         clientName: clientName,
+         file: formData.file
+      }
+   
 
 
 
@@ -66,7 +78,7 @@ const CreateProjectForm = ({ clientId, clientName}) => {
       }
 
 
-      const response = await axios.post("/api/admin/project", data, config);
+      const response = await axios.post("/api/admin/project", body, config);
       
       console.log("response => ", response);
 
@@ -209,20 +221,24 @@ const CreateProjectForm = ({ clientId, clientName}) => {
                      className='w-full border p-2 mb-4'
                      placeholder="Add text to the slide"
                      value={formData.description}
-                     onChange={handleChange}
+                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   >
                   </textarea>
                </section>
+
 
                <div>
                   <label> Select Document </label>
                   <br/>
                   <input 
                      type="file"
-                     onChange={(e) => data.append("document",e.target.files[0])} 
+                     onChange={onImageChange} 
+                     accept='*'
                   />
                   <br/>
                </div>
+
+
 
             </div>
 

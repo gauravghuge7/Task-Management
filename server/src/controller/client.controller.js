@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";                 // this is the password bcrypt libr
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 import { Project } from "../model/project.model.js";
+import mongoose from "mongoose";
 
 
 const createAccessAndRefreshToken = async(clientId) => {            
@@ -225,16 +226,45 @@ const fetchProjects = asyncHandler(async (req, res) => {
     try {
         const { clientEmail } = req.user;
         
-        // find the entry in the database then check and return the response
+        // // find the entry in the database then check and return the response
         
-        const client = await Client.findOne({ clientEmail })
+        // const client = await Client.findOne({ clientEmail })
         
-        if(!client) {
-            throw new ApiError(400, "Client does not exist");
-        }
+        // if(!client) {
+        //     throw new ApiError(400, "Client does not exist");
+        // }
         
-        const projects = await Project.find({ clientEmail })
+        // const projects = await Project.find({ clientEmail })
         
+
+
+        const projects = await Project.aggregate([
+
+            {
+                $match: {
+                    client: new mongoose.Types.ObjectId(req.user._id)
+                }
+            },
+
+            {
+                $lookup: {
+                    from: "tickets",
+                    localField: "_id",
+                    foreignField: "project",
+                    as: "tickets"
+                }
+            },
+
+            {
+                $addFields: {
+                    tickets: "$tickets"
+                }
+            },
+            
+
+        ])
+
+
         return res
             .status(200)
             .json(
@@ -247,6 +277,11 @@ const fetchProjects = asyncHandler(async (req, res) => {
         throw new ApiError(400, error.message);
     }
 })
+
+
+
+
+
 
 
 

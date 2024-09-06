@@ -523,6 +523,12 @@ const getAllTeams = async(req, res) => {
 const createProject = asyncHandler(async (req, res) => {
 
     try {
+        const {_id} = req.user;
+
+        if(!_id) {
+            throw new ApiError(400, "Please provide the admin email");
+        }
+
 
         // get the data from the body
         const { 
@@ -534,11 +540,11 @@ const createProject = asyncHandler(async (req, res) => {
             spokePersonName,
             spokePersonEmail, 
             team, 
+            description,
 
             clientName,
             client, 
            
-            admin
 
         } = req.body;
 
@@ -567,13 +573,16 @@ const createProject = asyncHandler(async (req, res) => {
         const response = await uploadOnCloudinary(req.file.path);
         
 
-
+       
 
         // create a entry in the database 
         
         const project = await Project.create({
             projectName,
-            description: response.url,
+
+            description: description,
+            descriptionDocument: response.url,
+
             spokePersonNumber,
             spokePersonName,
             spokePersonEmail,

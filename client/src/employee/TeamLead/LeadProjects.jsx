@@ -105,7 +105,7 @@ const LeadProjects = () => {
 
          <h2 className="text-center mb-8">Projects That You Are Leading</h2>
 
-         <main>
+         <main className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
 
             {
                projects?.map((project, index) => (

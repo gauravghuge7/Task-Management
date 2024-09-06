@@ -59,8 +59,14 @@ function Employeedashboard() {
         {conditionalComponent === "" && <Employeecontain/>}
         {conditionalComponent === "Contain" && <Employeecontain/>}
 
-        {conditionalComponent === "teamLead" && <LeadProjects/>}
         {conditionalComponent === "projects" && <EmpProjects/>}
+
+
+
+        {conditionalComponent === "teamLead" && <LeadProjects/>}
+
+        {conditionalComponent === "viewTeamLeadProject" && <Task />}
+      
 
         
 

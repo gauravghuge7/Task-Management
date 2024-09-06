@@ -59,6 +59,15 @@ const EmpProjects = () => {
    },[])
 
 
+   if(projects.length === 0){
+      return (
+         <div className="flex flex-wrap justify-center gap-10">
+            <h1>You are not working any project right now</h1>
+         </div>
+      )
+   }
+
+
 
    return (
       <div 
