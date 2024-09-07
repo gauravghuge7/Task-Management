@@ -473,6 +473,152 @@ const getEmployeeProjects = asyncHandler(async(req, res) => {
 
 
 
+const fetchProjectById = asyncHandler(async(req, res) => {
+    
+    try {
+        
+        const {projectId} = req.body;
+        
+        console.log("req.body => ", req.body)
+        console.log("projectId => ", projectId)
+
+
+        if(!projectId) {
+            throw new ApiError(400, "Please provide the project id");
+        }
+
+
+
+        const project = await Project.aggregate([
+
+
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(projectId)
+                }
+            },
+
+
+
+            
+            // 
+            {
+                $lookup: {
+                    from: "teams",
+                    localField: "team",
+                    foreignField: "_id",
+                    as: "team",
+
+                    pipeline: [
+                        {
+                            $lookup: {
+                                from: "employees",
+                                localField: "$team.employee",
+                                foreignField: "_id",
+                                as: "employee",
+                
+                            },
+                            
+                        },
+
+                        {
+                            
+                            $addFields: {
+                                employee: "$employee.employeeName"
+                            }
+                            
+                        }
+                    ]
+                }
+            },
+
+            {
+                $addFields: {
+                    team: "$team"
+                }
+            },
+
+            {
+                $lookup: {
+                    from: "clients",
+                    localField: "client",
+                    foreignField: "_id",
+                    as: "client",
+                }
+                
+            },
+
+            {
+                $addFields: {
+                    client: "$client"
+                }
+            },
+
+            {
+                $lookup: {
+                    from: "tasks",
+                    localField: "_id",
+                    foreignField: "project",
+                    as: "task",
+                }
+            
+            },
+
+            {
+                $addFields: {
+                    task: "$task"
+                }
+            },
+
+            {
+                $lookup: {
+                    from: "tickets",
+                    localField: "_id",
+                    foreignField: "project",
+                    as: "ticket",
+                }
+            },
+
+            {
+                $addFields: {
+                    ticket: "$ticket"
+                }
+            },
+
+            {
+                $project: {
+                    project: 1,
+                    employee: 1,
+                    team: 1,
+                    task: 1,
+                    ticket: 1
+                }
+            }
+
+
+
+        ])
+        
+
+      
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(200, "Project fetched successfully", project)
+            )
+
+        
+      
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+    
+})
+
+
 
 
 
@@ -487,6 +633,7 @@ export {
 
 
     getTeamLeadOrNot,
-    getTeamLeadProjects
+    getTeamLeadProjects,
+    fetchProjectById
 
 }
