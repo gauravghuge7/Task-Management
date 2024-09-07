@@ -103,14 +103,14 @@ const CreatePresentation = ({data}) => {
             {editingText ? 'Save Text' : 'Add Text'}
             </button>
             <button onClick={() => setEditingImage(!editingImage)} className="px-4 py-2 hover:bg-gray-700">
-            {editingImage ? 'Save Document' : 'Add Document'}
+            {editingImage ? 'Save Dacument' : 'Add Dacument'}
             </button>
-            {/* <button onClick={addSlide} className="px-4 py-2 hover:bg-gray-700">Add Slide</button> */}
-            {/* <button onClick={deleteSlide} className="px-4 py-2 hover:bg-gray-700" disabled={slides.length === 1}>
+            <button onClick={addSlide} className="px-4 py-2 hover:bg-gray-700">Add Slide</button>
+            <button onClick={deleteSlide} className="px-4 py-2 hover:bg-gray-700" disabled={slides.length === 1}>
             Delete Slide
-            </button> */}
-            {/* <button onClick={generatePDF} className="px-4 py-2 hover:bg-gray-700">Save PDF</button>
-            <button onClick={generatePDFDownload} className="px-4 py-2 hover:bg-gray-700">Generate PDF</button> */}
+            </button>
+            <button onClick={generatePDF} className="px-4 py-2 hover:bg-gray-700">Save PDF</button>
+            <button onClick={generatePDFDownload} className="px-4 py-2 hover:bg-gray-700">Generate PDF</button>
         </nav>
 
         {/* Slide Editor */}
