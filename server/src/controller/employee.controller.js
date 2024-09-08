@@ -477,10 +477,11 @@ const fetchProjectById = asyncHandler(async(req, res) => {
     
     try {
         
-        const {projectId} = req.body;
+        const { projectId } = req.params;
         
-        console.log("req.body => ", req.body)
-        console.log("projectId => ", projectId)
+        console.log("req.body => ", req.body);
+        console.log("req.params => ", req.params);
+        console.log("req.query => ", req.query);
 
 
         if(!projectId) {
@@ -509,26 +510,24 @@ const fetchProjectById = asyncHandler(async(req, res) => {
                     foreignField: "_id",
                     as: "team",
 
+
                     pipeline: [
                         {
                             $lookup: {
                                 from: "employees",
-                                localField: "$team.employee",
+                                localField: "team.employee",
                                 foreignField: "_id",
-                                as: "employee",
-                
-                            },
-                            
+                                as: "employeeDetails"
+                            }
                         },
 
                         {
-                            
                             $addFields: {
-                                employee: "$employee.employeeName"
+                                employeeDetails: "$employeeDetails"
                             }
-                            
                         }
                     ]
+                   
                 }
             },
 
@@ -538,6 +537,14 @@ const fetchProjectById = asyncHandler(async(req, res) => {
                 }
             },
 
+
+            // fetching the team lead
+
+
+
+
+
+            // fetching the client
             {
                 $lookup: {
                     from: "clients",
@@ -554,6 +561,7 @@ const fetchProjectById = asyncHandler(async(req, res) => {
                 }
             },
 
+            /// fetching the tasks
             {
                 $lookup: {
                     from: "tasks",
@@ -569,7 +577,8 @@ const fetchProjectById = asyncHandler(async(req, res) => {
                     task: "$task"
                 }
             },
-
+            
+            /// fetching the tickets
             {
                 $lookup: {
                     from: "tickets",
@@ -585,13 +594,35 @@ const fetchProjectById = asyncHandler(async(req, res) => {
                 }
             },
 
+
             {
                 $project: {
-                    project: 1,
-                    employee: 1,
+                    
+                    admin: 1,
+
+
+                    clientName: 1,
+                    clientEmail: 1,
+                    client: 1,
+                    
+                    spokePersonEmail: 1,
+                    spokePersonName: 1,
+                    spokePersonNumber: 1,
+
+                    projectId: 1,
+                    projectName: 1,
+
+                    description: 1,
+                    descriptionDocument: 1,
+                    
+                    changes: 1,
+                    ticket: 1,
+
                     team: 1,
-                    task: 1,
-                    ticket: 1
+                    employeeDetails: 1,
+                    
+
+                    
                 }
             }
 

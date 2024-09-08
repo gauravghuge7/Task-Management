@@ -52,7 +52,7 @@ employeeRouter.route("/getTeamLeadProjects").get(
 )
 
 
-employeeRouter.route("/getProjectById").get(
+employeeRouter.route("/fetchProjectById/:projectId").get(
     
     verifyEmployee,
     upload.none(),

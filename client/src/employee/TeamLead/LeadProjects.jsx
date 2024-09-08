@@ -90,6 +90,8 @@ const LeadProjects = ({setConditionalComponent, setProjectId}) => {
    const handleProject = (projectId) => {
 
       setConditionalComponent("viewTeamLeadProject");
+
+      console.log("projectId => ", projectId);
       setProjectId(projectId);
 
    }
@@ -127,7 +129,7 @@ const LeadProjects = ({setConditionalComponent, setProjectId}) => {
                      <p>{project._id}</p>
 
                      <button
-                        onClick={handleProject(project._id)}
+                        onClick={() => handleProject(project._id)}
                      >
                         View Your Work
                      </button>
