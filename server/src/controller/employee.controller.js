@@ -473,6 +473,183 @@ const getEmployeeProjects = asyncHandler(async(req, res) => {
 
 
 
+const fetchProjectById = asyncHandler(async(req, res) => {
+    
+    try {
+        
+        const { projectId } = req.params;
+        
+        console.log("req.body => ", req.body);
+        console.log("req.params => ", req.params);
+        console.log("req.query => ", req.query);
+
+
+        if(!projectId) {
+            throw new ApiError(400, "Please provide the project id");
+        }
+
+
+
+        const project = await Project.aggregate([
+
+
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(projectId)
+                }
+            },
+
+
+
+            
+            // 
+            {
+                $lookup: {
+                    from: "teams",
+                    localField: "team",
+                    foreignField: "_id",
+                    as: "team",
+
+
+                    pipeline: [
+                        {
+                            $lookup: {
+                                from: "employees",
+                                localField: "team.employee",
+                                foreignField: "_id",
+                                as: "employeeDetails"
+                            }
+                        },
+
+                        {
+                            $addFields: {
+                                employeeDetails: "$employeeDetails"
+                            }
+                        }
+                    ]
+                   
+                }
+            },
+
+            {
+                $addFields: {
+                    team: "$team"
+                }
+            },
+
+
+            // fetching the team lead
+
+
+
+
+
+            // fetching the client
+            {
+                $lookup: {
+                    from: "clients",
+                    localField: "client",
+                    foreignField: "_id",
+                    as: "client",
+                }
+                
+            },
+
+            {
+                $addFields: {
+                    client: "$client"
+                }
+            },
+
+            /// fetching the tasks
+            {
+                $lookup: {
+                    from: "tasks",
+                    localField: "_id",
+                    foreignField: "project",
+                    as: "task",
+                }
+            
+            },
+
+            {
+                $addFields: {
+                    task: "$task"
+                }
+            },
+            
+            /// fetching the tickets
+            {
+                $lookup: {
+                    from: "tickets",
+                    localField: "_id",
+                    foreignField: "project",
+                    as: "ticket",
+                }
+            },
+
+            {
+                $addFields: {
+                    ticket: "$ticket"
+                }
+            },
+
+
+            {
+                $project: {
+                    
+                    admin: 1,
+
+
+                    clientName: 1,
+                    clientEmail: 1,
+                    client: 1,
+                    
+                    spokePersonEmail: 1,
+                    spokePersonName: 1,
+                    spokePersonNumber: 1,
+
+                    projectId: 1,
+                    projectName: 1,
+
+                    description: 1,
+                    descriptionDocument: 1,
+                    
+                    changes: 1,
+                    ticket: 1,
+
+                    team: 1,
+                    employeeDetails: 1,
+                    
+
+                    
+                }
+            }
+
+
+
+        ])
+        
+
+      
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(200, "Project fetched successfully", project)
+            )
+
+        
+      
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+    
+})
+
+
 
 
 
@@ -487,6 +664,7 @@ export {
 
 
     getTeamLeadOrNot,
-    getTeamLeadProjects
+    getTeamLeadProjects,
+    fetchProjectById
 
 }

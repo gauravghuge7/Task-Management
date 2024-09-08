@@ -1,5 +1,5 @@
 import express from 'express';
-import { getEmployeeDetails, getEmployeeProjects, getTeamLeadOrNot, getTeamLeadProjects, loginEmployee, logoutEmployee, registerEmployee } from '../controller/employee.controller.js';
+import { fetchProjectById, getEmployeeDetails, getEmployeeProjects, getTeamLeadOrNot, getTeamLeadProjects, loginEmployee, logoutEmployee, registerEmployee } from '../controller/employee.controller.js';
 import { verifyAdmin } from '../middleware/Admin.middleware.js';
 import {upload} from "../middleware/multer.middleware.js"
 import bcrypt from 'bcrypt'
@@ -49,6 +49,15 @@ employeeRouter.route("/getTeamLeadProjects").get(
     verifyEmployee,
     upload.none(),
     getTeamLeadProjects
+)
+
+
+employeeRouter.route("/fetchProjectById/:projectId").get(
+    
+    verifyEmployee,
+    upload.none(),
+    fetchProjectById
+    
 )
 
 
