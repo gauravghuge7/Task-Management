@@ -489,62 +489,59 @@ const fetchProjectById = asyncHandler(async(req, res) => {
         }
 
 
-
         const project = await Project.aggregate([
 
-
+            // Match the specific project
             {
                 $match: {
                     _id: new mongoose.Types.ObjectId(projectId)
                 }
             },
-
-
-
-            
-            // 
+        
+            // Fetch the team and the associated employees with all their details
             {
                 $lookup: {
                     from: "teams",
                     localField: "team",
                     foreignField: "_id",
                     as: "team",
-
-
                     pipeline: [
+                        // Lookup employees for each team
                         {
                             $lookup: {
                                 from: "employees",
-                                localField: "team.employee",
+                                localField: "employee", // assuming 'team.employee' stores employee IDs
                                 foreignField: "_id",
                                 as: "employeeDetails"
+                            }
+                        },
+        
+                        // Include all employee details
+                        {
+                            $addFields: {
+                                employeeDetails: "$employeeDetails"  // Keep all employee details in the result
+                            }
+                        },
+
+                        {
+                            $lookup: {
+                                from: "employees",
+                                localField: "teamLead",
+                                foreignField: "_id",
+                                as: "teamLeadDetails"
                             }
                         },
 
                         {
                             $addFields: {
-                                employeeDetails: "$employeeDetails"
+                                teamLeadDetails: ["$teamLeadDetails", 0]
                             }
                         }
                     ]
-                   
                 }
             },
-
-            {
-                $addFields: {
-                    team: "$team"
-                }
-            },
-
-
-            // fetching the team lead
-
-
-
-
-
-            // fetching the client
+        
+            // Fetch the client information
             {
                 $lookup: {
                     from: "clients",
@@ -552,16 +549,9 @@ const fetchProjectById = asyncHandler(async(req, res) => {
                     foreignField: "_id",
                     as: "client",
                 }
-                
             },
-
-            {
-                $addFields: {
-                    client: "$client"
-                }
-            },
-
-            /// fetching the tasks
+        
+            // Fetch the tasks for the project
             {
                 $lookup: {
                     from: "tasks",
@@ -569,16 +559,9 @@ const fetchProjectById = asyncHandler(async(req, res) => {
                     foreignField: "project",
                     as: "task",
                 }
-            
             },
-
-            {
-                $addFields: {
-                    task: "$task"
-                }
-            },
-            
-            /// fetching the tickets
+        
+            // Fetch the tickets for the project
             {
                 $lookup: {
                     from: "tickets",
@@ -587,48 +570,31 @@ const fetchProjectById = asyncHandler(async(req, res) => {
                     as: "ticket",
                 }
             },
-
-            {
-                $addFields: {
-                    ticket: "$ticket"
-                }
-            },
-
-
+        
+            // Final projection to specify which fields you want to include in the result
             {
                 $project: {
-                    
                     admin: 1,
-
-
                     clientName: 1,
                     clientEmail: 1,
                     client: 1,
-                    
                     spokePersonEmail: 1,
                     spokePersonName: 1,
                     spokePersonNumber: 1,
-
                     projectId: 1,
                     projectName: 1,
-
                     description: 1,
                     descriptionDocument: 1,
-                    
                     changes: 1,
                     ticket: 1,
-
-                    team: 1,
-                    employeeDetails: 1,
-                    
-
-                    
+                    team: 1,  // The full team data with all employee details
+                    client: 1,  // Client details as well
+                    task: 1,  // All task details
+                    ticket: 1,  // All ticket details
                 }
             }
-
-
-
-        ])
+        ]);
+        
         
 
       
