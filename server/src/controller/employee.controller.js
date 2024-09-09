@@ -473,6 +473,150 @@ const getEmployeeProjects = asyncHandler(async(req, res) => {
 
 
 
+const fetchProjectById = asyncHandler(async(req, res) => {
+    
+    try {
+        
+        const { projectId } = req.params;
+        
+        console.log("req.body => ", req.body);
+        console.log("req.params => ", req.params);
+        console.log("req.query => ", req.query);
+
+
+        if(!projectId) {
+            throw new ApiError(400, "Please provide the project id");
+        }
+
+
+        const project = await Project.aggregate([
+
+            // Match the specific project
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(projectId)
+                }
+            },
+        
+            // Fetch the team and the associated employees with all their details
+            {
+                $lookup: {
+                    from: "teams",
+                    localField: "team",
+                    foreignField: "_id",
+                    as: "team",
+                    pipeline: [
+                        // Lookup employees for each team
+                        {
+                            $lookup: {
+                                from: "employees",
+                                localField: "employee", // assuming 'team.employee' stores employee IDs
+                                foreignField: "_id",
+                                as: "employeeDetails"
+                            }
+                        },
+        
+                        // Include all employee details
+                        {
+                            $addFields: {
+                                employeeDetails: "$employeeDetails"  // Keep all employee details in the result
+                            }
+                        },
+
+                        {
+                            $lookup: {
+                                from: "employees",
+                                localField: "teamLead",
+                                foreignField: "_id",
+                                as: "teamLeadDetails"
+                            }
+                        },
+
+                        {
+                            $addFields: {
+                                teamLeadDetails: ["$teamLeadDetails", 0]
+                            }
+                        }
+                    ]
+                }
+            },
+        
+            // Fetch the client information
+            {
+                $lookup: {
+                    from: "clients",
+                    localField: "client",
+                    foreignField: "_id",
+                    as: "client",
+                }
+            },
+        
+            // Fetch the tasks for the project
+            {
+                $lookup: {
+                    from: "tasks",
+                    localField: "_id",
+                    foreignField: "project",
+                    as: "task",
+                }
+            },
+        
+            // Fetch the tickets for the project
+            {
+                $lookup: {
+                    from: "tickets",
+                    localField: "_id",
+                    foreignField: "project",
+                    as: "ticket",
+                }
+            },
+        
+            // Final projection to specify which fields you want to include in the result
+            {
+                $project: {
+                    admin: 1,
+                    clientName: 1,
+                    clientEmail: 1,
+                    client: 1,
+                    spokePersonEmail: 1,
+                    spokePersonName: 1,
+                    spokePersonNumber: 1,
+                    projectId: 1,
+                    projectName: 1,
+                    description: 1,
+                    descriptionDocument: 1,
+                    changes: 1,
+                    ticket: 1,
+                    team: 1,  // The full team data with all employee details
+                    client: 1,  // Client details as well
+                    task: 1,  // All task details
+                    ticket: 1,  // All ticket details
+                }
+            }
+        ]);
+        
+        
+
+      
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(200, "Project fetched successfully", project)
+            )
+
+        
+      
+        
+    } 
+    catch (error) {
+        console.log(" Error => ", error.message)
+        throw new ApiError(400, error.message);
+    }
+    
+})
+
+
+
 
 
 

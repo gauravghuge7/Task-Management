@@ -30,7 +30,7 @@ const Projectlist = () => {
       try {
          const response = await axios.get('/api/client/fetchProjects');
          console.log(response.data);
-
+         
  
       } 
       catch (error) {
