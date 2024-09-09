@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import EditProjectForm from './EditProjectForm';
-import Projectform from './Projectform';
+
 import axios from 'axios';
 
 const Projectlist = () => {
@@ -9,7 +9,7 @@ const Projectlist = () => {
    const [projectData, setProjectData] = useState([
       {
          projectName: 'Example Project',
-         companyName: 'Example Company',
+        
          spokePersonEmail: 'example@example.com',
          spokePersonName: 'John Doe',
          spokePersonNumber: '123-456-7890',
@@ -30,7 +30,7 @@ const Projectlist = () => {
       try {
          const response = await axios.get('/api/client/fetchProjects');
          console.log(response.data);
-
+         
  
       } 
       catch (error) {
@@ -61,7 +61,7 @@ const Projectlist = () => {
             <thead>
                <tr>
                   <th>Project Name</th>
-                  <th>Company Name</th>
+                
                   <th>Spokesperson Email</th>
                   <th>Spokesperson Name</th>
                   <th>Spokesperson Number</th>
@@ -75,7 +75,7 @@ const Projectlist = () => {
                   projectData.map((data, index) => (
                      <tr key={index}>
                         <td>{data.projectName}</td>
-                        <td>{data.companyName}</td>
+                       
                         <td>{data.spokePersonEmail}</td>
                         <td>{data.spokePersonName}</td>
                         <td>{data.spokePersonNumber}</td>

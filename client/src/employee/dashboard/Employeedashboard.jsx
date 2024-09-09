@@ -9,13 +9,11 @@ import axios from 'axios'
 import { message } from 'react-message-popup'
 import LeadProjects from '../TeamLead/LeadProjects'
 import EmpProjects from '../EmployeeProjects/EmpProjects'
-import ProjectSection from '../TeamLead/ProjectSection'
 
 function Employeedashboard() {
 
   const [conditionalComponent, setConditionalComponent] = useState("");
 
-  const [projectId, setProjectId] = useState("");
 
   
 
@@ -65,11 +63,9 @@ function Employeedashboard() {
 
 
 
-        {conditionalComponent === "teamLead" && <LeadProjects setConditionalComponent={setConditionalComponent} setProjectId={setProjectId} />}
+        {conditionalComponent === "teamLead" && <LeadProjects/>}
 
-        {conditionalComponent === "viewTeamLeadProject" && <ProjectSection setConditionalComponent={setConditionalComponent} projectId={projectId} />}
-
-
+        {conditionalComponent === "viewTeamLeadProject" && <Task />}
       
 
         

@@ -55,17 +55,19 @@ const Home = () => {
   return (
     <div style={styles.container}>
       <img src="../../../public/accets/GBIS.png" alt="Task Management" style={styles.image} /> <br />
-      <h1 style={styles.title}  >Welcome to GBIS Task Management Portal</h1>
+      <h1 style={styles.title}  >Welcome to GBIS Ticketing Portal</h1>
       <div style={styles.linksContainer}>
-        <Link to="/client/login" style={styles.link} onMouseOver={handleHover} onMouseOut={handleHoverOut}>
-          Client Login
+      <Link to="/admin/login" style={styles.link} onMouseOver={handleHover} onMouseOut={handleHoverOut}>
+          Admin Login
         </Link>
+       
         <Link to="/employee/login" style={styles.link} onMouseOver={handleHover} onMouseOut={handleHoverOut}>
           Employee Login
         </Link>
-        <Link to="/admin/login" style={styles.link} onMouseOver={handleHover} onMouseOut={handleHoverOut}>
-          Admin Login
+        <Link to="/client/login" style={styles.link} onMouseOver={handleHover} onMouseOut={handleHoverOut}>
+          Client Login
         </Link>
+      
       </div>
     </div>
   );

@@ -1,30 +1,53 @@
-import React, { useState } from "react";
-import { Container, Row, Col, Table, Button } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Col, Table, Button } from 'react-bootstrap';
 
-const TaskList = ({ setValue }) => {
+const TaskList = ({ setConditionalComponent }) => {
   const [tasks, setTasks] = useState([
-    {
-      projectName: "Project 1",
-      task: "Task 1",
-      companyName: "Company 1",
-      teamLead: "Lead 1",
-      description: "Description 1",
+   
+    { 
+      companyName: "ABC Company", 
+      priority: "High",
+        saptype: "SAP ABAP",    
+        taskDetail: "Task Detail",
+        ticketCreateDate: "2022-01-01",
+        dueDate: "2022-01-01",
+        assignName: "John Doe",
+        assignEmail: "johndoe@gmail.com",
+        assignTeam: "ABC Team",
+        document: "https://example.com/document.pdf"  
+
     },
-    {
-      projectName: "Project 2",
-      task: "Task 2",
-      companyName: "Company 2",
-      teamLead: "Lead 2",
-      description: "Description 2",
-    },
-    {
-      projectName: "Project 3",
-      task: "Task 3",
-      companyName: "Company 3",
-      teamLead: "Lead 3",
-      description: "Description 3",
-    },
+   
+    {     
+
+      companyName: "XYZ Company",   
+      priority: "Medium",   
+        saptype: "SAP ABAP",    
+        taskDetail: "Task Detail",      
+        ticketCreateDate: "2022-01-01",
+        dueDate: "2022-01-01",
+        assignbyteam: "XYZ Team",
+        assignName: "John Doe",
+        assignEmail: "johndoe@gmail.com",
+        assignTeam: "ABC Team",
+        document: "https://example.com/document.pdf"
+
+    }
   ]);
+
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleDelete = () => {
+    // Handle delete logic here (e.g., API call)
+    console.log('Task deleted');
+  };
+
+  useEffect(() => {
+    console.log('Task List Data Fetched:', tasks);
+  }, [tasks]);
 
   return (
     <Container
@@ -46,73 +69,83 @@ const TaskList = ({ setValue }) => {
           marginBottom: "25px",
         }}
       >
-        <h2 style={{ margin: 0, color: "#333" }}>Assigned Tasks</h2>
-        <Button
-          style={{
-            backgroundColor: "#4CAF50",
-            border: "none",
-            padding: "12px 24px",
-            borderRadius: "8px",
-            color: "#fff",
-            fontWeight: "bold",
-            transition: "background-color 0.3s ease",
-          }}
-          onMouseEnter={(e) =>
-            (e.target.style.backgroundColor = "#45a049")
-          }
-          onMouseLeave={(e) =>
-            (e.target.style.backgroundColor = "#4CAF50")
-          }
-          onClick={() => setValue("assigntask")}
-        >
-          Add New Task
-        </Button>
+        <h2 style={{ margin: 0, color: "#333", fontWeight: "bold" }}>Task List</h2>
+       
       </div>
-      <Row className="justify-content-md-center">
+
+      <Row className="justify-content-md-center mt-5">
         <Col md={12}>
-          {tasks.length > 0 ? (
-            <Table
-              striped
-              bordered
-              hover
+          <Table
+            striped
+            bordered
+            hover
+            style={{
+              backgroundColor: "#fff",
+              color: "#333",
+              borderRadius: "12px",
+              overflow: "hidden",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <thead
               style={{
-                backgroundColor: "#fff",
-                color: "#333",
-                borderRadius: "12px",
-                overflow: "hidden",
+                backgroundColor: "#343a40", // Darker gray header
+                color: "#fff",
+                textAlign: "center",  // Center align header text
+                fontSize: "1.1rem",
               }}
             >
-              <thead
-                style={{
-                  backgroundColor: "#007BFF",
-                  color: "#fff",
-                }}
-              >
-                <tr>
-                  <th>#</th>
-                  <th>Project Name</th>
-                  <th>Task</th>
-                  <th>Company Name</th>
-                  <th>Team Lead</th>
-                  <th>Description</th>
+              <tr>
+                <th>#</th>
+                <th>Ticket Name</th>
+                <th>Priority</th>
+                <th>SAP Type</th>
+               
+               
+                <th>Due Date</th>
+               
+                <th>Assign To Team</th>
+                <th>Assign BY Name</th>
+                <th>Assign BY Email</th>
+                <th>Task Detail</th>
+                <th>Document</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tasks.map((task, index) => (
+                <tr key={index} style={{ textAlign: "center" }}> {/* Center align table text */}
+                  <td>{index + 1}</td>
+                  <td>{task.companyName}</td>
+                  <td>{task.priority}</td>
+                  <td>{task.saptype}</td>
+                 
+                   
+                  <td>{task.dueDate}</td>
+                  <td>{task.assignTeam}</td>
+                 
+                  <td>{task.assignName}</td>
+                  <td>{task.assignEmail}</td>
+                 
+                 <td>{task.taskDetail}</td>
+                   <td> 
+                     <a href={task.document} target="_blank" rel="noreferrer">
+                       <button className="btn btn-primary">View</button>
+                     </a>
+                   </td>  
+                 
+                  <td>
+                      <button className="btn btn-primary me-2" onClick={handleEdit}>Edit</button>
+                      <button className="btn btn-danger" onClick={handleDelete}>Delete</button> 
+
+
+
+                                
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {tasks.map((task, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{task.projectName}</td>
-                    <td>{task.task}</td>
-                    <td>{task.companyName}</td>
-                    <td>{task.teamLead}</td>
-                    <td>{task.description}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          ) : (
-            <p style={{ color: "#333" }}>No tasks assigned yet.</p>
-          )}
+              ))}
+            </tbody>
+          </Table>
         </Col>
       </Row>
     </Container>
