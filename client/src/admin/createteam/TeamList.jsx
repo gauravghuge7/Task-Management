@@ -98,7 +98,7 @@ const TeamList = ({ setValue}) => {
                                                 team?.employee?.map((data, index) => {
                                                     return <p key={index}>
                                                     {
-                                                        data
+                                                            data
                                                     }
                                                     </p>
                                                 })
