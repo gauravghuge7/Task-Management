@@ -92,31 +92,15 @@ const CreateProjectForm = ({ clientId, clientName}) => {
    return (
       <div className="container mt-5">
          
-         <header className='flex gap-10'> 
-
-            <h2>Create Project</h2>
-
-            <h2> {clientName}</h2>
-      
-
-         </header>
+         <header className='flex gap-12 text-center'> 
+    <h2 className="display-6">Create New Project <b>{clientName}</b></h2>
+</header>
+         
+         <br/>
 
          <form onSubmit={handleSubmit}>
 
             {/**   */}
-            <div className="mb-3">
-               <label htmlFor="projectName" className="form-label">Project Name</label>
-               <input
-                  type="text"
-                  className="form-control"
-                  id="projectName"
-                  name="projectName"
-                  value={formData.projectName}
-                  onChange={handleChange}
-                  required
-               />
-            </div>
-
             <div className="mb-3">
                <label htmlFor="projectId" className="form-label">Project ID</label>
                <input
@@ -130,16 +114,42 @@ const CreateProjectForm = ({ clientId, clientName}) => {
                />
             </div>
 
+            <div className="mb-3">
+               <label htmlFor="projectName" className="form-label">Project Name</label>
+               <input
+                  type="text"
+                  className="form-control"
+                  id="projectName"
+                  name="projectName"
+                  value={formData.projectName}
+                  onChange={handleChange}
+                  required
+               />
+            </div>
+
+          
 
 
             <div className="mb-3">
-               <label htmlFor="companyName" className="form-label">Company Name</label>
+               <label htmlFor="companyName" className="form-label">Client Name</label>
                <input
                   type="text"
                   className="form-control"
                   id="companyName"
                   name="companyName"
                   value={clientName}
+                  onChange={handleChange}
+                  required
+               />
+            </div>
+            <div className="mb-3">
+               <label htmlFor="spokePersonName" className="form-label">Spokesperson Name</label>
+               <input
+                  type="text"
+                  className="form-control"
+                  id="spokePersonName"
+                  name="spokePersonName"
+                  value={formData.spokePersonName}
                   onChange={handleChange}
                   required
                />
@@ -157,20 +167,23 @@ const CreateProjectForm = ({ clientId, clientName}) => {
                   required
                />
             </div>
-
-
+             
             <div className="mb-3">
-               <label htmlFor="spokePersonName" className="form-label">Spokesperson Name</label>
+               <label htmlFor="spokePersonNumber" className="form-label">Spokesperson Number</label>
                <input
-                  type="text"
+                  type="tel"
                   className="form-control"
-                  id="spokePersonName"
-                  name="spokePersonName"
-                  value={formData.spokePersonName}
+                  id="spokePersonNumber"
+                  name="spokePersonNumber"
+                  value={formData.spokePersonNumber}
                   onChange={handleChange}
                   required
                />
             </div>
+
+
+
+            
 
             
             <div className='mb-3'>
@@ -195,20 +208,7 @@ const CreateProjectForm = ({ clientId, clientName}) => {
 
             </div>
 
-            
-            <div className="mb-3">
-               <label htmlFor="spokePersonNumber" className="form-label">Spokesperson Number</label>
-               <input
-                  type="tel"
-                  className="form-control"
-                  id="spokePersonNumber"
-                  name="spokePersonNumber"
-                  value={formData.spokePersonNumber}
-                  onChange={handleChange}
-                  required
-               />
-            </div>
-
+           
 
 
 

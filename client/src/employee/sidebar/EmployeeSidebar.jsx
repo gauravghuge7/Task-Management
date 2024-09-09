@@ -50,7 +50,7 @@ const EmployeeSidebar = ({setConditionalComponent, isTeamLead}) => {
 
 
   return (
-    <div className="d-flex flex-column vh-100 p-6 bg-light">
+    <div className="d-flex flex-column vh-100 p-3 bg-light">
       <h2 className="mb-4">Employee Panel</h2>
       <hr />
       <Nav className="flex-column">

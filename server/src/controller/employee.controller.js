@@ -620,6 +620,7 @@ const fetchProjectById = asyncHandler(async(req, res) => {
 
 
 
+
 export {
     registerEmployee,
     loginEmployee,
@@ -630,7 +631,6 @@ export {
 
 
     getTeamLeadOrNot,
-    getTeamLeadProjects,
-    fetchProjectById
+    getTeamLeadProjects
 
 }

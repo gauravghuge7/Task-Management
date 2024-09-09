@@ -3,27 +3,47 @@ import { Container, Row, Col, Table, Button } from 'react-bootstrap';
 
 const TaskList = ({ setConditionalComponent }) => {
   const [tasks, setTasks] = useState([
-    {
-      companyName: "ABC Company",
+   
+    { 
+      companyName: "ABC Company", 
       priority: "High",
-      saptype: "SAP ABAP",
-      taskDetail: "Task Detail",
-      ticketCreateDate: "2022-01-01",
-      dueDate: "2022-01-01",
-      assignName: "John Doe"
-      // assignteam: "ABC Team"
+        saptype: "SAP ABAP",    
+        taskDetail: "Task Detail",
+        ticketCreateDate: "2022-01-01",
+        dueDate: "2022-01-01",
+        assignName: "John Doe",
+        assignEmail: "johndoe@gmail.com",
+        assignTeam: "ABC Team",
+        document: "https://example.com/document.pdf"  
+
     },
-    {
-      companyName: "XYZ Company",
-      priority: "Medium",
-      saptype: "SAP ABAP",
-      taskDetail: "Task Detail",
-      ticketCreateDate: "2022-01-01",
-      dueDate: "2022-01-01",
-      assignName: "John Doe"
-      // assignteam: "ABC Team"
-    },
+   
+    {     
+
+      companyName: "XYZ Company",   
+      priority: "Medium",   
+        saptype: "SAP ABAP",    
+        taskDetail: "Task Detail",      
+        ticketCreateDate: "2022-01-01",
+        dueDate: "2022-01-01",
+        assignbyteam: "XYZ Team",
+        assignName: "John Doe",
+        assignEmail: "johndoe@gmail.com",
+        assignTeam: "ABC Team",
+        document: "https://example.com/document.pdf"
+
+    }
   ]);
+
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleDelete = () => {
+    // Handle delete logic here (e.g., API call)
+    console.log('Task deleted');
+  };
 
   useEffect(() => {
     console.log('Task List Data Fetched:', tasks);
@@ -50,28 +70,7 @@ const TaskList = ({ setConditionalComponent }) => {
         }}
       >
         <h2 style={{ margin: 0, color: "#333", fontWeight: "bold" }}>Task List</h2>
-        <Button
-          style={{
-            backgroundColor: '#17a2b8',  // Teal color
-            border: 'none',
-            padding: '12px 24px',
-            borderRadius: '8px',
-            color: '#fff',
-            fontWeight: 'bold',
-            transition: 'background-color 0.3s ease, transform 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.backgroundColor = '#138496';  // Darker teal on hover
-            e.target.style.transform = 'scale(1.05)';    // Slight scale-up on hover
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.backgroundColor = '#17a2b8';  // Original teal when not hovering
-            e.target.style.transform = 'scale(1)';       // Reset scale when not hovering
-          }}
-          onClick={() => setConditionalComponent("addTask")}
-        >
-          Add New Task
-        </Button>
+       
       </div>
 
       <Row className="justify-content-md-center mt-5">
@@ -101,11 +100,15 @@ const TaskList = ({ setConditionalComponent }) => {
                 <th>Ticket Name</th>
                 <th>Priority</th>
                 <th>SAP Type</th>
-                <th>Task Detail</th>
-                <th>Ticket Creation Date</th>
+               
+               
                 <th>Due Date</th>
-                <th> Name</th>
+               
                 <th>Assign To Team</th>
+                <th>Assign BY Name</th>
+                <th>Assign BY Email</th>
+                <th>Task Detail</th>
+                <th>Document</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -116,32 +119,28 @@ const TaskList = ({ setConditionalComponent }) => {
                   <td>{task.companyName}</td>
                   <td>{task.priority}</td>
                   <td>{task.saptype}</td>
-                  <td>{task.taskDetail}</td>
-                  <td>{task.ticketCreateDate}</td>
+                 
+                   
                   <td>{task.dueDate}</td>
+                  <td>{task.assignTeam}</td>
+                 
                   <td>{task.assignName}</td>
-                  <td>{task.assignteam}</td>
+                  <td>{task.assignEmail}</td>
+                 
+                 <td>{task.taskDetail}</td>
+                   <td> 
+                     <a href={task.document} target="_blank" rel="noreferrer">
+                       <button className="btn btn-primary">View</button>
+                     </a>
+                   </td>  
+                 
                   <td>
-                    <Button
-                      style={{
-                        backgroundColor: 'transparent', // No background color
-                        border: 'none', // No border
-                        color: '#17a2b8', // Teal color for text
-                        fontWeight: 'bold',
-                        transition: 'color 0.3s ease, transform 0.2s ease',
-                        padding: '8px 16px',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.target.style.color = '#138496'; // Darker teal on hover
-                        e.target.style.transform = 'scale(1.05)'; // Slight scale-up on hover
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.color = '#17a2b8'; // Original teal when not hovering
-                        e.target.style.transform = 'scale(1)'; // Reset scale when not hovering
-                      }}
-                    >
-                      Modify
-                    </Button>
+                      <button className="btn btn-primary me-2" onClick={handleEdit}>Edit</button>
+                      <button className="btn btn-danger" onClick={handleDelete}>Delete</button> 
+
+
+
+                                
                   </td>
                 </tr>
               ))}

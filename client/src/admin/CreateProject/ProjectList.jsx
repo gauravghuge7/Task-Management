@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import EditProjectForm from './EditProjectForm';
 import axios from 'axios';
+
 import {message} from "react-message-popup"
 
 const ProjectList = () => {
@@ -17,7 +18,12 @@ const ProjectList = () => {
       },
 
    ]);
+ 
 
+
+   const handleAddTask = () => {
+      setIsEditing(true);   
+   };
 
 
    const getAllProjects = async() => {
@@ -92,7 +98,9 @@ const ProjectList = () => {
                   <th>Spokesperson Number</th>
                   <th>Team Lead</th>
                   <th>Description</th>
+                   <th>Document</th>
                   <th>Actions</th>
+                  <th>Task</th>
                </tr>
             </thead>
             <tbody>
@@ -105,13 +113,24 @@ const ProjectList = () => {
                         <td>{data.spokePersonName}</td>
                         <td>{data.spokePersonNumber}</td>
 
+
                         <td>{data.team?.map(data => data.teamLead)}</td>
                         
                         <td>{data.description}</td>
+
+                        <td><a href={data.documents} target="_blank" rel="noreferrer">
+                           <button className="btn btn-primary">View</button>
+                        </a></td>
+
+                        
                         <td>
                            <button className="btn btn-primary me-2" onClick={handleEdit}>Edit</button>
                            <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
                         </td>
+                        <td>
+                           <button className="btn btn-primary me-2"  onClick={handleAddTask} >Add Task</button>
+
+                           </td>
                      </tr>
                   ))
                }
