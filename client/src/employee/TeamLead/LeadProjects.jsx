@@ -4,7 +4,7 @@ import { message } from "react-message-popup";
 
 
 
-const LeadProjects = ({setConditionalComponent, setProjectId}) => {
+const LeadProjects = () => {
 
 
    const [open, setOpen] = useState(false);
@@ -87,6 +87,7 @@ const LeadProjects = ({setConditionalComponent, setProjectId}) => {
       dialogRef.current.showModal();
    }
 
+<<<<<<< HEAD
    const handleProject = (projectId) => {
 
       setConditionalComponent("viewTeamLeadProject");
@@ -96,6 +97,8 @@ const LeadProjects = ({setConditionalComponent, setProjectId}) => {
 
    }
 
+=======
+>>>>>>> 7239ddf23a3fccb5b03fdd1178ee044896a125c3
 
 
 
@@ -125,11 +128,13 @@ const LeadProjects = ({setConditionalComponent, setProjectId}) => {
                      <h3 className="text-center">{project.clientName}</h3>
                      <h3>{project.projectName}</h3>
                      <p>{project.description}</p>
-
-                     <p>{project._id}</p>
-
                      <button
+<<<<<<< HEAD
                         onClick={() => handleProject(project._id)}
+=======
+                        onClick={() => setOpen(true)}
+                        ref={dialogRef}
+>>>>>>> 7239ddf23a3fccb5b03fdd1178ee044896a125c3
                      >
                         View Your Work
                      </button>
